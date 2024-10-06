@@ -17308,9 +17308,9 @@ player_velocity_setup( start_flag, passed_flag, message )
 	vel = "";
 
 	ypos = -72;
-	self.hud_velocity_msg = maps\_specialops::so_create_hud_item( 2, ypos, message, self );
+	self.hud_velocity_msg = maps\_specialops::so_create_hud_item( -4, ypos, message, self );
 
-	self.hud_velocity_value = maps\_specialops::so_create_hud_item( 2, ypos, vel, self );
+	self.hud_velocity_value = maps\_specialops::so_create_hud_item( -4, ypos, vel, self );
 	self.hud_velocity_value.alignX = "left";
 	while( true )
 	{
@@ -17343,7 +17343,7 @@ enable_player_velocity( start_flag, passed_flag, message )
 velocity_tracker( hud_velocity )
 {
 	wait 0.005;
-	vel = level.player GetVelocity();
+	vel = get_player_from_self() GetVelocity();
 	velocity = Distance( ( vel[ 0 ], vel[ 1 ], 0 ), ( 0, 0, 0 ) );
 
 	if ( velocity < 330 )
@@ -17397,9 +17397,9 @@ enable_difficulty_tracker_setup( start_flag, passed_flag, message )
 	diffi = "Null";
 
 	ypos = -72;
-	self.hud_difficulty_msg = maps\_specialops::so_create_hud_item( 1, ypos, message, self );
+	self.hud_difficulty_msg = maps\_specialops::so_create_hud_item( -5, ypos, message, self );
 
-	self.hud_difficulty_value = maps\_specialops::so_create_hud_item( 1, ypos, diffi, self );
+	self.hud_difficulty_value = maps\_specialops::so_create_hud_item( -5, ypos, diffi, self );
 	self.hud_difficulty_value.alignX = "left";
 	difficulty_tracker( self.hud_difficulty_value );
 }

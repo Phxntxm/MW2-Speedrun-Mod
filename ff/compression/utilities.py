@@ -27,6 +27,5 @@ def compress(data: bytes, original: bytes, *, check: bool = True) -> bytes:
     if check and len(compressed) > len(original):
         raise ValueError(f"Compressed data is too big - Original size: {len(original)}, New size: {len(compressed)}")
     elif len(compressed) < len(original):
-        logger.info(f"Padding with {(len(original) - len(compressed))} bytes of 0x00")
         compressed += b"\x00" * (len(original) - len(compressed))
     return compressed
