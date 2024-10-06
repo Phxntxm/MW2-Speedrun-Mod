@@ -17,7 +17,7 @@ jobs:
       - name: Create zip file
         uses: montudor/action-zip@v1
         with:
-          args: zip -r MW2SpeedrunMod.zip ff/files/*
+          args: zip -qq -r MW2SpeedrunMod.zip ff/files
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
