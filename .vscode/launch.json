@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Python Debugger: Compression",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "scripts/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "compress",
+                "--ff",
+                "ff/files/common.ff",
+                "--source",
+                "ff/source/common/maps/_utility.gsc"
+            ]
+        },
+        {
+            "name": "Python Debugger: Decompression",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "scripts/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "decompress",
+                "--ff",
+                "ff/files/common.ff",
+            ]
+        },
+    ]
+}

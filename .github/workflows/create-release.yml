@@ -1,0 +1,24 @@
+name: Create release zip
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create zip file
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -r MW2SpeedrunMod.zip ff/files/*
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: MW2SpeedrunMod.zip
+          body: |
+            This is the latest release of the MW2 Speedrun Mod.
+            It contains the compiled FF files.
+
+            Download the zip file and extract to your MW2/zones/{language} folder to install.
