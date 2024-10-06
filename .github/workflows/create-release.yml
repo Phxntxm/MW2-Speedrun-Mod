@@ -2,7 +2,7 @@ name: Create release zip
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
@@ -13,17 +13,17 @@ jobs:
           lfs: true
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12' 
+          python-version: "3.12"
       - name: Create zip file
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r MW2SpeedrunMod.zip ff/files
+        run: |
+          zip MW2SpeedrunMod-part1.zip $(ls ff/files/* | head -10)
+          zip MW2SpeedrunMod-part2.zip $(ls ff/files/* | tail -n +11)
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: MW2SpeedrunMod.zip
+          artifacts: MW2SpeedrunMod-part1.zip, MW2SpeedrunMod-part2.zip
           body: |
             This is the latest release of the MW2 Speedrun Mod.
             It contains the compiled FF files.
 
-            Download the zip file and extract to your MW2/zones/{language} folder to install.
+            Download the zip files and extract to your MW2/zones/{language} folder to install.
