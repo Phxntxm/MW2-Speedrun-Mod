@@ -4,9 +4,9 @@ on:
     branches:
       - main
 jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -14,7 +14,7 @@ jobs:
           lfs: true
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12' 
+          python-version: "3.12"
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v45.0.3
@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "Compiling FF files..."
           echo "Changed files: ${ALL_CHANGED_FILES}"
-          python scripts/compile_changes.py ${ALL_CHANGED_FILES}
+          python scripts/compiler.py ${ALL_CHANGED_FILES}
           echo "Done compiling FF files"
       - name: Commit FF files
         if: steps.changed-files.outputs.any_changed == 'true'
