@@ -552,6 +552,7 @@ teleport_to_cave()
 	SetSavedDvar( "ammoCounterHide", 1 );
 	SetSavedDvar( "actionSlotsHide", 1 );
 	SetSavedDvar( "hud_showStance", 0 );
+	thread maps\_introscreen::introscreen_generic_white_fade_in( 1.25, 2 );
 	climb_cam = GetEnt( "player_climb_start", "targetname" );
 	climb_cam.angles = ( 16.5, climb_cam.angles[ 1 ], 0 );
 
@@ -3625,8 +3626,8 @@ price_tells_you_to_jump()
 //	lines[ lines.size ] = "dicey";
 	lines[ lines.size ] = "thefarside";
 
-	// Let?s go.	
-	// Hmph. Twelve meter gap. Piece o? piss.	
+	// Let’s go.	
+	// Hmph. Twelve meter gap. Piece o’ piss.	
 	// This could get dicey Soap. Mind the gap.	
 	// Good luck mate - see you on the far side.	
 
@@ -4038,7 +4039,7 @@ player_big_jump()
 	level.player notify( "stop sound" + "gear_jacket_flapping_plr_loop" );
 	level.price StopLoopSound( "gear_jacket_flapping_loop" );
 
-	// You look like you?ve seen a ghost, Soap.	
+	// You look like you’ve seen a ghost, Soap.	
 	//level.price dialogue_queue( "seenaghost" );
 	thread set_normal_fov();
 	level.player AllowFire( true );

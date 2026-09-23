@@ -135,7 +135,7 @@ flare_explodes()
 	level.sun_brightness = 1;
 	// merge our various sun values over time
 	// first merge in the sun color/light settings
-	level.red_suncolor = ( 0.1, 0.4, 0.4 );
+	level.red_suncolor = ( 0.8, 0.4, 0.4 );
 	level.original_suncolor = getMapSunLight();
 	level.sun_color	 = level.original_suncolor;
 	thread merge_sunsingledvar( "sm_sunSampleSizeNear", 0, 0.25, 			0.25, 1 );

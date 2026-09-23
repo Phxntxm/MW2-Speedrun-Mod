@@ -17303,298 +17303,172 @@ is_command_bound( cmd )
 	return binding[ "count" ];
 }
 
-player_velocity_setup( start_flag, passed_flag, message )
+velocity_tracker( hud )
 {
-	vel = "";
-
-	ypos = -72;
-	self.hud_velocity_msg = maps\_specialops::so_create_hud_item( -4, ypos, message, self );
-
-	self.hud_velocity_value = maps\_specialops::so_create_hud_item( -4, ypos, vel, self );
-	self.hud_velocity_value.alignX = "left";
-	while( true )
+	while ( true )
 	{
-	velocity_tracker( self.hud_velocity_value );
-	}
 
-}
+		wait 0.005;
+		vel = get_player_from_self() GetVelocity();
+		velocity = Distance( ( vel[ 0 ], vel[ 1 ], 0 ), ( 0, 0, 0 ) );
 
-enable_player_velocity( start_flag, passed_flag, message )
-{
-
-	if ( isdefined( start_flag ) )
-	{	
-		if ( !flag_exist( start_flag ) )
-			flag_init( start_flag );
-		level.start_flag = start_flag;
-	}
-	
-	if ( isdefined( passed_flag ) )
-	{	
-		if ( !flag_exist( passed_flag ) )
-			flag_init( passed_flag );
-		level.passed_flag = passed_flag;
-	}
-	foreach ( player in level.players )
-		player thread player_velocity_setup( start_flag, passed_flag, message );
-}
-
-
-velocity_tracker( hud_velocity )
-{
-	wait 0.005;
-	vel = get_player_from_self() GetVelocity();
-	velocity = Distance( ( vel[ 0 ], vel[ 1 ], 0 ), ( 0, 0, 0 ) );
-
-	if ( velocity < 330 )
-	{
-		hud_velocity.color = ( 0.6, 1, 0.6 );
-		hud_velocity.glowcolor = ( 0.4, 0.7, 0.4 );
-	}
-
-	else if ( velocity <= 340 )
-	{
-		hud_velocity.color = ( 0.8, 1, 0.6 );
-		hud_velocity.glowcolor = ( 0.6, 0.7, 0.4 );
-	}
-
-	else if ( velocity <= 350 )
-	{
-		hud_velocity.color = ( 1, 1, 0.6 );
-		hud_velocity.glowcolor = ( 0.7, 0.7, 0.4 );
-	}
-
-	else if ( velocity <= 360 )
-	{
-		hud_velocity.color = ( 1, 0.8, 0.4 );
-		hud_velocity.glowcolor = ( 0.7, 0.6, 0.2 );
-	}
-
-	else if ( velocity <= 370 )
-	{
-		hud_velocity.color = ( 1, 0.6, 0.2 );
-		hud_velocity.glowcolor = ( 0.7, 0.4, 0.1 );
-	}
-
-	else if ( velocity <= 380 )
-	{
-		hud_velocity.color = ( 1, 0.2, 0 );
-		hud_velocity.glowcolor = ( 0.7, 0.1, 0 );
-	}
-	
-	else
-	{
-		hud_velocity.color = ( 0.6, 0, 0 );
-		hud_velocity.glowcolor = ( 0.3, 0, 0 );
-	}
-
-
-	hud_velocity setValue( velocity );
-}
-
-enable_difficulty_tracker_setup( start_flag, passed_flag, message )
-{
-	diffi = "Null";
-
-	ypos = -72;
-	self.hud_difficulty_msg = maps\_specialops::so_create_hud_item( -5, ypos, message, self );
-
-	self.hud_difficulty_value = maps\_specialops::so_create_hud_item( -5, ypos, diffi, self );
-	self.hud_difficulty_value.alignX = "left";
-	difficulty_tracker( self.hud_difficulty_value );
-}
-
-enable_difficulty_tracker( start_flag, passed_flag, message )
-{
-
-	if ( isdefined( start_flag ) )
-	{	
-		if ( !flag_exist( start_flag ) )
-			flag_init( start_flag );
-		level.start_flag = start_flag;
-	}
-	
-	if ( isdefined( passed_flag ) )
-	{	
-		if ( !flag_exist( passed_flag ) )
-			flag_init( passed_flag );
-		level.passed_flag = passed_flag;
-	}
-	foreach ( player in level.players )
-		player thread enable_difficulty_tracker_setup( start_flag, passed_flag, message );
-}
-
-
-difficulty_tracker( hud_difficulty )
-{
-	while( true )
-	{
-		if (level.gameskill == 0)
+		if ( velocity < 330 )
 		{
-			hud_difficulty.label = "Recruit";
-			hud_difficulty.color = ( 0.6, 1, 0.6 );
-			hud_difficulty.glowcolor = ( 0.4, 0.7, 0.4 );
-		}
-
-		if (level.gameskill == 1)
-		{
-			hud_difficulty.label = "Regular";
-			hud_difficulty.color = ( 1, 1, 0.5 );
-			hud_difficulty.glowcolor = ( 0.7, 0.7, 0.2 );
-		}
-
-		if (level.gameskill == 2)
-		{
-			hud_difficulty.label = "Hardened";
-			hud_difficulty.color = ( 0.8, 0.4, 0 );
-			hud_difficulty.glowcolor = ( 0.6, 0.2, 0 );
-		}
-
-		if (level.gameskill == 3)
-		{
-			hud_difficulty.label = "Veteran";
-			hud_difficulty.color = ( 1, 0.4, 0.4 );
-			hud_difficulty.glowcolor = ( 0.7, 0.2, 0.2 );
+			hud.color = ( 0.6, 1, 0.6 );
+			hud.glowcolor = ( 0.4, 0.7, 0.4 );
 		}
 		
-		wait 5;
-	}
-}
-
-enable_name_tracker_setup( start_flag, passed_flag, message )
-{
-	name = "Null";
-
-	ypos = -72;
-	self.hud_playername_msg = maps\_specialops::so_create_hud_item( 4, ypos, message, self );
-
-	self.hud_playername_value = maps\_specialops::so_create_hud_item( 4, ypos, name, self );
-	self.hud_playername_value.alignX = "left";
-	name_tracker( self.hud_playername_value );
-}
-
-enable_name_tracker( start_flag, passed_flag, message )
-{
-
-	if ( isdefined( start_flag ) )
-	{	
-		if ( !flag_exist( start_flag ) )
-			flag_init( start_flag );
-		level.start_flag = start_flag;
-	}
-	
-	if ( isdefined( passed_flag ) )
-	{	
-		if ( !flag_exist( passed_flag ) )
-			flag_init( passed_flag );
-		level.passed_flag = passed_flag;
-	}
-	foreach ( player in level.players )
-		player thread enable_name_tracker_setup( start_flag, passed_flag, message );
-}
-
-
-name_tracker( hud_playername )
-{
-	while( true )
-	{
-		if (level.gameskill == 0)
+		else if ( velocity <= 340 )
 		{
-			hud_playername.label = "Pxndaz";
-			hud_playername.color = ( 0.82, 0.15, 0.18 );
-			hud_playername.glowcolor = ( 0.82, 0.15, 0.18 );
-		}
-
-		if (level.gameskill == 1)
-		{
-			hud_playername.label = "Pxndaz";
-			hud_playername.color = ( 0.82, 0.15, 0.18 );
-			hud_playername.glowcolor = ( 0.82, 0.15, 0.18 );
-		}
-
-		if (level.gameskill == 2)
-		{
-			hud_playername.label = "Pxndaz";
-			hud_playername.color = ( 0.82, 0.15, 0.18 );
-			hud_playername.glowcolor = ( 0.82, 0.15, 0.18 );
-		}
-
-		if (level.gameskill == 3)
-		{
-			hud_playername.label = "Pxndaz";
-			hud_playername.color = ( 0.82, 0.15, 0.18 );
-			hud_playername.glowcolor = ( 0.82, 0.15, 0.18 );
+			hud.color = ( 0.8, 1, 0.6 );
+			hud.glowcolor = ( 0.6, 0.7, 0.4 );
 		}
 		
-		wait 5;
-	}
-}
-
-enable_twitch_tracker_setup( start_flag, passed_flag, message )
-{
-	tv = "Null";
-
-	ypos = -72;
-	self.hud_twitchname_msg = maps\_specialops::so_create_hud_item( 3, ypos, message, self );
-
-	self.hud_twitchname_value = maps\_specialops::so_create_hud_item( 3, ypos, tv, self );
-	self.hud_twitchname_value.alignX = "left";
-	twitch_tracker( self.hud_twitchname_value );
-}
-
-enable_twitch_tracker( start_flag, passed_flag, message )
-{
-
-	if ( isdefined( start_flag ) )
-	{	
-		if ( !flag_exist( start_flag ) )
-			flag_init( start_flag );
-		level.start_flag = start_flag;
-	}
-	
-	if ( isdefined( passed_flag ) )
-	{	
-		if ( !flag_exist( passed_flag ) )
-			flag_init( passed_flag );
-		level.passed_flag = passed_flag;
-	}
-	foreach ( player in level.players )
-		player thread enable_twitch_tracker_setup( start_flag, passed_flag, message );
-}
-
-
-twitch_tracker( hud_twitchname )
-{
-	while( true )
-	{
-		if (level.gameskill == 0)
+		else if ( velocity <= 350 )
 		{
-			hud_twitchname.label = "Pxndaz";
-			hud_twitchname.color = ( 0.78, 0.14, 0.69 );
-			hud_twitchname.glowcolor = ( 0.78, 0.14, 0.69 );
-		}
-
-		if (level.gameskill == 1)
-		{
-			hud_twitchname.label = "Pxndaz";
-			hud_twitchname.color = ( 0.78, 0.14, 0.69 );
-			hud_twitchname.glowcolor = ( 0.78, 0.14, 0.69 );
-		}
-
-		if (level.gameskill == 2)
-		{
-			hud_twitchname.label = "Pxndaz";
-			hud_twitchname.color = ( 0.78, 0.14, 0.69 );
-			hud_twitchname.glowcolor = ( 0.78, 0.14, 0.69 );
-		}
-
-		if (level.gameskill == 3)
-		{
-			hud_twitchname.label = "Pxndaz";
-			hud_twitchname.color = ( 0.78, 0.14, 0.69 );
-			hud_twitchname.glowcolor = ( 0.78, 0.14, 0.69 );
+			hud.color = ( 1, 1, 0.6 );
+			hud.glowcolor = ( 0.7, 0.7, 0.4 );
 		}
 		
-		wait 5;
+		else if ( velocity <= 360 )
+		{
+			hud.color = ( 1, 0.8, 0.4 );
+			hud.glowcolor = ( 0.7, 0.6, 0.2 );
+		}
+		
+		else if ( velocity <= 370 )
+		{
+			hud.color = ( 1, 0.6, 0.2 );
+			hud.glowcolor = ( 0.7, 0.4, 0.1 );
+		}
+		
+		else if ( velocity <= 380 )
+		{
+			hud.color = ( 1, 0.2, 0 );
+			hud.glowcolor = ( 0.7, 0.1, 0 );
+		}
+		
+		else
+		{
+			hud.color = ( 0.6, 0, 0 );
+			hud.glowcolor = ( 0.3, 0, 0 );
+		}
+	
+		hud setValue( velocity );
 	}
 }
+
+difficulty_tracker( hud )
+{
+    while( true )
+    {
+        if ( level.gameskill == 0 )
+        {
+            hud.label = "Recruit";
+            hud.color = ( 0.6, 1, 0.6 );
+            hud.glowcolor = ( 0.4, 0.7, 0.4 );
+        }
+        else if ( level.gameskill == 1 )
+        {
+            hud.label = "Regular";
+            hud.color = ( 1, 1, 0.5 );
+            hud.glowcolor = ( 0.7, 0.7, 0.2 );
+        }
+        else if ( level.gameskill == 2 )
+        {
+            hud.label = "Hardened";
+            hud.color = ( 0.8, 0.4, 0 );
+            hud.glowcolor = ( 0.6, 0.2, 0 );
+        }
+        else if ( level.gameskill == 3 )
+        {
+            hud.label = "Veteran";
+            hud.color = ( 1, 0.4, 0.4 );
+            hud.glowcolor = ( 0.7, 0.2, 0.2 );
+        }
+
+        wait 5;
+    }
+}
+
+enable_huds( start_flag, passed_flag )
+{
+	hud_pos = GetDvar( "hud_pos", "top_right" );
+
+	switch ( hud_pos )
+	{
+	case "top_right":
+		xpos = -72;
+		ypos = -4;
+		break;
+	case "middle":
+		xpos = -360;
+		ypos = 12;
+		break;
+	default:
+		xpos = -72;
+		ypos = -4;
+		break;
+	}
+
+    if ( isdefined( start_flag ) )
+    {
+        if ( !flag_exist( start_flag ) )
+            flag_init( start_flag );
+        level.start_flag = start_flag;
+    }
+
+    if ( isdefined( passed_flag ) )
+    {
+        if ( !flag_exist( passed_flag ) )
+            flag_init( passed_flag );
+        level.passed_flag = passed_flag;
+    }
+
+    foreach ( player in level.players )
+    {
+        maps\_specialops::so_create_hud_item( ypos, xpos, "Difficulty: ", player );
+        hud_difficulty_value = maps\_specialops::so_create_hud_item( ypos, xpos, "", player );
+		hud_difficulty_value.alignX = "left";
+        maps\_specialops::so_create_hud_item( ypos + 1, xpos, "Velocity: ", player );
+        hud_velocity_value = maps\_specialops::so_create_hud_item( ypos + 1, xpos, "", player );
+		hud_velocity_value.alignX = "left";
+
+        player thread difficulty_tracker( hud_difficulty_value );
+        player thread velocity_tracker( hud_velocity_value );
+    }
+}
+
+/*
+FF Files must be the same exact size now, so this is just to make sure it stays the exact same size!!
+poihteqwhiopqw hpeoit hpioqwthoqhwotehwigopgpocfdsop bgsab opufsdabop f bopiew opiqio pteiop qwte
+wtqotjqewjteqjowjot[qeoj evtowuqt ouuoewqou[tweqo[jutoe[wqo[teo[teo[wq]]]]]itopehwqpiothewiopqthioepwqhtiopewqhtiopeqwhtpioweqhtpioewqhtoiewhqpoihsdfaoifnbiopdbsnpoitfbgewpqoitheopwiqhtbnpeowiqhtbpioewqhtioewqhtpoiewqhbntpiobewqpotibwepqoieqbtpoiweqbtoipwqbetiopbewqitopbnqweopitbewoiqpthbpoiewqhtipoewqhtopewiqbtpoiwqbhpodshyaiopvchsdaopibnropewgqtproibewqoptbghewpqiobtpowebqntipoeqwgoiyhsdaopibfopidsabhpopvoisdbhfpiositopehwqpiothewiopqthioepwqhtiopewqhtiopeqwhtpioweqhtpioewqhtoiewhqpoihsdfaoifnbiopdbsnpoitfbgewpqoitheopwiqhtbnpeowiqhtbpioewqhtioewqhtpoiewqhbntpiobewqpotibwepqoieqbtpoiweqbtoipwqbetiopbewqitopbnqweopitbewoiqpthbpoiewqhtipoewqhtopewiqbtpoiwqbhpodshyaiopvchsdaopibnropewgqtproibewqoptbghewpqiobtpowebqntipoeqwgoiyhsdaopibfopidsabhpogifhewyqpioqthopweqihtbpowiqebhtiopqwbgepoihbpvoisdbhfpiost
+ewqjtewqteiwoqhtoipewqhtipoewhqptioehwqiopnteiopwqntpoiwqentpoiewqhntiopweqhntiopqwehjtiopewqhniothnwepiomfasdipomcdsiat
+e3wj56ju34196hj910234h6-09123h4n-09nf-0983h2n14t-0rh413-089th1-0348hnt-04831ht-01h340-th13094-h9v1h9304b
+1346b6908134h-093h41-0hn-89013nv-984hbn-9g8hb134-98g4b4-1390bg-439081bhg-94813bhg-934801bg-94318bg-134b-g89431
+3g48i9-bn34189-gbh31489-gbh-134980gb-309184bg-043gh1b8-09314h908t-h01348th-03418hg-09834h1g-089h34-10vbn-g0v89hb8g904h0-g813h4-0gh134g
+4g90-31ghj9-04h1-t0g9h34-09th0-439th-09314h09t-h340-9ht90-341ht-09431ht90-314ht9-043h1t-903h1490-th9130-4ht-09h43hng0q4g
+431y91304-094hty90-hgnbv0-943hbng0-9hb4n31-09gbhn4310-9ghb-03491hg90-134hg90-13h490-gbn-340bng9-43nb9g-04390g134g
+g4390-hng904-hn130-9ghbn31409-gnb-04139gnh0-9134hng-904hn13-09gjh90-431thj-90134hnt-09h314-0t9h3410t-h341-09tn-09134bnt0-9134ht-091h340-t9hj14903t
+t90-hb341-0tbhn0-43bng0-9h43-09gh0-91g34hnbg9-0bhn34109-thg09-431ht90-hn4130-tbn-90314h0-v9bn9g0-43jgh-0u134j0g-9jn134-09jt134\9
+g90-h43190-gh0-9134hgn90-43hng0-914h3ng0-9n130-gi4n43-09ghn0-4931hng90-13n4g90-hbn13490g-nb439-0gh-03491bng0-9314ng-0913n4g
+[5j321905-hnj32019nh5-01239nh50-9231nh-095hn2-309hj5-90123u09-12 umv905m cy102-937m5v 9012m79v012
+152b95b1v8m2-348b5-092u31-90jnv-g9f03nrg-09134hjg90-340g9j130g9jh4-3901ghj0-4913gn-0m4g1390m143
+g90431njg90-34n1g0-9n341g0-931m4g-90m123490-rthu2-09r1hn-09mcew-09-fj09jf-43092j1nf-09413jgt
+jgi0-hng8-90erqhng980-n3490-gn30948ng09-34n8g09831bg490834bg90813b4g098bn90dshan89f0bh42903t8y24890h
+r438291hfg8901bh324809gbh908134hbg098h1b3498g]g940h831g-098bh431g908bh41390gb034918bg094813bg1
+g89i0431bh9g80b134908bg09183bg908314nf098n41309t8u128-409nf98-1b43g980bh134908gb091384ng098134bng89413
+g089431bhng908341bng098n431908fmj098314nbfg098gh3b4109g8hb143098ng039481ng908314ng908nmfn4938m198fj413
+901-hng890-34n1g908m31f908n431890hg-0943m1-0g89bn134980-fn90813bf409nm43190mg98bn314g098n1309f4nm134f
+130i-4ng90-831ng09834nf09-8m389104hbg-138ng-8903n1bg9-8hb3419-8gb-9831b489-fh10-3f8b-4093b1g-f89bh4398-g1b-098453bn1g-98bh4-9830bg-1890nm34-0fj1-890
+590-h3210-59h2130-9hnfv0-93hnj14g0-9hnb3410-9gh193804gh890134gbhf7890g134879gb30978fj980234fhg0918342gfh09813h42t98h341089ht089134ht34
+i98t04b908tbh34109thb134098tj98034j1t89hj34089th091834jjmt098314mt098431t
+t134
+t314y1390yn-0193n4h5y0-9n1350-yjn0159-34nmyh90-n450-hdth54u2246j24jh45u2645u246u24
+0if-nh04-3n1gh9-0431hng0-9hn1340-9th081394ht980h1390t8bh34908bnt90314bnt098b1n34098tm3091fm3904fn8m
+90f43-1njh98g0fbn341908gn9018n34g980n31908tbg90831n4g089n34g908n314908gbh39108th09h3jf890jf09j83j4n1fm
+9i0nb34908bgn890341hng980j31g908n340g98n341098mg039184mkrt0j34rt189hb349081fn0893nf89034hn1g98n341
+9i103ng90843n109g8m31980jf8904f31n809n31098gn03948mgv908341uf980134ng89031tr4u31489th0bn9v9n341
+49i03n1g90-8341ij0-fjnm-0193g4nmfj-0341iut09-jsiokngiopsad8it0oehwqitopeqwhoitqeihopqtqjpoiwjpfdwsq
+qwertuopsqwipahkq
+*/

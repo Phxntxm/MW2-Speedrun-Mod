@@ -61,8 +61,8 @@ class File:
         """
         logger.info(f"Extracting {self.name} to {self.extracted_path}")
 
-        with open(self.extracted_path, "w+b") as f:
-            f.write(self.decompressed.replace(b"\r\n", b"\n"))
+        with open(self.extracted_path, "wb") as f:
+            f.write(self.decompressed)
 
 
 class Headers:
@@ -171,15 +171,15 @@ class FFFile:
         """
         Saves the FF file to the specified path or the original path
         """
-        path: pathlib.Path = pathlib.Path(path) if path else self.path
+        _path: pathlib.Path = pathlib.Path(path) if path else self.path
 
         # Reconstruct the compressed data - starting with the headers
         data = self.compressed[: self.zlib_start]
         # Update the decompressed's reported length
-        decompressed = set_dword(self.decompressed, len(self.decompressed) - 0x24, 0)
+        decompressed = set_dword(self.decompressed, len(self.decompressed) - 0x28, 0)
         data += compress(decompressed, self.compressed[self.zlib_start :], check=False)
         # Write the data to the file
-        with open(path, "wb") as f:
+        with open(_path, "wb") as f:
             f.write(data)
 
     def find_files(self) -> None:
@@ -212,13 +212,13 @@ class FFFile:
         # Read the file's data
         with open(file.extracted_path, "rb") as f:
             data = f.read()
-        # Go back to carriage returns, since that's what the game uses
-        data = data.replace(b"\n", b"\r\n")
-        # Set the file's length dword
-        self._decompressed = set_dword(self._decompressed, len(data), file.offset - 8)
         # Compress the data
-        compressed = compress(data, file.compressed, check=False)
-        self._decompressed = self.decompressed.replace(file.compressed, compressed)
+        compressed = compress(data, file.compressed)
+        # Set the decompressed file length dword
+        decompressed = set_dword(self.decompressed, len(data), file.offset - 12)
+        data_start = file.offset + len(file.name) + 1
+        data_end = data_start + len(file.compressed)
+        self._decompressed = decompressed[:data_start] + compressed + decompressed[data_end:]
         file.compressed = compressed
 
     def replace_files(self, *files: pathlib.Path) -> None:

@@ -16,5 +16,8 @@ r_filmInvert				"0"
 r_filmLightTint				"1.179 1.086 1.024"
 r_filmDarkTint				"0.7 1.0215 1.265"
 
+r_primaryLightUseTweaks              "1"
+r_primaryLightTweakDiffuseStrength   "1.4"
+r_primaryLightTweakSpecularStrength  "3.25"
 
 

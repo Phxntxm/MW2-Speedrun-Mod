@@ -3434,13 +3434,14 @@ loop_fx_sound( alias, origin, ender, timeout )
 	}
 	org.origin = origin;
 	org PlayLoopSound( alias );
-	if ( !isdefined( timeout ) )
+	if ( !isDefined( timeout ) && !level.createFX_enabled )
 	{
 		org willNeverChange();
 		return;
 	}
 
-	wait( timeout );
+	if ( isDefined( timeout ) )
+		wait( timeout );
 // 	org Delete();
 }
 

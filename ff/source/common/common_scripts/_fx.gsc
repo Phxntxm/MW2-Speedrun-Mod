@@ -295,7 +295,10 @@ gunfireloopfxthread( fxId, fxPos, shotsMin, shotsMax, shotdelayMin, shotdelayMax
 	shotsRange = shotsMax - shotsMin;
 
 	fxEnt = spawnFx( level._effect[ fxId ], fxPos );
-	fxEnt willNeverChange();
+	
+	if ( !level.createFX_enabled )
+		fxEnt willNeverChange();
+		
     for ( ;; )
     {
 		shotnum = shotsBase + randomint( shotsRange );
@@ -352,7 +355,10 @@ gunfireloopfxVecthread( fxId, fxPos, fxPos2, shotsMin, shotsMax, shotdelayMin, s
 	fxPos2 = vectornormalize( fxPos2 - fxPos );
 
 	fxEnt = spawnFx( level._effect[ fxId ], fxPos, fxPos2 );
-	fxEnt willNeverChange();
+
+	if ( !level.createFX_enabled )
+		fxEnt willNeverChange();
+
 	for ( ;; )
 	{
 		shotnum = shotsBase + randomint( shotsRange );
@@ -454,7 +460,10 @@ create_triggerfx()
 		
 	self.looper = spawnFx( level._effect[ self.v[ "fxid" ] ], self.v[ "origin" ], self.v[ "forward" ], self.v[ "up" ] );
 	triggerFx( self.looper, self.v[ "delay" ] );
-	self.looper willNeverChange();
+
+	if ( !level.createFX_enabled )
+		self.looper willNeverChange();
+
 	create_loopsound();
 }
 

@@ -24,8 +24,10 @@ def set_dword(data: bytes, dword: int, offset: int, *, reverse=False) -> bytes:
 
 def compress(data: bytes, original: bytes, *, check: bool = True) -> bytes:
     compressed = zlib.compress(data, level=9)
-    if check and len(compressed) > len(original):
-        raise ValueError(f"Compressed data is too big - Original size: {len(original)}, New size: {len(compressed)}")
-    elif len(compressed) < len(original):
+    if check and len(compressed) != len(original):
+        raise ValueError(
+            f"New data is not the same size as the old data - Original size: {len(original)}, New size: {len(compressed)}"
+        )
+    elif len(compressed) != len(original):
         compressed += b"\x00" * (len(original) - len(compressed))
     return compressed
