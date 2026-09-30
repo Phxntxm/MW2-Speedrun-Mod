@@ -215,7 +215,7 @@ class FFFile:
         # Compress the data
         compressed = compress(data, file.compressed)
         # Set the decompressed file length dword
-        decompressed = set_dword(self.decompressed, len(data), file.offset - 12)
+        decompressed = set_dword(self.decompressed, len(zlib.decompress(compressed)), file.offset - 12)
         data_start = file.offset + len(file.name) + 1
         data_end = data_start + len(file.compressed)
         self._decompressed = decompressed[:data_start] + compressed + decompressed[data_end:]

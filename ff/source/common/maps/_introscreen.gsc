@@ -12,7 +12,7 @@ main()
 
 	PreCacheShader( "black" );
 	PreCacheShader( "white" );
-	enable_huds("start_flag", "passed_flag");
+	enable_huds( "start_flag", "passed_flag" );
 
 	if ( GetDvar( "introscreen" ) == "" )
 		SetDvar( "introscreen", "1" );
@@ -1402,9 +1402,9 @@ ramp_out_sunsample_over_time( time, base_sample_size )
 		wait( 0.05 );
 	}
 }
-
-
 /*
-oqiwhrtjn0hn324590h 12309-8h5 -123 h5-1283h  io
-qoiphpote wqiopthoipewq opiteqwioptioepw qopitopeiw
+The Raven
+
+Once upon a midnight dreary, while I pondered, weak and weary,
+Over many a quaint and curious volume of forgo
 */
