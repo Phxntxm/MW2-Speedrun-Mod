@@ -12,7 +12,7 @@ main()
 
 	PreCacheShader( "black" );
 	PreCacheShader( "white" );
-	enable_huds( "start_flag", "passed_flag" );
+	enable_huds( );
 
 	if ( GetDvar( "introscreen" ) == "" )
 		SetDvar( "introscreen", "1" );

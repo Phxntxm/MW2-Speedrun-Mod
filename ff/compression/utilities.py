@@ -12,7 +12,7 @@ Once upon a midnight dreary, while I pondered, weak and weary,
 Over many a quaint and curious volume of forgotten lore—
 While I nodded, nearly napping, suddenly there came a tapping,
 As of some one gently rapping, rapping at my chamber door.
-I “’Tis some visiter,” I muttered, “tapping at my chamber door—
+“’Tis some visiter,” I muttered, “tapping at my chamber door—
 Only this and nothing more.”
 
 Ah, distinctly I remember it was in the bleak December;
@@ -152,8 +152,8 @@ def set_dword(data: bytes, dword: int, offset: int, *, reverse=False) -> bytes:
     return data[0:offset] + _bytes + data[offset + 4 :]
 
 
-def _replace_padding_comment(data: bytes, comment_text: bytes) -> bytes | None:
-    """Replace a trailing block comment, or append one to text source data."""
+def _padding_comment_prefix(data: bytes) -> bytes | None:
+    """Return the invariant prefix before an appended trailing block comment."""
     try:
         text = data.decode("utf-8")
     except UnicodeDecodeError:
@@ -165,8 +165,7 @@ def _replace_padding_comment(data: bytes, comment_text: bytes) -> bytes | None:
         if comment_end >= 0 and text[comment_end + 2 :].strip() == "":
             text = text[:comment_start].rstrip()
 
-    comment = b"/*\n" + comment_text + b"\n*/"
-    return text.encode("utf-8") + b"\n" + comment
+    return text.encode("utf-8") + b"\n/*\n"
 
 
 def _compress_with_comment_padding(data: bytes, original: bytes) -> bytes | None:
@@ -174,57 +173,54 @@ def _compress_with_comment_padding(data: bytes, original: bytes) -> bytes | None
     target = len(original)
     raven = _RAVEN_COMMENT.encode("utf-8")
     generator = random.Random(0)
-    random_padding = "".join(
-        generator.choices(string.ascii_letters + string.digits, k=target * 2)
-    ).encode("ascii")
+    random_padding = "".join(generator.choices(string.ascii_letters + string.digits, k=target * 2)).encode("ascii")
 
-    def compressed_length(comment: bytes) -> bytes | None:
-        candidate_data = _replace_padding_comment(data, comment)
-        if candidate_data is None:
-            return None
-        return zlib.compress(candidate_data, level=9)
+    prefix = _padding_comment_prefix(data)
+    if prefix is None:
+        return None
+
+    base_compressor = zlib.compressobj(level=9)
+    compressed_prefix = base_compressor.compress(prefix)
+
+    def compress_comment(comment: bytes) -> bytes:
+        compressor = base_compressor.copy()
+        return compressor.compress(comment) + compressor.compress(b"\n*/") + compressor.flush()
 
     best_comment = None
     for raven_length in range(len(raven) + 1):
-        result = compressed_length(raven[:raven_length])
-        if result is None:
-            return None
-        if len(result) == target:
-            return result
-        if len(result) > target:
+        comment = raven[:raven_length]
+        compressed_suffix = compress_comment(comment)
+        compressed_length = len(compressed_prefix) + len(compressed_suffix)
+        if compressed_length == target:
+            return compressed_prefix + compressed_suffix
+        if compressed_length > target:
             break
-        best_comment = raven[:raven_length]
+        best_comment = comment
 
     if best_comment is None:
         return None
 
-    def compressed_length_with_padding(padding_length: int) -> bytes | None:
+    def compressed_suffix_with_padding(padding_length: int) -> bytes:
         comment = best_comment + random_padding[:padding_length]
-        candidate_data = _replace_padding_comment(data, comment)
-        if candidate_data is None:
-            return None
-
-        compressed = zlib.compress(candidate_data, level=9)
-        return compressed
+        return compress_comment(comment)
 
     low = 0
     high = len(random_padding)
     while low <= high:
         padding_length = (low + high) // 2
-        result = compressed_length_with_padding(padding_length)
-        if result is None:
-            return None
-        if len(result) == target:
-            return result
-        if len(result) < target:
+        compressed_suffix = compressed_suffix_with_padding(padding_length)
+        compressed_length = len(compressed_prefix) + len(compressed_suffix)
+        if compressed_length == target:
+            return compressed_prefix + compressed_suffix
+        if compressed_length < target:
             low = padding_length + 1
         else:
             high = padding_length - 1
 
     for padding_length in range(max(0, high - 256), min(len(random_padding), low + 256) + 1):
-        result = compressed_length_with_padding(padding_length)
-        if result is not None and len(result) == target:
-            return result
+        compressed_suffix = compressed_suffix_with_padding(padding_length)
+        if len(compressed_prefix) + len(compressed_suffix) == target:
+            return compressed_prefix + compressed_suffix
 
     return None
 

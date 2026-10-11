@@ -594,90 +594,28 @@ add_extra_autosave_check( name, func, msg )
 	level._extra_autosave_checks[ name ][ "msg" ] = msg;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_extra_autosave_check( <name> )"
-"Summary: removes the extra autosave game condtions added by add_extra_autosave_check"
-"Module: Utility"
-"CallOn: An entity"
-"MandatoryArg: <param1>: Name"
-"Example: add_extra_autosave_check( "boat_check_trailing" ); "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
 remove_extra_autosave_check( name )
 {
 	level._extra_autosave_checks[ name ] = undefined;
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: autosave_stealth()"
-"Summary: autosave the game if it's 'safe' to do so in a stealth level, internally threaded and handles any 'dangerous' situations that we wouldn't want to save at during stealth gameplay"
-"Module: Autosave"
-"CallOn: "
-"Example: autosave_stealth();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
-*/
 autosave_stealth()
 {
 	thread autosave_by_name_thread( "autosave_stealth", 8, true );
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: autosave_tactical()"
-"Summary: autosave the game if it's 'safe' during tactical gameplay...meaning don't autosave if the player has any current enemies or has thrown a grenade. ( internally threaded )"
-"Module: Autosave"
-"CallOn: "
-"Example: autosave_tactical();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
-*/
 autosave_tactical()
 {
 	autosave_tactical_setup();
 	thread autosave_tactical_proc();
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: autosave_by_name( <savename> )"
-"Summary: autosave the game with the specified save name"
-"Module: Autosave"
-"CallOn: "
-"MandatoryArg: <savename> : name of the save file to create"
-"Example: thread autosave_by_name( "building2_cleared" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
-*/
 autosave_by_name( name )
 {
 	thread autosave_by_name_thread( name );
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: autosave_by_name_silent( <savename> )"
-"Summary: autosave the game with the specified save name without printing a checkpoint msg"
-"Module: Autosave"
-"CallOn: "
-"MandatoryArg: <savename> : name of the save file to create"
-"Example: thread autosave_by_name_silent( "building2_cleared" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
-*/
+
 autosave_by_name_silent( name )
 {
 	thread autosave_by_name_thread( name, undefined, undefined, true );
@@ -17309,6 +17247,90 @@ set_hud_element_color( hud, color, glowcolor )
 	hud.glowcolor = glowcolor;
 }
 
+roundNumber( value, places, style )
+{
+	if ( !isdefined( style ) )
+		style = "nearest";
+	
+	modifier = 1;
+	for ( i = 0; i < places; i++ )
+		modifier *= 10;
+	
+	newValue = value * modifier;
+	
+	if ( style == "up" )
+		roundedValue = ceil( newValue );
+	else if ( style == "down" )
+		roundedValue = floor( newValue ); 	
+	else
+		roundedValue = newvalue + 0.5;	
+		
+	newvalue = Int( roundedValue );
+	newvalue = newvalue / modifier;
+	
+	return newvalue;
+}
+
+get_hud_pos()
+{
+
+	hud_pos = GetDvar( "hud_pos", "top_right" );
+
+	switch ( hud_pos )
+	{
+	case "top_right":
+		xpos = -72;
+		ypos = -60;
+		break;
+	case "top_left":
+		xpos = -690;
+		ypos = -60;
+		break;
+	case "bottom_right":
+		xpos = -72;
+		ypos = 210;
+	case "bottom_left":
+		xpos = -690;
+		ypos = 210;
+	case "middle":
+		xpos = -360;
+		ypos = 180;
+		break;
+	case "left":
+		xpos = -690;
+		ypos = 0;
+		break;
+	default:
+		xpos = -72;
+		ypos = -60;
+		break;
+	}
+
+	x_offset = GetDvarInt( "hud_x_offset", 0 );
+	y_offset = GetDvarInt( "hud_y_offset", 0 );
+
+	xpos += x_offset;
+	ypos += y_offset;
+
+	// Clamp values
+	xmin = -690;
+	xmax = -25;
+	ymin = -165;
+	ymax = 285;
+
+	if ( GetDVar( "hud_hide_label" ) == "1" )
+		xmin = -780;
+
+	xpos = clamp(xpos, xmin, xmax);
+	ypos = clamp(ypos, ymin, ymax);
+
+	pos = [];
+	pos[0] = xpos;
+	pos[1] = ypos;
+
+	return pos;
+}
+
 GREEN = ( 0.6, 1, 0.6 );
 GREEN_GLOW = ( 0.4, 0.7, 0.4 );
 LIME = ( 0.8, 1, 0.6 );
@@ -17328,10 +17350,13 @@ velocity_tracker( hud )
 {
 	while ( true )
 	{
-
 		wait 0.005;
-		vel = get_player_from_self() GetVelocity();
+		vel = self GetVelocity();
 		velocity = Distance( ( vel[ 0 ], vel[ 1 ], 0 ), ( 0, 0, 0 ) );
+
+		places = GetDvarInt("hud_velocity_decimal_places", 3);
+		places = clamp(places, 0, 3);
+		velocity = roundNumber(velocity, places);
 
 		if ( velocity < 330 )
 			set_hud_element_color( hud, GREEN, GREEN_GLOW );
@@ -17385,52 +17410,104 @@ difficulty_tracker( hud )
     }
 }
 
-enable_huds( start_flag, passed_flag )
+fov_loop()
 {
-	hud_pos = GetDvar( "hud_pos", "top_right" );
-
-	switch ( hud_pos )
+	while(true)
 	{
-	case "top_right":
-		xpos = -72;
-		ypos = -4;
-		break;
-	case "middle":
-		xpos = -360;
-		ypos = 12;
-		break;
-	default:
-		xpos = -72;
-		ypos = -4;
-		break;
+		cur_fov = GetDVarInt("cg_fov");
+		fov = GetDVarInt("sv_fov", -1);
+
+		if (cur_fov != fov && fov > 0)
+		{
+			vel = self GetVelocity();
+			velocity = Distance( ( vel[ 0 ], vel[ 1 ], 0 ), ( 0, 0, 0 ) );
+			
+			if (velocity > 0)
+				SetSavedDvar("cg_fov", fov);
+		}
+
+		wait 0.05;
 	}
+}
 
-    if ( isdefined( start_flag ) )
-    {
-        if ( !flag_exist( start_flag ) )
-            flag_init( start_flag );
-        level.start_flag = start_flag;
-    }
+position_huds(velocity_hud, difficulty_hud, velocity_label_hud, difficulty_label_hud)
+{
+	while (true)
+	{
+		hide_label = GetDVar( "hud_hide_label" ) == "1";
+		decouple = GetDVar( "hud_decouple" ) == "1";
+		hud_pos = get_hud_pos();
+		xpos = hud_pos[0];
+		ypos = hud_pos[1] / 15;
 
-    if ( isdefined( passed_flag ) )
-    {
-        if ( !flag_exist( passed_flag ) )
-            flag_init( passed_flag );
-        level.passed_flag = passed_flag;
-    }
+		if (hide_label)
+		{
+			velocity_label = "";
+			difficulty_label = "";
+		}
+		else
+		{
+			velocity_label = "Velocity: ";
+			difficulty_label = "Difficulty: ";
+		}
 
-    foreach ( player in level.players )
-    {
-        maps\_specialops::so_create_hud_item( ypos, xpos, "Difficulty: ", player );
-        hud_difficulty_value = maps\_specialops::so_create_hud_item( ypos, xpos, "", player );
-		hud_difficulty_value.alignX = "left";
-        maps\_specialops::so_create_hud_item( ypos + 1, xpos, "Velocity: ", player );
-        hud_velocity_value = maps\_specialops::so_create_hud_item( ypos + 1, xpos, "", player );
-		hud_velocity_value.alignX = "left";
+		if (decouple)
+		{
+			difficulty_label_hud.x = -72;
+			difficulty_label_hud.y = -115;
+			difficulty_label_hud.label = "Difficulty: ";
+			difficulty_hud.x = -72;
+			difficulty_hud.y = -115;
+		}
+		else
+		{
+			difficulty_label_hud.x = xpos;
+			difficulty_label_hud.y = -100 + (15 * ypos);
+			difficulty_label_hud.label = difficulty_label;
+			difficulty_hud.x = xpos;
+			difficulty_hud.y = -100 + (15 * ypos);
+		}
 
-        player thread difficulty_tracker( hud_difficulty_value );
-        player thread velocity_tracker( hud_velocity_value );
-    }
+
+		velocity_label_hud.x = xpos;
+		velocity_label_hud.y = -100 + (15 * (ypos + 1));
+		velocity_label_hud.label = velocity_label;
+		velocity_hud.x = xpos;
+		velocity_hud.y = -100 + (15 * (ypos + 1));
+
+		wait 0.1;
+	}
+}
+
+enable_huds( )
+{
+	hud_pos = get_hud_pos();
+	xpos = hud_pos[0];
+	ypos = hud_pos[1] / 15;
+
+	hide_label = GetDVar( "hud_hide_label" ) == "1";
+	decouple = GetDVar( "hud_decouple" ) == "1";
+	fov = GetDVarInt("sv_fov", -1);
+
+	foreach (player in level.players)
+	{
+		difficulty_label_hud = maps\_specialops::so_create_hud_item( -1, -72, "Difficulty: ", player );
+		difficulty_hud = maps\_specialops::so_create_hud_item( -1, -72, "", player );
+		velocity_label_hud = maps\_specialops::so_create_hud_item( 0, -72, "Velocity: ", player );
+		velocity_hud = maps\_specialops::so_create_hud_item( 0, -72, "", player );
+		difficulty_hud.alignX = "left";
+		velocity_hud.alignX = "left";
+
+		player thread position_huds(velocity_hud, difficulty_hud, velocity_label_hud, difficulty_label_hud);
+		player thread difficulty_tracker( difficulty_hud );
+		player thread velocity_tracker( velocity_hud );
+
+		if(fov > 0)
+		{
+			SetSavedDvar("cg_fov", fov);
+			player thread fov_loop();
+		}
+	}
 }
 /*
 The Raven
