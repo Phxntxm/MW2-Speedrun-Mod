@@ -258,7 +258,7 @@ gulag_run_for_it()
 	}
 
 	//	level.player FreezeControls( true );
-	// Task Force be advised, they've started the bombardment early ? get the hell out of there now!	
+	// Task Force be advised, they've started the bombardment early � get the hell out of there now!	
 
 	// level.player FreezeControls( false );
 
@@ -305,12 +305,9 @@ gulag_run_for_it()
 	ending_window_littlebird.origin = targ.origin;
 
 
-	//flag_wait( "there_is_chopper" );
 
-	// There?s the chopper!!! Get ready to jump!!!	
 	level.soap thread dialogue_queue( "gulag_cmt_ready2jump" );
 
-	//flag_wait( "exit_collapses" );
 
 	// Ahh, bollocks!!! Go back go back!!! We'll find another way out!!!	
 	level.soap delayThread( 1.5, ::dialogue_queue, "gulag_cmt_anotherway" );
@@ -879,7 +876,6 @@ gulag_evac()
 	level.player SetEqLerp( 1, level.eq_main_track );
 	thread maps\_ambient::use_eq_settings( "gulag_ending_fadeout", level.eq_mix_track );
 	wait( 7.85 );
-	
 	
 	// set up the mix track we're going to blend to
 	level.player thread maps\_ambient::blend_to_eq_track( 1, 0.5 );

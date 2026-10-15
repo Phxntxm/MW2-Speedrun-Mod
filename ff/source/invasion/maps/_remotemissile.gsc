@@ -54,7 +54,6 @@ init()
 		SetSavedDvar( "missileRemoteSpeedTargetRange", "3000 6000" );
 	}
 
-
 	flag_init( "uav_reloading" );
 	flag_init( "uav_collecting_stats" );
 	flag_init( "uav_enabled" );

@@ -116,8 +116,7 @@ main()
 	flag_set( "can_talk" );
 	
 	maps\_compass::setupMiniMap("compass_map_dcburning");
-	
-	//s
+
 	flag_init( "obj_follow_sgt_macey_given" );
 	flag_init( "obj_follow_sgt_macey_complete" );
 	flag_init( "obj_commerce_given" );
@@ -1387,7 +1386,7 @@ dialogue_nag_cross_the_street()
 
 		if ( !flag( "player_crossing_street" ) )
 		{
-			//Sgt. Macey	Ready?.!	
+			//Sgt. Macey	Ready�.!	
 			level.teamleader dialogue_execute( "dcburn_mcy_ready" );
 	
 			//Sgt. Macey	Go go go!!! Move up! Move up!	
@@ -1585,7 +1584,7 @@ dialogue_trenches()
 	//Sgt. Macey	Copy that.	
 	//radio_dialogue("dcburn_mcy_copythat");
 	
-	//Cpl. Dunn	We're running the gauntlet with no armor or air and they give us one Humvee?	
+	//Cpl. Dunn	We're running the gauntlet with no armor or air and they give us one Humvee�	
 	//radio_dialogue("dcburn_cpd_gauntlet");
 	
 	//Marine 3	Welcome to the suck.	
@@ -4642,7 +4641,7 @@ dialogue_crow_armor()
 	flag_wait( "start_crow_armor_sequence" );
 	flag_set( "obj_commerce_defend_javelin_given" );
 	
-	//Overlord (HQ Radio) Hunter Two-One, recommend you clear outta there...I see a mass of foot-mobiles converging on your position?		
+	//Overlord (HQ Radio) Hunter Two-One, recommend you clear outta there...I see a mass of foot-mobiles converging on your position�		
 	radio_dialogue( "dcburn_hqr_clearout" );
 	
 	//Sgt. Macey	23	2	Negative negative. I have eyes on enemy armor and helicopters advancing on the evac site from the south and southwest! 	
@@ -5308,7 +5307,7 @@ dialogue_get_to_roof()
 		if ( flag( "player_roof_stairs_00" ) )
 			break;
 		
-		//Sgt. Macey	Ramirez! Get up the stairs to the roof ASAP?our evac choppers aren't going to wait all day!	
+		//Sgt. Macey	Ramirez! Get up the stairs to the roof ASAP�our evac choppers aren't going to wait all day!	
 		level.teamleader dialogue_execute( "dcburn_mcy_waitallday" );
 		
 		wait( randomfloatrange( 8, 12 ) );
@@ -5373,8 +5372,10 @@ dialogue_get_to_roof()
 		wait( 1 );
 
 		if ( flag( "player_at_commerce_rooftop" ) )
+		{
 			nextmission();
 			break;
+		}
 
 		wait( 1 );
 
@@ -6448,7 +6449,7 @@ dialogue_heli_ride2()
 	//Black Hawk Pilot	RPG teams! 12 o'clock!!!
 	//radio_dialogue( "dcburn_bhp_rpgteams" );
 
-	//Black Hawk Pilot	We're losing attitude control?!!!
+	//Black Hawk Pilot	We're losing attitude control�!!!
 	radio_dialogue( "dcburn_bhp_attitudecontrol" );
 
 	//Ranger 2	32	2	We're bleeding hydraulic fluid, I'm losin' the tail rotor!	
@@ -7218,7 +7219,6 @@ AI_allies_think()
 
 AI_axis_think()
 {
-	wait 0.0001;
 }
 
 AI_blood_spatter_when_sniped()

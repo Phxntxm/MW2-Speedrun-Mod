@@ -2476,7 +2476,7 @@ cellblock_rappel_player()
 	flag_set( "cellblock_player_starts_rappel" );
 
 	thread early_rappel();
-	
+
 	wait( 1.8 );
 	radio_dialogue( "gulag_tf1_captainlastfloor" );	
 
@@ -4695,12 +4695,12 @@ soap_is_angry_about_attack()
 	level.soap dialogue_queue( "gulag_cmt_calloff" );
 
 	wait( 1 );
-	// We?re working on it. The Russian Navy isn't exactly cooperating right now.  Keep moving. Out.	
+	// We�re working on it. The Russian Navy isn't exactly cooperating right now.  Keep moving. Out.	
 	// I'm working on it buddy. The Navy isn't in a talking mood right now. Standby.	
 	radio_dialogue( "gulag_hqr_working" );
 
-	// Bravo Six - they've agreed to stop firing for now. Keep going, I?ll keep you posted. Out.	
-	// Quarterback to Task Force - Admiral Tarkovsky's a real loose cannon, but he?s agreed to stop firing for now. Keep going, we?ll keep you posted. Out.	
+	// Bravo Six - they've agreed to stop firing for now. Keep going, I�ll keep you posted. Out.	
+	// Quarterback to Task Force - Admiral Tarkovsky's a real loose cannon, but he�s agreed to stop firing for now. Keep going, we�ll keep you posted. Out.	
 	delayThread( 3, ::radio_dialogue, "gulag_hqr_loosecannon" );
 
 

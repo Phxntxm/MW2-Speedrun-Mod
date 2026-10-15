@@ -344,15 +344,11 @@ intro_crash_vehicle_setup()
 /************************************************************************************************************/
 iss_main()
 {	
-
-		
-	
 	flag_set( "iss_stop_sounds" ); 
 	
 	stopallRumbles();
 	level.rumble delaycall( .5, ::delete );
 	level.white_overlay.alpha = 1;
-	
 	level.nuke_water_tag delete();
 
 	disableOuterSpaceModelLighting();
@@ -703,7 +699,7 @@ emp_dialogue()
 {
 	flag_wait( "emp_heli_crash" );
 //	wait 0;
-//	 thread dialogue_queue( "dcemp_cpd_whoa" );	
+//	level.dunn thread dialogue_queue( "dcemp_cpd_whoa" );	
 	
 	flag_wait( "emp_jet_crash" );
 	wait 2.5;
@@ -1329,16 +1325,16 @@ corner_dialogue()
 	////What happened here?	
 	marine1 dialogue_queue( "dcemp_ar1_thisisweird" );
 	wait .5;
-	//It?s so?quiet.	
+	//It�s so�quiet.	
 	level.dunn dialogue_queue( "dcemp_cpd_soquiet" );
-	//Hey! What the?? My red dot's not working.	
+	//Hey! What the�? My red dot's not working.	
 	level.dunn dialogue_queue( "dcemp_cpd_heywhatthe" );
 	//Mine's down too, this is weird, bro.			
 	marine1 dialogue_queue( "dcemp_ar1_minedowntoo" );
 	
 	wait .5;
 	
-	//Looks like optics are down?comms too.  There's not even a street light for blocks.
+	//Looks like optics are down�comms too.  There's not even a street light for blocks.
 	level.foley thread dialogue_queue( "dcemp_fly_empblast" );		
 }
 
@@ -1634,7 +1630,7 @@ meetup_main()
 	getent( "meetup_runner", "targetname" ) add_spawn_function( ::meetup_runner );
 	
 	flag_wait( "meetup_main" );
-	
+
 	wait 50000000;
 	
 	level.foley thread meetup_foley();
@@ -2864,7 +2860,7 @@ parking_go_foley( node )
 	flag_wait( "parking_moveout2" );
 	self disable_cqbwalk();
 	
-	//Keep Quiet?			
+	//Keep Quiet�			
 	self delaythread( 2, ::dialogue_queue, "dcemp_fly_keepquiet" );
 	
 	node = getnode( "parking_moveup2_foley", "targetname" );
@@ -3642,7 +3638,7 @@ plaza_dialogue2()
 	//Are they friendly	
 	level.dunn dialogue_queue( "dcemp_cpd_aretheyfriendly" );
 	wait .5;
-	//I don't know?Star!	
+	//I don't know�Star!	
 	level.foley dialogue_queue( "dcemp_fly_dontknowstar" );
 	wait 1;
 	//Cover me.	
@@ -3650,7 +3646,7 @@ plaza_dialogue2()
 			
 	flag_set( "plaza_prepare_throw" );
 	
-	//Say Texas, dammit?just say it.
+	//Say Texas, dammit�just say it.
 	add_wait( ::_wait, 3.5 );
 	level.dunn add_func( ::dialogue_queue, "dcemp_cpd_saytexas" );
 	add_abort( ::flag_wait, "plaza_open_fire" );

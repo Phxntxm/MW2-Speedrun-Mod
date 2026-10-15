@@ -458,7 +458,7 @@ whitehouse_cleanup_approach()
 	array_call( axis_arr, ::kill );
 
 	flag_wait( "whitehouse_breached" );
-	
+
 
 	// delete exterior allies
 	ai_arr = getaiarray( "allies" );
@@ -1007,7 +1007,6 @@ tunnels_teleport()
 	trigger waittill( "trigger" );
 
 	flag_set( "tunnels_teleport" );
-
 
 
 	while( !level.player IsOnGround() )

@@ -13,6 +13,7 @@ initCredits( type )
 	set_console_status();
 	if( !isdefined( type ) )
 		type = "all";
+		
 	switch( type )
 	{
 		case "iw":
@@ -40,7 +41,9 @@ initIWCredits()
 	initIWCredits_music2();
 	initIWCredits_spav();
 	initIWCredits_add();
-	initIWCredits_baby();
+	initIWCredits_baby();	
+	initWindowsStoreCredits();
+	initOutrunCredits();
 }
 
 initIWCredits_part1()
@@ -937,6 +940,11 @@ addCenterHeading( heading, textscale )
 	temp.textscale = textscale;
 
 	level.linelist[ level.linelist.size ] = temp;
+}
+
+addCenterSubtitle( heading, textscale )
+{
+	addCenterHeading( heading, textscale );
 }
 
 addCastName( name, title, textscale )
@@ -2259,4 +2267,1357 @@ initATVICredits_end()
 	// Any similarity to actual persons, living or dead, is purely coincidental.
 	addCenterHeading( &"CREDIT_THE_CHARACTERS_AND_EVENTS2" );
 
+}
+
+initWindowsStoreCredits()
+{
+	addSpaceSmall();
+
+	addSpaceSmall();
+
+	//Windows Store Version 2024
+	addCenterHeading( &"CREDITS_MSSTORE_WINDOWS_STORE_VERSION_2024" );
+
+	addSpace();
+
+	//Infinity Ward
+	addCenterHeading( &"CREDITS_MSSTORE_INFINITY_WARD" );
+
+	addSpaceSmall();
+
+	//Dan Nelson
+	addCenterTriple( "", &"CREDITS_MSSTORE_DAN_NELSON", "");
+
+	//Rulon Raymond
+	addCenterTriple( "", &"CREDITS_MSSTORE_RULON_RAYMOND", "");
+
+	//Adam Gold
+	addCenterTriple( "", &"CREDITS_MSSTORE_ADAM_GOLD", "");
+
+	//Elliott Ehlig
+	addCenterTriple( "", &"CREDITS_MSSTORE_ELLIOTT_EHLIG", "");
+
+	//Mitch Sanborn
+	addCenterTriple( "", &"CREDITS_MSSTORE_MITCH_SANBORN", "");
+
+	//Simon Cournoyer
+	addCenterTriple( "", &"CREDITS_MSSTORE_SIMON_COURNOYER", "");
+
+	//Meghan House
+	addCenterTriple( "", &"CREDITS_MSSTORE_MEGHAN_HOUSE", "");
+
+	addSpace();
+	
+	//Sledgehammer Games
+	addCenterHeading( &"CREDITS_MSSTORE_SLEDGEHAMMER_GAMES" );
+
+	addSpaceSmall();
+	
+	//Jason Bell
+	addCenterTriple( "", &"CREDITS_MSSTORE_JASON_BELL", "");
+	
+	addSpace();
+
+	//Activision Publishing
+	addCenterHeading( &"CREDITS_MSSTORE_ACTIVISION_PUBLISHING" );
+
+	addSpaceSmall();
+
+	//Senior Director
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_DIRECTOR" );
+
+	//Christopher Wilson
+	addCenterTriple( "", &"CREDITS_MSSTORE_CHRISTOPHER_WILSON", "");
+
+	addSpaceSmall();
+
+	//Producer
+	addCenterSubtitle( &"CREDITS_MSSTORE_PRODUCER" );
+
+	//David Lara
+	addCenterTriple( "", &"CREDITS_MSSTORE_DAVID_LARA", "");
+
+	addSpaceSmall();
+
+	//Emerging Franchises
+	addCenterSubtitle( &"CREDITS_MSSTORE_EMERGING_FRANCHISES" );
+
+	//Jason Finn
+	addCenterTriple( "", &"CREDITS_MSSTORE_JASON_FINN", "");
+
+	//Becca Verstraete
+	addCenterTriple( "", &"CREDITS_MSSTORE_BECCA_VERSTRAETE", "");
+
+	//William De La Torre
+	addCenterTriple( "", &"CREDITS_MSSTORE_WILLIAM_DE_LA_TORRE", "");
+
+	//Kenny Lennon
+	addCenterTriple( "", &"CREDITS_MSSTORE_KENNY_LENNON", "");
+
+	//Ben Perry
+	addCenterTriple( "", &"CREDITS_MSSTORE_BEN_PERRY", "");
+
+	addSpace();
+	
+	//Beenox
+	addCenterHeading( &"CREDITS_MSSTORE_BEENOX" );
+
+	addSpaceSmall();
+
+	//Lead Producer
+	addCenterSubtitle( &"CREDITS_MSSTORE_LEAD_PRODUCER" );
+
+	//Nicolas Bourgault
+	addCenterTriple( "", &"CREDITS_MSSTORE_NICOLAS_BOURGAULT", "");
+
+	addSpaceSmall();
+
+	//Senior Production Coordinator
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_PRODUCTION_COORDINATOR" );
+
+	//Gabriel Dion
+	addCenterTriple( "", &"CREDITS_MSSTORE_GABRIEL_DION", "");
+
+	addSpaceSmall();
+
+	//Technical Director
+	addCenterSubtitle( &"CREDITS_MSSTORE_TECHNICAL_DIRECTOR" );
+
+	//Philippe Troie
+	addCenterTriple( "", &"CREDITS_MSSTORE_PHILIPPE_TROIE", "");
+
+	addSpaceSmall();
+
+	//Lead Programmer
+	addCenterSubtitle( &"CREDITS_MSSTORE_LEAD_PROGRAMMER" );
+
+	//Benjamin Descamps
+	addCenterTriple( "", &"CREDITS_MSSTORE_BENJAMIN_DESCAMPS", "");
+
+	addSpaceSmall();
+
+	//Expert Programmer
+	addCenterSubtitle( &"CREDITS_MSSTORE_EXPERT_PROGRAMMER" );
+
+	//Richard Harvey-Levert
+	addCenterTriple( "", &"CREDITS_MSSTORE_RICHARD_HARVEYLEVERT", "");
+
+	addSpace();
+
+	//QA - Minnesota
+	addCenterHeading( &"CREDITS_MSSTORE_QA__MINNESOTA" );
+
+	addSpaceSmall();
+	
+	//Project Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_PROJECT_LEAD" );
+
+	//Simon Wolfe
+	addCenterTriple( "", &"CREDITS_MSSTORE_SIMON_WOLFE", "");
+
+	addSpaceSmall();
+
+	//Associate Project Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_ASSOCIATE_PROJECT_LEAD" );
+
+	//Nicholas Littlefield
+	addCenterTriple( "", &"CREDITS_MSSTORE_NICHOLAS_LITTLEFIELD", "");
+
+	addSpaceSmall();
+
+	//Senior Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_TESTER" );
+
+	//Gabriel Barott
+	addCenterTriple( "", &"CREDITS_MSSTORE_GABRIEL_BAROTT", "");
+
+	addSpaceSmall();
+
+	//QA Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_QA_TESTER" );
+
+	//Alex Fox
+	addCenterTriple( "", &"CREDITS_MSSTORE_ALEX_FOX", "");
+
+	//Cason Lyons
+	addCenterTriple( "", &"CREDITS_MSSTORE_CASON_LYONS", "");
+
+	//Chue Vue
+	addCenterTriple( "", &"CREDITS_MSSTORE_CHUE_VUE", "");
+
+	//Emily Danko
+	addCenterTriple( "", &"CREDITS_MSSTORE_EMILY_DANKO", "");
+
+	//Eric Stites
+	addCenterTriple( "", &"CREDITS_MSSTORE_ERIC_STITES", "");
+
+	//Ian Hickel
+	addCenterTriple( "", &"CREDITS_MSSTORE_IAN_HICKEL", "");
+
+	//Kole Buscher
+	addCenterTriple( "", &"CREDITS_MSSTORE_KOLE_BUSCHER", "");
+
+	//Logan Klopp
+	addCenterTriple( "", &"CREDITS_MSSTORE_LOGAN_KLOPP", "");
+
+	//Michael Leonard
+	addCenterTriple( "", &"CREDITS_MSSTORE_MICHAEL_LEONARD", "");
+
+	//Michael Rauser
+	addCenterTriple( "", &"CREDITS_MSSTORE_MICHAEL_RAUSER", "");
+
+	//Michael Sullivan
+	addCenterTriple( "", &"CREDITS_MSSTORE_MICHAEL_SULLIVAN", "");
+
+	//Yai Chang
+	addCenterTriple( "", &"CREDITS_MSSTORE_YAI_CHANG", "");
+
+	addSpace();
+	
+	//Technical Requirements Group
+	addCenterHeading( &"CREDITS_MSSTORE_TECHNICAL_REQUIREMENTS_GROUP" );
+
+	addSpaceSmall();
+
+	//Sr. TRG Platform Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_SR_TRG_PLATFORM_LEAD" );
+
+	//Brian Bensi
+	addCenterTriple( "", &"CREDITS_MSSTORE_BRIAN_BENSI", "");
+
+	//Nicholas Blanchard
+	addCenterTriple( "", &"CREDITS_MSSTORE_NICHOLAS_BLANCHARD", "");
+
+	addSpaceSmall();
+
+	//Platform Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_PLATFORM_LEAD" );
+
+	//Kenneth Curtis
+	addCenterTriple( "", &"CREDITS_MSSTORE_KENNETH_CURTIS", "");
+
+	//Oliver Hsia
+	addCenterTriple( "", &"CREDITS_MSSTORE_OLIVER_HSIA", "");
+
+	//Donny Laws
+	addCenterTriple( "", &"CREDITS_MSSTORE_DONNY_LAWS", "");
+
+	//Alden Paguia
+	addCenterTriple( "", &"CREDITS_MSSTORE_ALDEN_PAGUIA", "");
+
+	addSpaceSmall();
+
+	//Associate Project Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_ASSOCIATE_PROJECT_LEAD" );
+
+	//Fin Burbey
+	addCenterTriple( "", &"CREDITS_MSSTORE_FIN_BURBEY", "");
+
+	//Colin Kawakami
+	addCenterTriple( "", &"CREDITS_MSSTORE_COLIN_KAWAKAMI", "");
+
+	//Dannette Salinas
+	addCenterTriple( "", &"CREDITS_MSSTORE_DANNETTE_SALINAS", "");
+
+	//Hunter Stokes
+	addCenterTriple( "", &"CREDITS_MSSTORE_HUNTER_STOKES", "");
+
+	//Jonathan Wood
+	addCenterTriple( "", &"CREDITS_MSSTORE_JONATHAN_WOOD", "");
+
+	addSpaceSmall();
+	
+	//Technical Requirements Specialist
+	addCenterSubtitle( &"CREDITS_MSSTORE_TECHNICAL_REQUIREMENTS_SPECIAL" );
+
+	//Zach Alicaway
+	addCenterTriple( "", &"CREDITS_MSSTORE_ZACH_ALICAWAY", "");
+
+	//Eric Castillo
+	addCenterTriple( "", &"CREDITS_MSSTORE_ERIC_CASTILLO", "");
+
+	//Kyle Cloos
+	addCenterTriple( "", &"CREDITS_MSSTORE_KYLE_CLOOS", "");
+
+	//David Delanty
+	addCenterTriple( "", &"CREDITS_MSSTORE_DAVID_DELANTY", "");
+
+	//Peter Doan
+	addCenterTriple( "", &"CREDITS_MSSTORE_PETER_DOAN", "");
+
+	//Andrea Livingston
+	addCenterTriple( "", &"CREDITS_MSSTORE_ANDREA_LIVINGSTON", "");
+
+	//Damien Miller
+	addCenterTriple( "", &"CREDITS_MSSTORE_DAMIEN_MILLER", "");
+
+	//Tom Shelley
+	addCenterTriple( "", &"CREDITS_MSSTORE_TOM_SHELLEY", "");
+
+	//Sara Valdez
+	addCenterTriple( "", &"CREDITS_MSSTORE_SARA_VALDEZ", "");
+
+	addSpaceSmall();
+
+	//Sr. Requirements Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_SR_REQUIREMENTS_TESTER" );
+
+	//Tyler Perez
+	addCenterTriple( "", &"CREDITS_MSSTORE_TYLER_PEREZ", "");
+
+	//Tevin Wilkerson
+	addCenterTriple( "", &"CREDITS_MSSTORE_TEVIN_WILKERSON", "");
+
+	addSpaceSmall();
+
+	//Technical Requirements Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_TECHNICAL_REQUIREMENTS_TESTER" );
+
+	//Kevin Baxter
+	addCenterTriple( "", &"CREDITS_MSSTORE_KEVIN_BAXTER", "");
+
+	//Brian Dionne
+	addCenterTriple( "", &"CREDITS_MSSTORE_BRIAN_DIONNE", "");
+
+	//Tim Fox
+	addCenterTriple( "", &"CREDITS_MSSTORE_TIM_FOX", "");
+
+	//Chris Tomlinson
+	addCenterTriple( "", &"CREDITS_MSSTORE_CHRIS_TOMLINSON", "");
+
+	addSpace();
+	
+	//QA - Labs
+	addCenterHeading( &"CREDITS_MSSTORE_QA__LABS" );
+
+	addSpaceSmall();
+
+	//Senior Project Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_PROJECT_LEAD" );
+
+	//Donovan Byrnes
+	addCenterTriple( "", &"CREDITS_MSSTORE_DONOVAN_BYRNES", "");
+
+	addSpaceSmall();
+
+	//Associate Project Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_ASSOCIATE_PROJECT_LEAD" );
+
+	//John Purdham
+	addCenterTriple( "", &"CREDITS_MSSTORE_JOHN_PURDHAM", "");
+
+	//Zach Hayes
+	addCenterTriple( "", &"CREDITS_MSSTORE_ZACH_HAYES", "");
+
+	//Nick Ingerson
+	addCenterTriple( "", &"CREDITS_MSSTORE_NICK_INGERSON", "");
+
+	addSpaceSmall();
+
+	//Senior Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_TESTER" );
+
+	//Damien Poncel
+	addCenterTriple( "", &"CREDITS_MSSTORE_DAMIEN_PONCEL", "");
+
+	//Alex Schindeldecker
+	addCenterTriple( "", &"CREDITS_MSSTORE_ALEX_SCHINDELDECKER", "");
+
+	addSpaceSmall();
+
+	//QA Tester
+	addCenterSubtitle( &"CREDITS_MSSTORE_QA_TESTER" );
+
+	//Brendan Wilson
+	addCenterTriple( "", &"CREDITS_MSSTORE_BRENDAN_WILSON", "");
+
+	//Jac Mateja
+	addCenterTriple( "", &"CREDITS_MSSTORE_JAC_MATEJA", "");
+
+	//Jace Floyd
+	addCenterTriple( "", &"CREDITS_MSSTORE_JACE_FLOYD", "");
+
+	//Samuel Grausam
+	addCenterTriple( "", &"CREDITS_MSSTORE_SAMUEL_GRAUSAM", "");
+
+	addSpace();
+
+	//PRODUCTION SERVICES - EUROPE
+	addCenterHeading( &"CREDITS_MSSTORE_PRODUCTION_SERVICES__EUROPE" );
+
+	addSpaceSmall();
+	
+	//Worldwide Localization VP
+	addCenterSubtitle( &"CREDITS_MSSTORE_WORLDWIDE_LOCALIZATION_VP" );
+
+	//Barry Kehoe
+	addCenterTriple( "", &"CREDITS_MSSTORE_BARRY_KEHOE", "");
+
+	addSpaceSmall();
+
+	//Localisation Director
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_DIRECTOR" );
+
+	//Fiona Ebbs
+	addCenterTriple( "", &"CREDITS_MSSTORE_FIONA_EBBS", "");
+
+	addSpaceSmall();
+
+	//Localisation QA Manager
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_QA_MANAGER" );
+
+	//Mannix Kelly
+	addCenterTriple( "", &"CREDITS_MSSTORE_MANNIX_KELLY", "");
+
+	addSpaceSmall();
+
+	//Assistant QA Manager
+	addCenterSubtitle( &"CREDITS_MSSTORE_ASSISTANT_QA_MANAGER" );
+
+	//Franck Morisseau
+	addCenterTriple( "", &"CREDITS_MSSTORE_FRANCK_MORISSEAU", "");
+
+	//Igor Mantovani
+	addCenterTriple( "", &"CREDITS_MSSTORE_IGOR_MANTOVANI", "");
+
+	addSpaceSmall();
+
+	//Localisation Senior QA Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_SENIOR_QA_LEAD" );
+
+	//Werner Nemetz
+	addCenterTriple( "", &"CREDITS_MSSTORE_WERNER_NEMETZ", "");
+
+	addSpaceSmall();
+
+	//Localisation QA Lead
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_QA_LEAD" );
+
+	//Tomasz Wojtkiewicz
+	addCenterTriple( "", &"CREDITS_MSSTORE_TOMASZ_WOJTKIEWICZ", "");
+
+	//Lily Dashkevich
+	addCenterTriple( "", &"CREDITS_MSSTORE_LILY_DASHKEVICH", "");
+
+	//Ricky Chen
+	addCenterTriple( "", &"CREDITS_MSSTORE_RICKY_CHEN", "");
+
+	addSpaceSmall();
+
+	//Localisation Testers
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_TESTERS" );
+
+	//Alex Enea Siddi
+	addCenterTriple( "", &"CREDITS_MSSTORE_ALEX_ENEA_SIDDI", "");
+
+	//Aurelien Taraud
+	addCenterTriple( "", &"CREDITS_MSSTORE_AURELIEN_TARAUD", "");
+
+	//Daniela Uribe
+	addCenterTriple( "", &"CREDITS_MSSTORE_DANIELA_URIBE", "");
+
+	//Jule Loescher
+	addCenterTriple( "", &"CREDITS_MSSTORE_JULE_LOESCHER", "");
+
+	//Martyna Golas
+	addCenterTriple( "", &"CREDITS_MSSTORE_MARTYNA_GOLAS", "");
+
+	//Simon Salvatierra L.
+	addCenterTriple( "", &"CREDITS_MSSTORE_SIMON_SALVATIERRA_L", "");
+
+	//Julia Schimanski
+	addCenterTriple( "", &"CREDITS_MSSTORE_JULIA_SCHIMANSKI", "");
+
+	//Jesus Echeverria
+	addCenterTriple( "", &"CREDITS_MSSTORE_JESUS_ECHEVERRIA", "");
+
+	//Victor Jimenez
+	addCenterTriple( "", &"CREDITS_MSSTORE_VICTOR_JIMENEZ", "");
+
+	addSpaceSmall();
+
+	//Senior IT Network Technician
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_IT_NETWORK_TECHNICIAN" );
+
+	//Fergus Lindsay
+	addCenterTriple( "", &"CREDITS_MSSTORE_FERGUS_LINDSAY", "");
+
+	addSpaceSmall();
+
+	//Senior IT Administrator
+	addCenterSubtitle( &"CREDITS_MSSTORE_SENIOR_IT_ADMINISTRATOR" );
+
+	//Ciaran O'Shea
+	addCenterTriple( "", &"CREDITS_MSSTORE_CIARAN_OSHEA", "");
+
+	addSpaceSmall();
+
+	//Localisation Tools & Support
+	addCenterSubtitle( &"CREDITS_MSSTORE_LOCALISATION_TOOLS__SUPPORT" );
+
+	//Provided by Stephanie Deming & XLOC, inc
+	addCenterTriple( "", &"CREDITS_MSSTORE_PROVIDED_BY_STEPHANIE_DEMING__", "");
+
+	addSpace();
+	
+	//Demonware
+	addCenterSubtitle( &"CREDITS_MSSTORE_DEMONWARE" );
+
+	//Jordan Abbatiello
+	//Cristina Lester
+	addCenterDual( &"CREDITS_MSSTORE_JORDAN_ABBATIELLO", &"CREDITS_MSSTORE_CRISTINA_LESTER");
+
+	//Elijah Abram
+	//Anthony Leung
+	addCenterDual( &"CREDITS_MSSTORE_ELIJAH_ABRAM", &"CREDITS_MSSTORE_ANTHONY_LEUNG");
+
+	//George Adyrhaiev
+	//Zoey Liao
+	addCenterDual( &"CREDITS_MSSTORE_GEORGE_ADYRHAIEV", &"CREDITS_MSSTORE_ZOEY_LIAO");
+
+	//Ria Agarwal
+	//Zhi Han Lim
+	addCenterDual( &"CREDITS_MSSTORE_RIA_AGARWAL", &"CREDITS_MSSTORE_ZHI_HAN_LIM");
+
+	//Caitlin Ah Sing
+	//Daniel Lin ????
+	addCenterDual( &"CREDITS_MSSTORE_CAITLIN_AH_SING", &"CREDITS_MSSTORE_DANIEL_LIN");
+
+	//Sameer Ahmed
+	//Jessica Lin
+	addCenterDual( &"CREDITS_MSSTORE_SAMEER_AHMED", &"CREDITS_MSSTORE_JESSICA_LIN");
+
+	//Alaa Al-Ramly
+	//Derek Lindahl
+	addCenterDual( &"CREDITS_MSSTORE_ALAA_ALRAMLY", &"CREDITS_MSSTORE_DEREK_LINDAHL");
+
+	//Cameron Altenhof-Long
+	//Will Liu
+	addCenterDual( &"CREDITS_MSSTORE_CAMERON_ALTENHOFLONG", &"CREDITS_MSSTORE_WILL_LIU");
+
+	//Ryad Ammar
+	//Sampson Liu
+	addCenterDual( &"CREDITS_MSSTORE_RYAD_AMMAR", &"CREDITS_MSSTORE_SAMPSON_LIU");
+
+	//Andreas Anglin
+	//Aaron LIU
+	addCenterDual( &"CREDITS_MSSTORE_ANDREAS_ANGLIN", &"CREDITS_MSSTORE_AARON_LIU");
+
+	//Bassel Ashi
+	//Steve Loken
+	addCenterDual( &"CREDITS_MSSTORE_BASSEL_ASHI", &"CREDITS_MSSTORE_STEVE_LOKEN");
+
+	//Segal Au
+	//Daniella Almeida
+	addCenterDual( &"CREDITS_MSSTORE_SEGAL_AU", &"CREDITS_MSSTORE_DANIELLA_ALMEIDA");
+
+	//Vladimir Avram
+	//Zach Lorimer
+	addCenterDual( &"CREDITS_MSSTORE_VLADIMIR_AVRAM", &"CREDITS_MSSTORE_ZACH_LORIMER");
+
+	//Noah Baker
+	//Laurent Loubiere
+	addCenterDual( &"CREDITS_MSSTORE_NOAH_BAKER", &"CREDITS_MSSTORE_LAURENT_LOUBIERE");
+
+	//Graeme Baker
+	//Yunjia Lu
+	addCenterDual( &"CREDITS_MSSTORE_GRAEME_BAKER", &"CREDITS_MSSTORE_YUNJIA_LU");
+
+	//David Ballano-Fernandez
+	//Francis Lu
+	addCenterDual( &"CREDITS_MSSTORE_DAVID_BALLANOFERNANDEZ", &"CREDITS_MSSTORE_FRANCIS_LU");
+
+	//Gaurav Baney
+	//Pat Lynam
+	addCenterDual( &"CREDITS_MSSTORE_GAURAV_BANEY", &"CREDITS_MSSTORE_PAT_LYNAM");
+
+	//Pooja Bansal
+	//Andrei Vladimirovich Lysov
+	addCenterDual( &"CREDITS_MSSTORE_POOJA_BANSAL", &"CREDITS_MSSTORE_ANDREI_VLADIMIROVICH_LYSOV");
+
+	//Rob Baron
+	//Rohith Madamshetty
+	addCenterDual( &"CREDITS_MSSTORE_ROB_BARON", &"CREDITS_MSSTORE_ROHITH_MADAMSHETTY");
+
+	//Ally Barra
+	//Robin Mahony
+	addCenterDual( &"CREDITS_MSSTORE_ALLY_BARRA", &"CREDITS_MSSTORE_ROBIN_MAHONY");
+
+	//Patrick Barrington
+	//Bruno de Lima Marques
+	addCenterDual( &"CREDITS_MSSTORE_PATRICK_BARRINGTON", &"CREDITS_MSSTORE_BRUNO_DE_LIMA_MARQUES");
+
+	//Graeme Bates
+	//Damien Marshall
+	addCenterDual( &"CREDITS_MSSTORE_GRAEME_BATES", &"CREDITS_MSSTORE_DAMIEN_MARSHALL");
+
+	//Edgar Baudry
+	//Asako Matsuoka
+	addCenterDual( &"CREDITS_MSSTORE_EDGAR_BAUDRY", &"CREDITS_MSSTORE_ASAKO_MATSUOKA");
+
+	//Alberto Bautista
+	//Meabh McCarthy
+	addCenterDual( &"CREDITS_MSSTORE_ALBERTO_BAUTISTA", &"CREDITS_MSSTORE_MEABH_MCCARTHY");
+
+	//Kavish Bhathija
+	//Emma McCarthy
+	addCenterDual( &"CREDITS_MSSTORE_KAVISH_BHATHIJA", &"CREDITS_MSSTORE_EMMA_MCCARTHY");
+
+	//Sushil Bhojwani
+	//Martin McGovern
+	addCenterDual( &"CREDITS_MSSTORE_SUSHIL_BHOJWANI", &"CREDITS_MSSTORE_MARTIN_MCGOVERN");
+
+	//Rishav Bhowmick
+	//Chris McKnight
+	addCenterDual( &"CREDITS_MSSTORE_RISHAV_BHOWMICK", &"CREDITS_MSSTORE_CHRIS_MCKNIGHT");
+
+	//Robin Bjorklin
+	//Pat McKnight
+	addCenterDual( &"CREDITS_MSSTORE_ROBIN_BJORKLIN", &"CREDITS_MSSTORE_PAT_MCKNIGHT");
+
+	//Amanda Black
+	//Emily Mecke
+	addCenterDual( &"CREDITS_MSSTORE_AMANDA_BLACK", &"CREDITS_MSSTORE_EMILY_MECKE");
+
+	//Jordan Black
+	//Adit Mehta
+	addCenterDual( &"CREDITS_MSSTORE_JORDAN_BLACK", &"CREDITS_MSSTORE_ADIT_MEHTA");
+
+	//Cormac Blackwell
+	//Tal Melamed
+	addCenterDual( &"CREDITS_MSSTORE_CORMAC_BLACKWELL", &"CREDITS_MSSTORE_TAL_MELAMED");
+
+	//Alex Blackwell
+	//Arthur Mencke
+	addCenterDual( &"CREDITS_MSSTORE_ALEX_BLACKWELL", &"CREDITS_MSSTORE_ARTHUR_MENCKE");
+
+	//Katarzyna (Kat) Boddy
+	//Enrique Mendoza
+	addCenterDual( &"CREDITS_MSSTORE_KATARZYNA_KAT_BODDY", &"CREDITS_MSSTORE_ENRIQUE_MENDOZA");
+
+	//Dustin Boersma
+	//Matt Mercer
+	addCenterDual( &"CREDITS_MSSTORE_DUSTIN_BOERSMA", &"CREDITS_MSSTORE_MATT_MERCER");
+
+	//Andrea Boonyarungsrit
+	//Carlo Messere
+	addCenterDual( &"CREDITS_MSSTORE_ANDREA_BOONYARUNGSRIT", &"CREDITS_MSSTORE_CARLO_MESSERE");
+
+	//Xander Botha
+	//Deives Michellis
+	addCenterDual( &"CREDITS_MSSTORE_XANDER_BOTHA", &"CREDITS_MSSTORE_DEIVES_MICHELLIS");
+
+	//Will Bowers
+	//Alex Miller
+	addCenterDual( &"CREDITS_MSSTORE_WILL_BOWERS", &"CREDITS_MSSTORE_ALEX_MILLER");
+
+	//Alex Boyd
+	//George Miller
+	addCenterDual( &"CREDITS_MSSTORE_ALEX_BOYD", &"CREDITS_MSSTORE_GEORGE_MILLER");
+
+	//Suzanne Boylan
+	//Kalah Mingo
+	addCenterDual( &"CREDITS_MSSTORE_SUZANNE_BOYLAN", &"CREDITS_MSSTORE_KALAH_MINGO");
+
+	//Morgan Brickley
+	//Andrew Mitchell
+	addCenterDual( &"CREDITS_MSSTORE_MORGAN_BRICKLEY", &"CREDITS_MSSTORE_ANDREW_MITCHELL");
+
+	//Dmitri Burakov
+	//Pranay Mithaigari
+	addCenterDual( &"CREDITS_MSSTORE_DMITRI_BURAKOV", &"CREDITS_MSSTORE_PRANAY_MITHAIGARI");
+
+	//Luke Burden
+	//Robin Mizreh
+	addCenterDual( &"CREDITS_MSSTORE_LUKE_BURDEN", &"CREDITS_MSSTORE_ROBIN_MIZREH");
+
+	//Mark Burmeister
+	//Yawar Mohammad Khan
+	addCenterDual( &"CREDITS_MSSTORE_MARK_BURMEISTER", &"CREDITS_MSSTORE_YAWAR_MOHAMMAD_KHAN");
+
+	//Kyle Burnette
+	//Derick Moncado
+	addCenterDual( &"CREDITS_MSSTORE_KYLE_BURNETTE", &"CREDITS_MSSTORE_DERICK_MONCADO");
+
+	//Gemma Butterly
+	//Jennifer Morehead
+	addCenterDual( &"CREDITS_MSSTORE_GEMMA_BUTTERLY", &"CREDITS_MSSTORE_JENNIFER_MOREHEAD");
+
+	//Will Cagney Murphy
+	//Jen Muller
+	addCenterDual( &"CREDITS_MSSTORE_WILL_CAGNEY_MURPHY", &"CREDITS_MSSTORE_JEN_MULLER");
+
+	//Grant Cahill
+	//David Munton
+	addCenterDual( &"CREDITS_MSSTORE_GRANT_CAHILL", &"CREDITS_MSSTORE_DAVID_MUNTON");
+
+	//Vinicius Caixeta dos Santos
+	//Visalakshi Murugappan
+	addCenterDual( &"CREDITS_MSSTORE_VINICIUS_CAIXETA_DOS_SANTOS", &"CREDITS_MSSTORE_VISALAKSHI_MURUGAPPAN");
+
+	//Josh Campbell
+	//James Nagel
+	addCenterDual( &"CREDITS_MSSTORE_JOSH_CAMPBELL", &"CREDITS_MSSTORE_JAMES_NAGEL");
+
+	//Daniel Casari
+	//Sivateja Nalluri
+	addCenterDual( &"CREDITS_MSSTORE_DANIEL_CASARI", &"CREDITS_MSSTORE_SIVATEJA_NALLURI");
+
+	//Neil Eldridge
+	//Dave Neary
+	addCenterDual( &"CREDITS_MSSTORE_NEIL_ELDRIDGE", &"CREDITS_MSSTORE_DAVE_NEARY");
+
+	//Luca Castoro
+	//Trung Nguyen
+	addCenterDual( &"CREDITS_MSSTORE_LUCA_CASTORO", &"CREDITS_MSSTORE_TRUNG_NGUYEN");
+
+	//Gabriele Cerami
+	//Darrin Nguyen
+	addCenterDual( &"CREDITS_MSSTORE_GABRIELE_CERAMI", &"CREDITS_MSSTORE_DARRIN_NGUYEN");
+
+	//Frederico Cerqueira Alves
+	//Chenyang Nie
+	addCenterDual( &"CREDITS_MSSTORE_FREDERICO_CERQUEIRA_ALVES", &"CREDITS_MSSTORE_CHENYANG_NIE");
+
+	//Pratik Chakravorty
+	//Vadzim Novikau
+	addCenterDual( &"CREDITS_MSSTORE_PRATIK_CHAKRAVORTY", &"CREDITS_MSSTORE_VADZIM_NOVIKAU");
+
+	//Henry Chan
+	//Shaunee OBrien
+	addCenterDual( &"CREDITS_MSSTORE_HENRY_CHAN", &"CREDITS_MSSTORE_SHAUNEE_OBRIEN");
+
+	//Karan Chaudhary
+	//John O'Donnell
+	addCenterDual( &"CREDITS_MSSTORE_KARAN_CHAUDHARY", &"CREDITS_MSSTORE_JOHN_ODONNELL");
+
+	//Liang Chen
+	//Cathal O'Halloran
+	addCenterDual( &"CREDITS_MSSTORE_LIANG_CHEN", &"CREDITS_MSSTORE_CATHAL_OHALLORAN");
+
+	//Mike Chi
+	//Stephen O'Neill
+	addCenterDual( &"CREDITS_MSSTORE_MIKE_CHI", &"CREDITS_MSSTORE_STEPHEN_ONEILL");
+
+	//Vito Francisco Chiarella
+	//Kevin O'Sullivan
+	addCenterDual( &"CREDITS_MSSTORE_VITO_FRANCISCO_CHIARELLA", &"CREDITS_MSSTORE_KEVIN_OSULLIVAN");
+
+	//Richard Chien
+	//Monica Mota Ocariz
+	addCenterDual( &"CREDITS_MSSTORE_RICHARD_CHIEN", &"CREDITS_MSSTORE_MONICA_MOTA_OCARIZ");
+
+	//Luca Chiossi
+	//Jacob Odulio
+	addCenterDual( &"CREDITS_MSSTORE_LUCA_CHIOSSI", &"CREDITS_MSSTORE_JACOB_ODULIO");
+
+	//Olivia Chung
+	//Rich Oh
+	addCenterDual( &"CREDITS_MSSTORE_OLIVIA_CHUNG", &"CREDITS_MSSTORE_RICH_OH");
+
+	//Amy Collins
+	//Hyeree Oh
+	addCenterDual( &"CREDITS_MSSTORE_AMY_COLLINS", &"CREDITS_MSSTORE_HYEREE_OH");
+
+	//Ivan Company Avi
+	//Ayokunle Onamusi
+	addCenterDual( &"CREDITS_MSSTORE_IVAN_COMPANY_AVI", &"CREDITS_MSSTORE_AYOKUNLE_ONAMUSI");
+
+	//Conor Conroy
+	//Curtis Onuczko
+	addCenterDual( &"CREDITS_MSSTORE_CONOR_CONROY", &"CREDITS_MSSTORE_CURTIS_ONUCZKO");
+
+	//Sean Cortes
+	//Gilberto Ortiz
+	addCenterDual( &"CREDITS_MSSTORE_SEAN_CORTES", &"CREDITS_MSSTORE_GILBERTO_ORTIZ");
+
+	//Etienne Cournoyer
+	//Andrei Pampukha
+	addCenterDual( &"CREDITS_MSSTORE_ETIENNE_COURNOYER", &"CREDITS_MSSTORE_ANDREI_PAMPUKHA");
+
+	//Keith Crosby
+	//Pritish Panda
+	addCenterDual( &"CREDITS_MSSTORE_KEITH_CROSBY", &"CREDITS_MSSTORE_PRITISH_PANDA");
+
+	//Colin Cyr
+	//Gabor Pardi-Kis
+	addCenterDual( &"CREDITS_MSSTORE_COLIN_CYR", &"CREDITS_MSSTORE_GABOR_PARDIKIS");
+
+	//Rebecca Czaicka
+	//Tirth Patel
+	addCenterDual( &"CREDITS_MSSTORE_REBECCA_CZAICKA", &"CREDITS_MSSTORE_TIRTH_PATEL");
+
+	//Tim Czerniak
+	//Julilla Paul
+	addCenterDual( &"CREDITS_MSSTORE_TIM_CZERNIAK", &"CREDITS_MSSTORE_JULILLA_PAUL");
+
+	//Darius Darida
+	//Adam Penner
+	addCenterDual( &"CREDITS_MSSTORE_DARIUS_DARIDA", &"CREDITS_MSSTORE_ADAM_PENNER");
+
+	//Kris Davidsohn
+	//Amy Perdiew
+	addCenterDual( &"CREDITS_MSSTORE_KRIS_DAVIDSOHN", &"CREDITS_MSSTORE_AMY_PERDIEW");
+
+	//James Davidson
+	//Dan Pereira
+	addCenterDual( &"CREDITS_MSSTORE_JAMES_DAVIDSON", &"CREDITS_MSSTORE_DAN_PEREIRA");
+
+	//Mauro de Carvalho
+	//Jithin P
+	addCenterDual( &"CREDITS_MSSTORE_MAURO_DE_CARVALHO", &"CREDITS_MSSTORE_JITHIN_P");
+
+	//Emily DeLisle
+	//Julio Cesar Pescuite Goncalves Batista
+	addCenterDual( &"CREDITS_MSSTORE_EMILY_DELISLE", &"CREDITS_MSSTORE_JULIO_CESAR_PESCUITE_GONCALVES");
+
+	//Thayer Dennison
+	//Andy Phillips
+	addCenterDual( &"CREDITS_MSSTORE_THAYER_DENNISON", &"CREDITS_MSSTORE_ANDY_PHILLIPS");
+
+	//Hamad Deshmukh
+	//Byron Pile
+	addCenterDual( &"CREDITS_MSSTORE_HAMAD_DESHMUKH", &"CREDITS_MSSTORE_BYRON_PILE");
+
+	//Avery Devlin
+	//Clark Polo
+	addCenterDual( &"CREDITS_MSSTORE_AVERY_DEVLIN", &"CREDITS_MSSTORE_CLARK_POLO");
+
+	//Esteban Diaz
+	//Ery Polovina
+	addCenterDual( &"CREDITS_MSSTORE_ESTEBAN_DIAZ", &"CREDITS_MSSTORE_ERY_POLOVINA");
+
+	//Julian Ding
+	//Owen Poon
+	addCenterDual( &"CREDITS_MSSTORE_JULIAN_DING", &"CREDITS_MSSTORE_OWEN_POON");
+
+	//Andre Campos
+	//Glen Powley
+	addCenterDual( &"CREDITS_MSSTORE_ANDRE_CAMPOS", &"CREDITS_MSSTORE_GLEN_POWLEY");
+
+	//Juan Domenech Fernandez
+	//Rashmi Prasad
+	addCenterDual( &"CREDITS_MSSTORE_JUAN_DOMENECH_FERNANDEZ", &"CREDITS_MSSTORE_RASHMI_PRASAD");
+
+	//Dylan Dowling
+	//Neil Prasad
+	addCenterDual( &"CREDITS_MSSTORE_DYLAN_DOWLING", &"CREDITS_MSSTORE_NEIL_PRASAD");
+
+	//Malcolm Dowse
+	//Dara Price
+	addCenterDual( &"CREDITS_MSSTORE_MALCOLM_DOWSE", &"CREDITS_MSSTORE_DARA_PRICE");
+
+	//Martynas Drazdziulis
+	//Yifei Qu
+	addCenterDual( &"CREDITS_MSSTORE_MARTYNAS_DRAZDZIULIS", &"CREDITS_MSSTORE_YIFEI_QU");
+
+	//Tom Dryer
+	//Gary Quan
+	addCenterDual( &"CREDITS_MSSTORE_TOM_DRYER", &"CREDITS_MSSTORE_GARY_QUAN");
+
+	//Mitch Duffield
+	//Kenneth Quibuyen
+	addCenterDual( &"CREDITS_MSSTORE_MITCH_DUFFIELD", &"CREDITS_MSSTORE_KENNETH_QUIBUYEN");
+
+	//J.R. Dunn
+	//Attheera Rachkeeree
+	addCenterDual( &"CREDITS_MSSTORE_JR_DUNN", &"CREDITS_MSSTORE_ATTHEERA_RACHKEEREE");
+
+	//Steven Eareast
+	//Sindhoora Rangineni
+	addCenterDual( &"CREDITS_MSSTORE_STEVEN_EAREAST", &"CREDITS_MSSTORE_SINDHOORA_RANGINENI");
+
+	//Terrence Earle
+	//Rajeev Ranjan
+	addCenterDual( &"CREDITS_MSSTORE_TERRENCE_EARLE", &"CREDITS_MSSTORE_RAJEEV_RANJAN");
+
+	//Mike Edwards
+	//Pariya Raoufi
+	addCenterDual( &"CREDITS_MSSTORE_MIKE_EDWARDS", &"CREDITS_MSSTORE_PARIYA_RAOUFI");
+
+	//Stanislava Egorova
+	//Froilan Regueiro Noguera
+	addCenterDual( &"CREDITS_MSSTORE_STANISLAVA_EGOROVA", &"CREDITS_MSSTORE_FROILAN_REGUEIRO_NOGUERA");
+
+	//Edwin Elisia
+	//Andrew Reiser
+	addCenterDual( &"CREDITS_MSSTORE_EDWIN_ELISIA", &"CREDITS_MSSTORE_ANDREW_REISER");
+
+	//Robin Ellsworth
+	//Tom Remoleur
+	addCenterDual( &"CREDITS_MSSTORE_ROBIN_ELLSWORTH", &"CREDITS_MSSTORE_TOM_REMOLEUR");
+
+	//Farzin Faghihi
+	//Maksym Reva
+	addCenterDual( &"CREDITS_MSSTORE_FARZIN_FAGHIHI", &"CREDITS_MSSTORE_MAKSYM_REVA");
+
+	//Shawn Feeney
+	//Gabe Reyes
+	addCenterDual( &"CREDITS_MSSTORE_SHAWN_FEENEY", &"CREDITS_MSSTORE_GABE_REYES");
+
+	//Kevin Fei
+	//Eric Ripa
+	addCenterDual( &"CREDITS_MSSTORE_KEVIN_FEI", &"CREDITS_MSSTORE_ERIC_RIPA");
+
+	//Julie Ferguson
+	//Stephen Roantree
+	addCenterDual( &"CREDITS_MSSTORE_JULIE_FERGUSON", &"CREDITS_MSSTORE_STEPHEN_ROANTREE");
+
+	//Brendan Fields
+	//Julian Rocha
+	addCenterDual( &"CREDITS_MSSTORE_BRENDAN_FIELDS", &"CREDITS_MSSTORE_JULIAN_ROCHA");
+
+	//Patrick Filion
+	//Seamus Rooney
+	addCenterDual( &"CREDITS_MSSTORE_PATRICK_FILION", &"CREDITS_MSSTORE_SEAMUS_ROONEY");
+
+	//Sergei Fomin
+	//Roman Rose
+	addCenterDual( &"CREDITS_MSSTORE_SERGEI_FOMIN", &"CREDITS_MSSTORE_ROMAN_ROSE");
+
+	//Steven Foster
+	//Tanner Roundy
+	addCenterDual( &"CREDITS_MSSTORE_STEVEN_FOSTER", &"CREDITS_MSSTORE_TANNER_ROUNDY");
+
+	//Eric Frank
+	//Andrew Rowe
+	addCenterDual( &"CREDITS_MSSTORE_ERIC_FRANK", &"CREDITS_MSSTORE_ANDREW_ROWE");
+
+	//Steve Fraser
+	//David Rux
+	addCenterDual( &"CREDITS_MSSTORE_STEVE_FRASER", &"CREDITS_MSSTORE_DAVID_RUX");
+
+	//Kurt Gabrick
+	//David Ryan
+	addCenterDual( &"CREDITS_MSSTORE_KURT_GABRICK", &"CREDITS_MSSTORE_DAVID_RYAN");
+
+	//Michael Gale
+	//Jaskaren Saini
+	addCenterDual( &"CREDITS_MSSTORE_MICHAEL_GALE", &"CREDITS_MSSTORE_JASKAREN_SAINI");
+
+	//Rob Gallagher
+	//Luca Salfi
+	addCenterDual( &"CREDITS_MSSTORE_ROB_GALLAGHER", &"CREDITS_MSSTORE_LUCA_SALFI");
+
+	//Samson Gama
+	//Vinita Samnani
+	addCenterDual( &"CREDITS_MSSTORE_SAMSON_GAMA", &"CREDITS_MSSTORE_VINITA_SAMNANI");
+
+	//Vidhi Gandhi
+	//Art Santos
+	addCenterDual( &"CREDITS_MSSTORE_VIDHI_GANDHI", &"CREDITS_MSSTORE_ART_SANTOS");
+
+	//Omi Gao
+	//Angela D Scott
+	addCenterDual( &"CREDITS_MSSTORE_OMI_GAO", &"CREDITS_MSSTORE_ANGELA_D_SCOTT");
+
+	//Michael Geary
+	//Kameshwara Sekar
+	addCenterDual( &"CREDITS_MSSTORE_MICHAEL_GEARY", &"CREDITS_MSSTORE_KAMESHWARA_SEKAR");
+
+	//Taylor Geery
+	//Sanyami Shah
+	addCenterDual( &"CREDITS_MSSTORE_TAYLOR_GEERY", &"CREDITS_MSSTORE_SANYAMI_SHAH");
+
+	//Ayush Ghai
+	//Kushal Shah
+	addCenterDual( &"CREDITS_MSSTORE_AYUSH_GHAI", &"CREDITS_MSSTORE_KUSHAL_SHAH");
+
+	//Maarten Goldstein
+	//Jason Shao
+	addCenterDual( &"CREDITS_MSSTORE_MAARTEN_GOLDSTEIN", &"CREDITS_MSSTORE_JASON_SHAO");
+
+	//Daria Golubova
+	//Hessamoddin Sharifpour
+	addCenterDual( &"CREDITS_MSSTORE_DARIA_GOLUBOVA", &"CREDITS_MSSTORE_HESSAMODDIN_SHARIFPOUR");
+
+	//Luis Gomez
+	//Aaron Sharkey
+	addCenterDual( &"CREDITS_MSSTORE_LUIS_GOMEZ", &"CREDITS_MSSTORE_AARON_SHARKEY");
+
+	//David Grant
+	//Matthew Shaw
+	addCenterDual( &"CREDITS_MSSTORE_DAVID_GRANT", &"CREDITS_MSSTORE_MATTHEW_SHAW");
+
+	//Jeff Greene
+	//Pavel Shchurov
+	addCenterDual( &"CREDITS_MSSTORE_JEFF_GREENE", &"CREDITS_MSSTORE_PAVEL_SHCHUROV");
+
+	//Bjorn Gronesjo
+	//Rob Sherman
+	addCenterDual( &"CREDITS_MSSTORE_BJORN_GRONESJO", &"CREDITS_MSSTORE_ROB_SHERMAN");
+
+	//Stephen Guan
+	//Jordan Siaw
+	addCenterDual( &"CREDITS_MSSTORE_STEPHEN_GUAN", &"CREDITS_MSSTORE_JORDAN_SIAW");
+
+	//Manek Gujral
+	//Jeff Siegel
+	addCenterDual( &"CREDITS_MSSTORE_MANEK_GUJRAL", &"CREDITS_MSSTORE_JEFF_SIEGEL");
+
+	//Artur Gukasian
+	//Frances Sin
+	addCenterDual( &"CREDITS_MSSTORE_ARTUR_GUKASIAN", &"CREDITS_MSSTORE_FRANCES_SIN");
+
+	//Alex Guo
+	//Chaudhary Guroosh Singh
+	addCenterDual( &"CREDITS_MSSTORE_ALEX_GUO", &"CREDITS_MSSTORE_CHAUDHARY_GUROOSH_SINGH");
+
+	//Varun Gupta
+	//Hugo Slabbert
+	addCenterDual( &"CREDITS_MSSTORE_VARUN_GUPTA", &"CREDITS_MSSTORE_HUGO_SLABBERT");
+
+	//James Hall
+	//Marek Slabicki
+	addCenterDual( &"CREDITS_MSSTORE_JAMES_HALL", &"CREDITS_MSSTORE_MAREK_SLABICKI");
+
+	//Alan Hall
+	//Cormac Smartt
+	addCenterDual( &"CREDITS_MSSTORE_ALAN_HALL", &"CREDITS_MSSTORE_CORMAC_SMARTT");
+
+	//Marcus Hall
+	//Greg Smith
+	addCenterDual( &"CREDITS_MSSTORE_MARCUS_HALL", &"CREDITS_MSSTORE_GREG_SMITH");
+
+	//Josh Hall
+	//Adham Sorour
+	addCenterDual( &"CREDITS_MSSTORE_JOSH_HALL", &"CREDITS_MSSTORE_ADHAM_SOROUR");
+
+	//Padraic Hallinan
+	//Alexis Braga Sotto Maior
+	addCenterDual( &"CREDITS_MSSTORE_PADRAIC_HALLINAN", &"CREDITS_MSSTORE_ALEXIS_BRAGA_SOTTO_MAIOR");
+
+	//Jack Halpin
+	//Flavie Soudant
+	addCenterDual( &"CREDITS_MSSTORE_JACK_HALPIN", &"CREDITS_MSSTORE_FLAVIE_SOUDANT");
+
+	//John Hamill
+	//Roland-Ovidiu Stefani
+	addCenterDual( &"CREDITS_MSSTORE_JOHN_HAMILL", &"CREDITS_MSSTORE_ROLANDOVIDIU_STEFANI");
+
+	//Dermot Hanley
+	//Nive Subas
+	addCenterDual( &"CREDITS_MSSTORE_DERMOT_HANLEY", &"CREDITS_MSSTORE_NIVE_SUBAS");
+
+	//Luke Hansen
+	//Jiawei Sun
+	addCenterDual( &"CREDITS_MSSTORE_LUKE_HANSEN", &"CREDITS_MSSTORE_JIAWEI_SUN");
+
+	//Ida Hashemi
+	//Matthew Taggart
+	addCenterDual( &"CREDITS_MSSTORE_IDA_HASHEMI", &"CREDITS_MSSTORE_MATTHEW_TAGGART");
+
+	//Bowen He
+	//Christopher Tan
+	addCenterDual( &"CREDITS_MSSTORE_BOWEN_HE", &"CREDITS_MSSTORE_CHRISTOPHER_TAN");
+
+	//Cheryl Hepas
+	//Steve Thiakos
+	addCenterDual( &"CREDITS_MSSTORE_CHERYL_HEPAS", &"CREDITS_MSSTORE_STEVE_THIAKOS");
+
+	//Rory Higgins
+	//Keenan Tims
+	addCenterDual( &"CREDITS_MSSTORE_RORY_HIGGINS", &"CREDITS_MSSTORE_KEENAN_TIMS");
+
+	//Paul Hoefgen
+	//Vlad Titov
+	addCenterDual( &"CREDITS_MSSTORE_PAUL_HOEFGEN", &"CREDITS_MSSTORE_VLAD_TITOV");
+
+	//Thomas Holland
+	//Michael Tom-Wing
+	addCenterDual( &"CREDITS_MSSTORE_THOMAS_HOLLAND", &"CREDITS_MSSTORE_MICHAEL_TOMWING");
+
+	//Luke Hollinda
+	//Mark Tong
+	addCenterDual( &"CREDITS_MSSTORE_LUKE_HOLLINDA", &"CREDITS_MSSTORE_MARK_TONG");
+
+	//Nick Hopewell
+	//Carlos Torres
+	addCenterDual( &"CREDITS_MSSTORE_NICK_HOPEWELL", &"CREDITS_MSSTORE_CARLOS_TORRES");
+
+	//Mykola Hrebenyuk
+	//Camy Tran
+	addCenterDual( &"CREDITS_MSSTORE_MYKOLA_HREBENYUK", &"CREDITS_MSSTORE_CAMY_TRAN");
+
+	//Yiming Huang
+	//Stella Tran
+	addCenterDual( &"CREDITS_MSSTORE_YIMING_HUANG", &"CREDITS_MSSTORE_STELLA_TRAN");
+
+	//Karlo Hurtado
+	//Mike Trienis
+	addCenterDual( &"CREDITS_MSSTORE_KARLO_HURTADO", &"CREDITS_MSSTORE_MIKE_TRIENIS");
+
+	//Abe Hwang
+	//An-Chih Tsai
+	addCenterDual( &"CREDITS_MSSTORE_ABE_HWANG", &"CREDITS_MSSTORE_ANCHIH_TSAI");
+
+	//Albert Hynek
+	//Tim Tschirner
+	addCenterDual( &"CREDITS_MSSTORE_ALBERT_HYNEK", &"CREDITS_MSSTORE_TIM_TSCHIRNER");
+
+	//Adam Hynek
+	//Oleksandr Tymchyshyn
+	addCenterDual( &"CREDITS_MSSTORE_ADAM_HYNEK", &"CREDITS_MSSTORE_OLEKSANDR_TYMCHYSHYN");
+
+	//Omar Ishkintana
+	//Rashid Umar
+	addCenterDual( &"CREDITS_MSSTORE_OMAR_ISHKINTANA", &"CREDITS_MSSTORE_RASHID_UMAR");
+
+	//Ashrey Jairath
+	//Mithun Krishnan Umesan
+	addCenterDual( &"CREDITS_MSSTORE_ASHREY_JAIRATH", &"CREDITS_MSSTORE_MITHUN_KRISHNAN_UMESAN");
+
+	//Ebby Jeyapaul
+	//Ravi Vadlamudi
+	addCenterDual( &"CREDITS_MSSTORE_EBBY_JEYAPAUL", &"CREDITS_MSSTORE_RAVI_VADLAMUDI");
+
+	//Will Ji
+	//Ali Vakilzade
+	addCenterDual( &"CREDITS_MSSTORE_WILL_JI", &"CREDITS_MSSTORE_ALI_VAKILZADE");
+
+	//Fan Jia
+	//Vikrant Vikrant
+	addCenterDual( &"CREDITS_MSSTORE_FAN_JIA", &"CREDITS_MSSTORE_VIKRANT_VIKRANT");
+
+	//Roy Jiang
+	//David Villatoro
+	addCenterDual( &"CREDITS_MSSTORE_ROY_JIANG", &"CREDITS_MSSTORE_DAVID_VILLATORO");
+
+	//Jean-Philippe Jodoin
+	//Max Vizard
+	addCenterDual( &"CREDITS_MSSTORE_JEANPHILIPPE_JODOIN", &"CREDITS_MSSTORE_MAX_VIZARD");
+
+	//Nick Johnson
+	//Francis Wan
+	addCenterDual( &"CREDITS_MSSTORE_NICK_JOHNSON", &"CREDITS_MSSTORE_FRANCIS_WAN");
+
+	//Jagadish Kagitala
+	//Jun Wang
+	addCenterDual( &"CREDITS_MSSTORE_JAGADISH_KAGITALA", &"CREDITS_MSSTORE_JUN_WANG");
+
+	//Animesh Kanabar
+	//Yuke Wang
+	addCenterDual( &"CREDITS_MSSTORE_ANIMESH_KANABAR", &"CREDITS_MSSTORE_YUKE_WANG");
+
+	//Samir Karki
+	//Angela Wang
+	addCenterDual( &"CREDITS_MSSTORE_SAMIR_KARKI", &"CREDITS_MSSTORE_ANGELA_WANG");
+
+	//Shadae Kawaguchi
+	//Eden Wang
+	addCenterDual( &"CREDITS_MSSTORE_SHADAE_KAWAGUCHI", &"CREDITS_MSSTORE_EDEN_WANG");
+
+	//Romin Kayani
+	//Jason Wei
+	addCenterDual( &"CREDITS_MSSTORE_ROMIN_KAYANI", &"CREDITS_MSSTORE_JASON_WEI");
+
+	//Valery Kayukov
+	//William Wei
+	addCenterDual( &"CREDITS_MSSTORE_VALERY_KAYUKOV", &"CREDITS_MSSTORE_WILLIAM_WEI");
+
+	//Anastasia Kim
+	//Jacob Wessa
+	addCenterDual( &"CREDITS_MSSTORE_ANASTASIA_KIM", &"CREDITS_MSSTORE_JACOB_WESSA");
+
+	//Chris Kimberley
+	//Mike Whitty
+	addCenterDual( &"CREDITS_MSSTORE_CHRIS_KIMBERLEY", &"CREDITS_MSSTORE_MIKE_WHITTY");
+
+	//Karolina Kluska
+	//Patrik Wihlke
+	addCenterDual( &"CREDITS_MSSTORE_KAROLINA_KLUSKA", &"CREDITS_MSSTORE_PATRIK_WIHLKE");
+
+	//Chris Knee
+	//Josh Williams
+	addCenterDual( &"CREDITS_MSSTORE_CHRIS_KNEE", &"CREDITS_MSSTORE_JOSH_WILLIAMS");
+
+	//Casey Knutson
+	//Clint Willmore
+	addCenterDual( &"CREDITS_MSSTORE_CASEY_KNUTSON", &"CREDITS_MSSTORE_CLINT_WILLMORE");
+
+	//Vijendar Komalla
+	//Cara Wills
+	addCenterDual( &"CREDITS_MSSTORE_VIJENDAR_KOMALLA", &"CREDITS_MSSTORE_CARA_WILLS");
+
+	//Yurii Konovaliuk
+	//Nic Wolf
+	addCenterDual( &"CREDITS_MSSTORE_YURII_KONOVALIUK", &"CREDITS_MSSTORE_NIC_WOLF");
+
+	//Vincent Koo
+	//Sean Wu
+	addCenterDual( &"CREDITS_MSSTORE_VINCENT_KOO", &"CREDITS_MSSTORE_SEAN_WU");
+
+	//Dustin Koupal
+	//Ruiyuan Xia
+	addCenterDual( &"CREDITS_MSSTORE_DUSTIN_KOUPAL", &"CREDITS_MSSTORE_RUIYUAN_XIA");
+
+	//Vlad Kovacik
+	//Jeffery Xiao
+	addCenterDual( &"CREDITS_MSSTORE_VLAD_KOVACIK", &"CREDITS_MSSTORE_JEFFERY_XIAO");
+
+	//Ivan Kovalkovskyi
+	//Jake Xu
+	addCenterDual( &"CREDITS_MSSTORE_IVAN_KOVALKOVSKYI", &"CREDITS_MSSTORE_JAKE_XU");
+
+	//Yevhen Kovtun
+	//Woody Yang
+	addCenterDual( &"CREDITS_MSSTORE_YEVHEN_KOVTUN", &"CREDITS_MSSTORE_WOODY_YANG");
+
+	//Harsha Krishne Gowda
+	//Steven Yang
+	addCenterDual( &"CREDITS_MSSTORE_HARSHA_KRISHNE_GOWDA", &"CREDITS_MSSTORE_STEVEN_YANG");
+
+	//Kendra Krzywicki
+	//Iris Yao
+	addCenterDual( &"CREDITS_MSSTORE_KENDRA_KRZYWICKI", &"CREDITS_MSSTORE_IRIS_YAO");
+
+	//Omkar Kulkarni
+	//Otto Yiu
+	addCenterDual( &"CREDITS_MSSTORE_OMKAR_KULKARNI", &"CREDITS_MSSTORE_OTTO_YIU");
+
+	//Joseph Kulnis
+	//Jason You
+	addCenterDual( &"CREDITS_MSSTORE_JOSEPH_KULNIS", &"CREDITS_MSSTORE_JASON_YOU");
+
+	//Allan Kumka
+	//Andrew Yu
+	addCenterDual( &"CREDITS_MSSTORE_ALLAN_KUMKA", &"CREDITS_MSSTORE_ANDREW_YU");
+
+	//Maksym Kuts
+	//Sky Yuan
+	addCenterDual( &"CREDITS_MSSTORE_MAKSYM_KUTS", &"CREDITS_MSSTORE_SKY_YUAN");
+
+	//Jesse Labate
+	//Andrew Yuen
+	addCenterDual( &"CREDITS_MSSTORE_JESSE_LABATE", &"CREDITS_MSSTORE_ANDREW_YUEN");
+
+	//Aidan Lambe
+	//Reza Zarebidaky
+	addCenterDual( &"CREDITS_MSSTORE_AIDAN_LAMBE", &"CREDITS_MSSTORE_REZA_ZAREBIDAKY");
+
+	//David Landau
+	//Allen Zhang
+	addCenterDual( &"CREDITS_MSSTORE_DAVID_LANDAU", &"CREDITS_MSSTORE_ALLEN_ZHANG");
+
+	//Klaudia Landicho
+	//Yi Zhang
+	addCenterDual( &"CREDITS_MSSTORE_KLAUDIA_LANDICHO", &"CREDITS_MSSTORE_YI_ZHANG");
+
+	//Ian Laue
+	//Pete Zhang
+	addCenterDual( &"CREDITS_MSSTORE_IAN_LAUE", &"CREDITS_MSSTORE_PETE_ZHANG");
+
+	//Alan Lavery
+	//Chuan Zhang
+	addCenterDual( &"CREDITS_MSSTORE_ALAN_LAVERY", &"CREDITS_MSSTORE_CHUAN_ZHANG");
+
+	//Jasmine Lea
+	//Minchang Zhang
+	addCenterDual( &"CREDITS_MSSTORE_JASMINE_LEA", &"CREDITS_MSSTORE_MINCHANG_ZHANG");
+
+	//Imre Leen
+	//Jessica Zhao
+	addCenterDual( &"CREDITS_MSSTORE_IMRE_LEEN", &"CREDITS_MSSTORE_JESSICA_ZHAO");
+
+	//Karina Lei
+	//Yicong Zhou
+	addCenterDual( &"CREDITS_MSSTORE_KARINA_LEI", &"CREDITS_MSSTORE_YICONG_ZHOU");
+
+	//Jason Lei
+	//Xinqi Zhu
+	addCenterDual( &"CREDITS_MSSTORE_JASON_LEI", &"CREDITS_MSSTORE_XINQI_ZHU");
+
+	addSpaceSmall();
+	addSpaceSmall();
+}
+
+initOutrunCredits()
+{
+	//The Multiplayer Group
+	addCenterHeading( &"CREDITS_OTRN_MPG_COMP" );
+	addSpaceSmall();
+
+	//2024 PC Team
+	addCenterHeading( &"CREDITS_OTRN_MPG_PROJ" );
+	addSpaceSmall();
+	addSpaceSmall();
+
+	//MPG_ALEKSANDAR_DIMITRIJEVIC
+	//MPG_IAN_SWEENY
+	addCenterDual( &"CREDITS_OTRN_MPG_ALEKSANDAR_DIMITRIJEVIC", &"CREDITS_OTRN_MPG_IAN_SWEENY");
+
+	//MPG_ALFONSO_MIRAGLIES
+	//MPG_IULIAN_COSTACHE
+	addCenterDual( &"CREDITS_OTRN_MPG_ALFONSO_MIRAGLIES", &"CREDITS_OTRN_MPG_IULIAN_COSTACHE");
+
+	//MPG_ANDREW_COPLAND
+	//MPG_JAMES_REYNOLDS
+	addCenterDual( &"CREDITS_OTRN_MPG_ANDREW_COPLAND", &"CREDITS_OTRN_MPG_JAMES_REYNOLDS");
+
+	//MPG_ANDY_ALLEN
+	//MPG_JIRI_BOLDYS
+	addCenterDual( &"CREDITS_OTRN_MPG_ANDY_ALLEN", &"CREDITS_OTRN_MPG_JIRI_BOLDYS");
+
+	//MPG_ANTONY_SCARPINATA
+	//MPG_JON_EDGAR
+	addCenterDual( &"CREDITS_OTRN_MPG_ANTONY_SCARPINATA", &"CREDITS_OTRN_MPG_JON_EDGAR");
+
+	//MPG_BALAZS_HITKA
+	//MPG_JOSH_OGILVIE
+	addCenterDual( &"CREDITS_OTRN_MPG_BALAZS_HITKA", &"CREDITS_OTRN_MPG_JOSH_OGILVIE");
+
+	//MPG_BEAU_NORMAN
+	//MPG_KARADJORDJE_PETROVIC
+	addCenterDual( &"CREDITS_OTRN_MPG_BEAU_NORMAN", &"CREDITS_OTRN_MPG_KARADJORDJE_PETROVIC");
+
+	//MPG_BOGDAN_CATALIN_MARCU
+	//MPG_KRISTEN_KEATING
+	addCenterDual( &"CREDITS_OTRN_MPG_BOGDAN_CATALIN_MARCU", &"CREDITS_OTRN_MPG_KRISTEN_KEATING");
+
+	//MPG_BRANDON_PHILLIPS
+	//MPG_MARK_FITT
+	addCenterDual( &"CREDITS_OTRN_MPG_BRANDON_PHILLIPS", &"CREDITS_OTRN_MPG_MARK_FITT");
+
+	//MPG_CARLO_MONGIELLO
+	//MPG_MARK_WYNN_GARCIA
+	addCenterDual( &"CREDITS_OTRN_MPG_CARLO_MONGIELLO", &"CREDITS_OTRN_MPG_MARK_WYNN_GARCIA");
+
+	//MPG_CHRIS_KIRBY
+	//MPG_MIGUEL_ALONSO_REQUENA
+	addCenterDual( &"CREDITS_OTRN_MPG_CHRIS_KIRBY", &"CREDITS_OTRN_MPG_MIGUEL_ALONSO_REQUENA");
+
+	//MPG_CIPRIAN_APRODU
+	//MPG_MOLLY_SCUTT
+	addCenterDual( &"CREDITS_OTRN_MPG_CIPRIAN_APRODU", &"CREDITS_OTRN_MPG_MOLLY_SCUTT");
+
+	//MPG_DANIEL_HART
+	//MPG_PETER_SZABO
+	addCenterDual( &"CREDITS_OTRN_MPG_DANIEL_HART", &"CREDITS_OTRN_MPG_PETER_SZABO");
+
+	//MPG_DANNY_MCKEOWN
+	//MPG_RAFAEL_HAGEN_HORBACH
+	addCenterDual( &"CREDITS_OTRN_MPG_DANNY_MCKEOWN", &"CREDITS_OTRN_MPG_RAFAEL_HAGEN_HORBACH");
+
+	//MPG_DARIUSZ_KROK
+	//MPG_ROCCO_LOSCALZO
+	addCenterDual( &"CREDITS_OTRN_MPG_DARIUSZ_KROK", &"CREDITS_OTRN_MPG_ROCCO_LOSCALZO");
+
+	//MPG_DARREN_FERRIE
+	//MPG_ROGER_CHEUNG
+	addCenterDual( &"CREDITS_OTRN_MPG_DARREN_FERRIE", &"CREDITS_OTRN_MPG_ROGER_CHEUNG");
+
+	//MPG_DERMOT_GALLAGHER
+	//MPG_SILVANA_BANEGAS
+	addCenterDual( &"CREDITS_OTRN_MPG_DERMOT_GALLAGHER", &"CREDITS_OTRN_MPG_SILVANA_BANEGAS");
+
+	//MPG_GAR_JUN_LAM
+	//MPG_TAMAS_CSEFALVAY
+	addCenterDual( &"CREDITS_OTRN_MPG_GAR_JUN_LAM", &"CREDITS_OTRN_MPG_TAMAS_CSEFALVAY");
+
+	//MPG_IAN_REYNOLDS
+	//MPG_ZACHARY_MARKHAM
+	addCenterDual( &"CREDITS_OTRN_MPG_IAN_REYNOLDS", &"CREDITS_OTRN_MPG_ZACHARY_MARKHAM");
+
+	addSpaceSmall();
+	addSpaceSmall();
 }

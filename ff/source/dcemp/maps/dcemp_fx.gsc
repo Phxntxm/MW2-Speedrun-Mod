@@ -108,9 +108,6 @@ main()
 	level._effect[ "rain_splash_lite_runner_40x600" ]			= loadfx( "weather/rain_splash_lite_runner_40x600" );
 	level._effect[ "rain_noise_ud" ]				 			= loadfx( "weather/rain_noise_ud" );
 	level._effect[ "rain_noise_ud_runner_0x400" ]				= loadfx( "weather/rain_noise_ud_runner_0x400" );
-	
-	
-	
 	level._effect[ "rain_splash_lite_8x64" ]					= loadfx( "weather/rain_splash_lite_8x64" );
 	level._effect[ "rain_splash_lite_8x128" ]					= loadfx( "weather/rain_splash_lite_8x128" );
 	level._effect[ "rain_splash_lite_64x64" ]					= loadfx( "weather/rain_splash_lite_64x64" );

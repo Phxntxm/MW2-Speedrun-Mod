@@ -1706,8 +1706,6 @@ forest_enemy_groundlevel_magicsnipe_cleanup()
 	self kill();
 }
 
-
-
 house_guestroom_breach_flee()
 {
 	//Guys in the guestroom try to escape
@@ -3685,7 +3683,6 @@ strike_package_bighelidrop_dialogue()
 	
 	//Roger that, 15 seconds!
 	radio_dialogue( "est_gst_15seconds" );
-
 	
 	flag_clear( "strike_package_bighelidrop_dialogue" );
 }
@@ -5996,8 +5993,6 @@ abandonment_failure()
 	//There's too many of them in here! Roach!!! We've lost the DSM, I repeat we've lost-(static hiss)		
 	//radio_dialogue( "est_gst_lostthedsm" );
 }
-	
-
 
 smokescreen( smokepotName )
 {

@@ -302,12 +302,6 @@ roadkill_intro_common()
 
 	array_spawn_targetname( "foley_spawner" );
 
-	if ( is_default_start() )
-	{
-		//array_spawn_noteworthy( "shepherd_spawner" );
-		//thread roadkill_foley_shepherd_intro();
-	}
-
 
 	disable_all_vehicle_mgs();
 
@@ -357,15 +351,12 @@ start_riverbank()
 	
 	if ( getdvarint( "newintro" ) )
 	{
-		//level.player ShellShock( "default", 5.8 );
-		//level.player disableweapons();
 
 		black_overlay = create_client_overlay( "black", 0, level.player );
 		black_overlay.alpha = 1;
 		wait( 1 );
 		black_overlay FadeOverTime( 2 );
 		black_overlay.alpha = 0;		
-		//level waittill ( "get_on_the_line" );
 		level.player enableweapons();
 		level.player SetOrigin( ( -1459, -4345, -80 ) );
 	}	

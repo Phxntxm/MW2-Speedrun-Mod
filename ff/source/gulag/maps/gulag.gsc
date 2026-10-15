@@ -323,7 +323,6 @@ main()
 	level.ending_flee_max = 0;
 
 
-
 	level.slamraam_missile = "slamraam_missile_guided";
 
 	thread gulag_objectives();
@@ -478,13 +477,9 @@ gulag_flyin()
 	wait( 21 );
 
 	thread radio_dialogue( "gulag_fp2_goodkill" );
-
 	thread radio_dialogue( "gulag_fp1_niceday" );
-	
 	thread radio_dialogue( "gulag_lbp1_copies" );
-	
 	thread radio_dialogue( "gulag_lbp2_copiesall" );
-	
 	thread radio_dialogue( "gulag_lbp3_solidcopy" );
 }
 
@@ -1150,11 +1145,7 @@ gulag_cellblocks()
 
 	flag_wait( "player_nears_cell_door1" );
 
-
-
-	delayThread( 1.5, ::flag_set, "spotlight_turns_on" );	
-
-	
+	delayThread( 1.5, ::flag_set, "spotlight_turns_on" );
 
 
 	battlechatter_on( "allies" );
@@ -1164,26 +1155,16 @@ gulag_cellblocks()
 
 	thread insure_player_has_enemies_to_fight_for_door_sequence();
 
-
-
 	activate_trigger_with_targetname( "mid_door_opens" );
 
-
-
-	
 
 
 	flag_wait( "player_nears_cell_door4" );
 
 
-	
-
 	thread enemies_retreat_and_delete();
 
-
-
 	activate_trigger_with_targetname( "pre_armory" );// note targetname
-	
 
 	flag_set( "pre_armory_open" );
 	activate_trigger_with_noteworthy( "pre_armory" );// note, noteworthy
@@ -1255,9 +1236,9 @@ gulag_armory()
 	wait( 1 );
 	level.soap thread dialogue_queue( "gulag_cmt_hearcoming" );
 	delaythread( 0.9, ::activate_trigger_with_targetname, "stand_at_armory_door" );
-	
+
 	spawn_rappel_rope();
-	thread cellblock_rappel_player();
+	thread cellblock_rappel_player();	
 	
 	start_time = gettime();
 	wait( 3.0 );

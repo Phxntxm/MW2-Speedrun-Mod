@@ -108,8 +108,6 @@ cave_main()
 	}
 	
 	array_thread( climb_starts, ::self_delete );
-	
-
 
 	maps\_climb::cliff_scene_with_price();
 	moveout = ( 332, -29046, 239);
@@ -441,7 +439,7 @@ hanger_main()
 	use_satelite = getent( "use_satelite", "targetname" );
 	satelite_sequence_node = getnode( "satelite_sequence", "targetname" );
 	flag_wait( "player_on_backdoor_path" );
-	
+
 	// Go up stairs and look for the DSM.	
 	level.price thread dialogue_queue( "cliff_pri_goupstairs" );
 	keyboard_trigger = getEntWithFlag( "keyboard_used" );
@@ -497,7 +495,7 @@ player_used_computer()
 	flag_set( "start_busted_music" );
 	
 	thread maps\_blizzard::blizzard_level_transition_light( 40 );
-	//Well, uh, this is a little awkward, innit mate? No, no, it's quite all right, we're all friends here, just a pub crawl with the lads?uh?	
+	//Well, uh, this is a little awkward, innit mate? No, no, it's quite all right, we're all friends here, just a pub crawl with the lads�uh�	
 //	level.price anim_single_queue( level.price, "cliff_pri_pubcrawl" );
 	thread open_hanger_doors();
 	thread guards_run_in();

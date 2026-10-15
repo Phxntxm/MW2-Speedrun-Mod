@@ -300,11 +300,11 @@ af_chase_anims_and_vo()
 	level.scr_sound[ "generic" ][ "afchase_pri_steady1" ] = "afchase_pri_steady1";
 	level.scr_sound[ "generic" ][ "afchase_pri_steady2" ] = "afchase_pri_steady2";
 
-	// Five years ago, I lost 30,000 men in the blink of an eye??and the world just fuckin' watched.	
+	// Five years ago, I lost 30,000 men in the blink of an eye��and the world just fuckin' watched.	
 	level.scr_sound[ "shepherd" ][ "afchase_shp_fiveyearsago" ] = "afchase_shp_fiveyearsago";
 	// Tomorrow...there will be no shortage of volunteers...no shortage of patriots.			
 	level.scr_sound[ "shepherd" ][ "afchase_shp_noshortage" ] = "afchase_shp_noshortage";
-	// I know you understand?		
+	// I know you understand�		
 	level.scr_sound[ "shepherd" ][ "afchase_shp_iknow" ] = "afchase_shp_iknow";
 	
 
@@ -317,17 +317,17 @@ af_chase_anims_and_vo()
 	// Roger - dropping the hatch - keep it above 30 knots and watch the vertical clearance.		
 	level.scr_radio[ "afchase_plp_above30knots" ] = "afchase_plp_above30knots";
 
-	// You know what they say about revenge?you better be ready to dig two graves?	
+	// You know what they say about revenge�you better be ready to dig two graves�	
 	level.scr_sound[ "generic" ][ "afchase_shp_digtwograves" ] = "afchase_shp_digtwograves";
 	// Go ahead and end it. It won't change anything.		
 	level.scr_sound[ "generic" ][ "afchase_shp_goahead" ] = "afchase_shp_goahead";
-	// Hmph. I knew you couldn't do it?		
+	// Hmph. I knew you couldn't do it�		
 	level.scr_sound[ "generic" ][ "afchase_shp_couldntdoit" ] = "afchase_shp_couldntdoit";
-	// You're a good warrior?		
+	// You're a good warrior�		
 	level.scr_sound[ "generic" ][ "afchase_shp_goodwarrior" ] = "afchase_shp_goodwarrior";
-	// ?but you could never take that extra step?		
+	// �but you could never take that extra step�		
 	level.scr_sound[ "generic" ][ "afchase_shp_extrastep" ] = "afchase_shp_extrastep";
-	// ?to do what was absolutely necessary.		
+	// �to do what was absolutely necessary.		
 	level.scr_sound[ "generic" ][ "afchase_shp_necessary" ] = "afchase_shp_necessary";
 	
 	

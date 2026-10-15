@@ -2,6 +2,7 @@
 #include animscripts\utility;
 #include maps\_utility_code;
 
+
 is_coop()
 {
 	if ( IsSplitScreen() || ( GetDvar( "coop" ) == "1" ) )
@@ -71,6 +72,7 @@ clear_custom_eog_summary()
 	SetDvar( "ui_eog_success_heading_player1", "" );
 	SetDvar( "ui_eog_success_heading_player2", "" );
 }
+
 
 set_custom_eog_summary( row, col, data )
 {
@@ -244,7 +246,7 @@ set_nvg_vision( visionset, transition_time )
 	VisionSetNight( visionset, transition_time );
 }
 
-
+ 
 
 sun_light_fade( startSunColor, endSunColor, fTime )
 {
@@ -268,6 +270,7 @@ sun_light_fade( startSunColor, endSunColor, fTime )
     SetSunLight( endSunColor[ 0 ], endSunColor[ 1 ], endSunColor[ 2 ] );
 }
 
+ 
 ent_flag_wait( msg )
 {
 	AssertEx( ( !IsSentient( self ) && IsDefined( self ) ) || IsAlive( self ), "Attempt to check a flag on entity that is not alive or removed" );
@@ -276,7 +279,7 @@ ent_flag_wait( msg )
 		self waittill( msg );
 }
 
-
+  
 ent_flag_wait_either( flag1, flag2 )
 {
 	AssertEx( ( !IsSentient( self ) && IsDefined( self ) ) || IsAlive( self ), "Attempt to check a flag on entity that is not alive or removed" );
@@ -292,6 +295,7 @@ ent_flag_wait_either( flag1, flag2 )
 	}
 }
 
+  
 ent_flag_wait_or_timeout( flagname, timer )
 {
 	AssertEx( ( !IsSentient( self ) && IsDefined( self ) ) || IsAlive( self ), "Attempt to check a flag on entity that is not alive or removed" );
@@ -324,7 +328,7 @@ ent_flag_assert( msg )
 }
 
 
-
+  
 ent_flag_waitopen_either( flag1, flag2 )
 {
 	AssertEx( ( !IsSentient( self ) && IsDefined( self ) ) || IsAlive( self ), "Attempt to check a flag on entity that is not alive or removed" );
@@ -340,7 +344,7 @@ ent_flag_waitopen_either( flag1, flag2 )
 	}
 }
 
-
+  
 ent_flag_init( message )
 {
 	if ( !isDefined( self.ent_flag ) )
@@ -360,7 +364,7 @@ ent_flag_init( message )
 #/
 }
 
-
+ 
 ent_flag_exist( message )
 {
 	if ( IsDefined( self.ent_flag ) && IsDefined( self.ent_flag[ message ] ) )
@@ -368,7 +372,7 @@ ent_flag_exist( message )
 	return false;
 }
 
-
+  
 ent_flag_set_delayed( message, delay )
 {
 	self endon( "death" );
@@ -377,7 +381,7 @@ ent_flag_set_delayed( message, delay )
 	self ent_flag_set( message );
 }
 
-
+  
 ent_flag_set( message )
 {
 /#
@@ -390,7 +394,7 @@ ent_flag_set( message )
 	self notify( message );
 }
 
-
+  
 ent_flag_clear( message )
 {
 /#
@@ -414,7 +418,7 @@ ent_flag_clear_delayed( message, delay )
 	self ent_flag_clear( message );
 }
 
-
+  
 ent_flag( message )
 {
 	AssertEx( IsDefined( message ), "Tried to check flag but the flag was not defined." );
@@ -422,7 +426,7 @@ ent_flag( message )
 
 	return self.ent_flag[ message ];
 }
-
+  
 get_closest_to_player_view( array, player, use_eye, min_dot )
 {
 	if ( !array.size )
@@ -460,7 +464,7 @@ get_closest_to_player_view( array, player, use_eye, min_dot )
 	return ent;
 }
 
-
+ 
 get_closest_index_to_player_view( array, player, use_eye )
 {
 	if ( !array.size )
@@ -594,21 +598,25 @@ add_extra_autosave_check( name, func, msg )
 	level._extra_autosave_checks[ name ][ "msg" ] = msg;
 }
 
+
 remove_extra_autosave_check( name )
 {
 	level._extra_autosave_checks[ name ] = undefined;
 }
+
 
 autosave_stealth()
 {
 	thread autosave_by_name_thread( "autosave_stealth", 8, true );
 }
 
+
 autosave_tactical()
 {
 	autosave_tactical_setup();
 	thread autosave_tactical_proc();
 }
+
 
 autosave_by_name( name )
 {
@@ -634,39 +642,13 @@ autosave_by_name_thread( name, timeout, doStealthChecks, suppress_hint )
 		level.curAutoSave++;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: autosave_or_timeout( <name> , <timeout> )"
-"Summary: Autosaves with the specified name but times out if the time elapses"
-"Module: Autosave"
-"MandatoryArg: <name>: The name"
-"MandatoryArg: <timeout>: The timeout"
-"Example: autosave_or_timeout( "thename", 3.5 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 autosave_or_timeout( name, timeout )
 {
 	thread autosave_by_name_thread( name, timeout );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: debug_message( <message> , <origin>, <duration>, <entity> )"
-"Summary: Prints 3d debug text at the specified location for a duration of time."
-"Module: Debug"
-"MandatoryArg: <message>: String to print"
-"MandatoryArg: <origin>: Location of string ( x, y, z )"
-"OptionalArg: <duration>: Time to keep the string on screen. Defaults to 5 seconds."
-"OptionalArg: <entity>: Overrides any origin value so that message can print on a moving entity"
-"Example: debug_message( "I am the enemy", enemy.origin, 3.0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 debug_message( message, origin, duration, entity )
 {
 	if ( !isDefined( duration ) )
@@ -689,20 +671,7 @@ debug_message( message, origin, duration, entity )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: debug_message_ai( <message>, <duration> )"
-"Summary: Prints 3d debug text at the ai's origin and follows the ai that passed the function."
-"Module: Debug"
-"CallOn: An AI"
-"MandatoryArg: <message>: String to print"
-"OptionalArg: <duration>: Time to keep the string on screen. Defaults to 5 seconds."
-"Example: debug_message_ai( "I am the enemy", 3.0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 debug_message_ai( message, duration )
 {
 	self notify( "debug_message_ai" );
@@ -719,21 +688,7 @@ debug_message_ai( message, duration )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: debug_message_clear( <message> , <origin>, <duration>, <extraEndon> )"
-"Summary: Prints 3d debug text at the specified location for a duration of time, but can be cleared before the normal time has passed if a notify occurs."
-"Module: Debug"
-"MandatoryArg: <message>: String to print"
-"MandatoryArg: <origin>: Location of string ( x, y, z )"
-"OptionalArg: <duration>: Time to keep the string on screen. Defaults to 5 seconds."
-"OptionalArg: <extraEndon>: Level notify string that will make this text go away before the time expires."
-"Example: debug_message( "I am the enemy", enemy.origin, 3.0, "enemy died" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 debug_message_clear( message, origin, duration, extraEndon )
 {
 	if ( IsDefined( extraEndon ) )
@@ -802,21 +757,7 @@ fartherFunc( dist1, dist2 )
 	return dist1 <= dist2;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: getClosest( <org> , <array> , <dist> )"
-"Summary: Returns the closest entity in < array > to location < org > "
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on"
-"OptionalArg: <maxdist> : Minimum distance to check"
-"Example: friendly = getClosest( level.player.origin, allies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 getClosest( org, array, maxdist )
 {
 	if ( !IsDefined( maxdist ) )
@@ -834,21 +775,7 @@ getClosest( org, array, maxdist )
 	return ent;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: getFarthest( <org> , <array> , <dist> )"
-"Summary: Returns the farthest entity in < array > to location < org > "
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be farthest from."
-"MandatoryArg: <array> : Array of entities to check distance on"
-"OptionalArg: <maxdist> : Maximum distance to check"
-"Example: target = getFarthest( level.player.origin, targets );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 getFarthest( org, array, maxdist )
 {
 	if ( !IsDefined( maxdist ) )
@@ -867,21 +794,7 @@ getFarthest( org, array, maxdist )
 	return ent;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: getClosestFx( <org> , <fxarray> , <dist> )"
-"Summary: Returns the closest fx struct created by createfx in < fxarray > to location < org > "
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of createfx structs to check distance on. These are obtained with getfxarraybyID( <fxid> )"
-"OptionalArg: <dist> : Minimum distance to check"
-"Example: fxstruct = getClosestFx( hallway_tv, fxarray );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 getClosestFx( org, fxarray, dist )
 {
 	return compareSizesFx( org, fxarray, dist, ::closerFunc );
@@ -889,21 +802,7 @@ getClosestFx( org, fxarray, dist )
 
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_point( <origin> , <points> , <maxDist> )"
-"Summary: Returns the closest point from array < points > from location < origin > "
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <origin> : Origin to be closest to."
-"MandatoryArg: <points> : Array of points to check distance on"
-"OptionalArg: <maxDist> : Maximum distance to check"
-"Example: target = getFarthest( level.player.origin, targets );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_point( origin, points, maxDist )
 {
 	Assert( points.size );
@@ -927,20 +826,7 @@ get_closest_point( origin, points, maxDist )
 	return undefined;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_farthest_ent( <origin> , <array> )"
-"Summary: Returns the farthest entity in <array> from location < origin > "
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <origin> : Origin to be farthest from."
-"MandatoryArg: <array> : Array of entities to choose from"
-"Example: dude = get_farthest_ent( level.player.origin, aFriendlies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_farthest_ent( org, array )
 {
 	if ( array.size < 1 )
@@ -960,21 +846,7 @@ get_farthest_ent( org, array )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_within_range( <org> , <array> , <dist> )"
-"Summary: Returns all elements from the array that are within DIST range to ORG."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on"
-"OptionalArg: <dist> : Maximum distance to check"
-"Example: close_ai = get_within_range( level.player.origin, ai, 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_within_range( org, array, dist )
 {
 	guys = [];
@@ -986,21 +858,7 @@ get_within_range( org, array, dist )
 	return guys;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_outside_range( <org> , <array> , <dist> )"
-"Summary: Returns all elements from the array that are outside DIST range to ORG."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on"
-"OptionalArg: <dist> : Maximum distance to check"
-"Example: close_ai = get_outside_range( level.player.origin, ai, 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_outside_range( org, array, dist )
 {
 	guys = [];
@@ -1012,21 +870,7 @@ get_outside_range( org, array, dist )
 	return guys;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_living( <org> , <array> , <dist> )"
-"Summary: Returns the closest living entity from the array from the origin"
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on"
-"OptionalArg: <dist> : Maximum distance to check"
-"Example: kicker = get_closest_living( node.origin, ai );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_living( org, array, dist )
 {
 	if ( !isdefined( dist ) )
@@ -1047,20 +891,7 @@ get_closest_living( org, array, dist )
 	return ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_highest_dot( <start> , <end> , <array> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_highest_dot( start, end, array )
 {
 	if ( !array.size )
@@ -1086,21 +917,7 @@ get_highest_dot( start, end, array )
 	return ent;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_index( <org> , <array> , <dist> )"
-"Summary: same as getClosest but returns the closest entity's array index instead of the actual entity."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on."
-"OptionalArg: <dist> : Maximum distance to check"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_index( org, array, dist )
 {
 	if ( !isdefined( dist ) )
@@ -1119,20 +936,7 @@ get_closest_index( org, array, dist )
 	return index;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_closest_exclude( <org> , <ents> , <excluders> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_closest_exclude( org, ents, excluders )
 {
 	if ( !isdefined( ents ) )
@@ -1204,19 +1008,7 @@ get_closest_exclude( org, ents, excluders )
 		return undefined;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_player( <org> )"
-"Summary: Returns the closest coop player to the specified origin."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"Example: player = get_closest_player( tank.origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_player( org )
 {
 	if ( level.players.size == 1 )
@@ -1226,19 +1018,7 @@ get_closest_player( org )
 	return player;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_player_healthy( <org> )"
-"Summary: Returns the closest coop player that is not bleeding out (.coop_downed) to the specified origin."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"Example: player = get_closest_player_healthy( tank.origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_player_healthy( org )
 {
 	if ( level.players.size == 1 )
@@ -1252,8 +1032,7 @@ get_closest_player_healthy( org )
 		// Checking player.coop_downed is unreliable due to it being set in more than _coop.gsc (see dog_combat.gsc).
 		// We need to go through everything and make the use of player.coop_downed and 
 		// ent_flag( "coop_downed" ) consistent and not maintain both.
-/*		if ( IsDefined( player.coop_downed ) && ( player.coop_downed ) )
-			continue;*/
+
 		healthyPlayers[ healthyPlayers.size ] = player;
 	}
 
@@ -1266,20 +1045,7 @@ get_closest_player_healthy( org )
 	return player;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_closest_ai( <org> , <team> )"
-"Summary: Returns the closest AI of the specified team to the specified origin."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <team> : Team to use. Can be "allies", "axis", or "both"."
-"Example: friendly = get_closest_ai( level.player.origin, "allies" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_closest_ai( org, team, excluders )
 {
 	if ( IsDefined( team ) )
@@ -1299,24 +1065,7 @@ get_closest_ai( org, team, excluders )
 	return getClosest( org, ents );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_array_of_farthest( <org> , <array> , <excluders> , <max>, <maxdist>, <mindist> )"
-"Summary: Returns an array of all the entities in < array > sorted in order of farthest to closest."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be farthest from."
-"MandatoryArg: <array> : Array of entities to check distance on."
-"OptionalArg: <excluders> : Array of entities to exclude from the check."
-"OptionalArg: <max> : Max size of the array to return"
-"OptionalArg: <maxdist> : Max distance from the origin to return acceptable entities"
-"OptionalArg: <mindist> : Min distance from the origin to return acceptable entities"
-"Example: allies_sort = get_array_of_closest( originFC1.origin, allies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_array_of_farthest( org, array, excluders, max, maxdist, mindist )
 {
 	aArray = get_array_of_closest( org, array, excluders, max, maxdist, mindist );
@@ -1326,24 +1075,7 @@ get_array_of_farthest( org, array, excluders, max, maxdist, mindist )
 
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_array_of_closest( <org> , <array> , <excluders> , <max>, <maxdist>, <mindist> )"
-"Summary: Returns an array of all the entities in < array > sorted in order of closest to farthest."
-"Module: Distance"
-"CallOn: "
-"MandatoryArg: <org> : Origin to be closest to."
-"MandatoryArg: <array> : Array of entities to check distance on."
-"OptionalArg: <excluders> : Array of entities to exclude from the check."
-"OptionalArg: <max> : Max size of the array to return"
-"OptionalArg: <maxdist> : Max distance from the origin to return acceptable entities"
-"OptionalArg: <mindist> : Min distance from the origin to return acceptable entities"
-"Example: allies_sort = get_array_of_closest( originFC1.origin, allies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_array_of_closest( org, array, excluders, max, maxdist, mindist )
 {
 	// pass an array of entities to this function and it will return them in the order of closest
@@ -1403,20 +1135,7 @@ get_array_of_closest( org, array, excluders, max, maxdist, mindist )
 	return finalArray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_closest_ai_exclude( <org> , <team> , <excluders> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_closest_ai_exclude( org, team, excluders )
 {
 	if ( IsDefined( team ) )
@@ -1430,20 +1149,7 @@ get_closest_ai_exclude( org, team, excluders )
 	return get_closest_exclude( org, ents, excluders );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: can_see_origin( <origin>, <test_characters> )"
-"Summary: Checks to see if the specified point is within the player's view."
-"Module: Sentient"
-"CallOn: An AI or player"
-"MandatoryArg: <origin>: Origin you wish to see whether the player or AI can see."
-"OptionalArg: <test_characters>: Set to determine whether the sight trace should check against characters."
-"Example: level.player can_see_origin( entity.origin, true );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 can_see_origin( origin, test_characters )
 {
 	AssertEx( IsDefined( origin ), "can_see_origin() requires a valid origin to be passed in." );
@@ -1468,19 +1174,7 @@ can_see_origin( origin, test_characters )
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: point_in_fov( <origin> )"
-"Summary: Checks to see if the point is within a standard player view FOV."
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <origin>: The point to check if it is within view."
-"Example: level.player point_in_fov( weapon_respawn.origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 point_in_fov( origin )
 {
     forward = AnglesToForward( self.angles );
@@ -1490,18 +1184,7 @@ point_in_fov( origin )
     return dot > 0.766;// fov = 80
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: stop_magic_bullet_shield()"
-"Summary: Stops magic bullet shield on an AI, setting his health back to a normal value and making him vulnerable to death."
-"Module: AI"
-"CallOn: AI"
-"Example: friendly stop_magic_bullet_shield();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 stop_magic_bullet_shield()
 {
@@ -1537,19 +1220,7 @@ magic_bullet_death_detection()
 	#/
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: magic_bullet_shield( <no_death_detection> )"
-"Summary: Makes an AI invulnerable to death. When he gets shot, he is ignored by enemies for < time > seconds and his health is regenerated."
-"Module: AI"
-"CallOn: AI"
-"OptionalArg: <no_death_detection> : Set this to make the AI not script error on death, like if you want the guy to be deletable."
-"Example: friendly thread magic_bullet_shield();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+  
 
 magic_bullet_shield( no_death_detection )
 {
@@ -1583,147 +1254,53 @@ magic_bullet_shield( no_death_detection )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_long_death(  )"
-"Summary: Disables long death on Self"
-"Module: Utility"
-"CallOn: An enemy AI"
-"Example: level.zakhaev disable_long_death(0"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_long_death()
 {
 	AssertEx( IsAlive( self ), "Tried to disable long death on a non living thing" );
 	self.a.disableLongDeath = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_long_death(  )"
-"Summary: Enables long death on Self"
-"Module: Utility"
-"CallOn: An enemy AI"
-"Example: level.zakhaev enable_long_death(0"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_long_death()
 {
 	AssertEx( IsAlive( self ), "Tried to enable long death on a non living thing" );
 	self.a.disableLongDeath = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_blood_pool( <enable_blood_pool> )"
-"Summary: enables blood pools on AI deaths( on by default )"
-"Module: AI"
-"CallOn: An AI"
-"Example: ai enable_blood_pool()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_blood_pool()
 {
 	self.skipBloodPool = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_blood_pool( <enable_blood_pool> )"
-"Summary: disables blood pools on AI deaths( on by default )"
-"Module: AI"
-"CallOn: An AI"
-"Example: ai disable_blood_pool()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_blood_pool()
 {
 	self.skipBloodPool = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: deletable_magic_bullet_shield()"
-"Summary: A version of magic bullet shield that does not error if the AI dies. Useful for guys that can be deleted but you want them to have aspects of MBS."
-"Module: AI"
-"CallOn: AI"
-"Example: friendly thread magic_bullet_shield();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 deletable_magic_bullet_shield()
 {
 	magic_bullet_shield( true );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_ignoreme( <get_ignoreme> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_ignoreme()
 {
 	return self.ignoreme;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_ignoreme( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_ignoreme( val )
 {
 	AssertEx( IsSentient( self ), "Non ai tried to set ignoreme" );
 	self.ignoreme = val;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_ignoreall( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_ignoreall( val )
 {
 	AssertEx( IsSentient( self ), "Non ai tried to set ignoraell" );
@@ -1731,58 +1308,19 @@ set_ignoreall( val )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_favoriteenemy( <enemy> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_favoriteenemy( enemy )
 {
 	self.favoriteenemy = enemy;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_pacifist( <get_pacifist> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_pacifist()
 {
 	return self.pacifist;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_pacifist( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_pacifist( val )
 {
 	AssertEx( IsSentient( self ), "Non ai tried to set pacifist" );
@@ -1818,19 +1356,7 @@ ignore_me_timer( time )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_randomize( <array> )"
-"Summary: Randomizes the array and returns the new array."
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : Array to be randomized."
-"Example: roof_nodes = array_randomize( roof_nodes );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_randomize( array )
 {
     for ( i = 0; i < array.size; i++ )
@@ -1842,19 +1368,7 @@ array_randomize( array )
     }
     return array;
 }
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_reverse( <array> )"
-"Summary: Reverses the order of the array and returns the new array."
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : Array to be reversed."
-"Example: patrol_nodes = array_reverse( patrol_nodes );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_reverse( array )
 {
 	array2 = [];
@@ -1863,19 +1377,7 @@ array_reverse( array )
 	return array2;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: delete_exploder( <num> )"
-"Summary: deletes an exploder and its brushes forever."
-"Module: Level"
-"CallOn: Level"
-"MandatoryArg: <num>: number of the exploder that you want to delete"
-"Example: delete_exploder( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 delete_exploder( num )
 {
@@ -1909,19 +1411,7 @@ delete_exploder( num )
 	prof_end( "delete_exploder" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hide_exploder_models( <num> )"
-"Summary: Hides the models for an exploder."
-"Module: Level"
-"CallOn: Level"
-"MandatoryArg: <num>: number of the exploder that you want to hide"
-"Example: hide_exploder_models( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 hide_exploder_models( num )
 {
@@ -1954,19 +1444,7 @@ hide_exploder_models( num )
 	prof_end( "hide_exploder" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: show_exploder_models( <num> )"
-"Summary: shows the models for an exploder."
-"Module: Level"
-"CallOn: Level"
-"MandatoryArg: <num>: number of the exploder that you want to hide"
-"Example: show_exploder_models( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 show_exploder_models( num )
 {
@@ -2024,20 +1502,7 @@ exploder_model_is_chunk( ent )
 	return( IsDefined( ent.targetname ) ) && ( ent.targetname == "exploderchunk" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: stop_exploder( <num> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 stop_exploder( num )
 {
 	num += "";
@@ -2065,18 +1530,7 @@ stop_exploder( num )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_exploder_array( <msg> )"
-"Summary: Return an array of exploders"
-"Module: Utility"
-"MandatoryArg: <msg>: Exploder num/name"
-"Example: exploders = get_exploder_array( "boom" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_exploder_array( msg )
 {
 	msg += "";
@@ -2104,41 +1558,13 @@ flood_spawn( spawners )
 	maps\_spawner::flood_spawner_scripted( spawners );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_ambient( <track> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_ambient( track )
 {
 	maps\_ambient::activateAmbient( track );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: force_crawling_death( <angle> , <num_crawls> , <array> , <nofallanim> )"
-"Summary: Force an AI to crawl"
-"Module: Utility"
-"CallOn: An AI"
-"MandatoryArg: <angle>: The angle to crawl"
-"MandatoryArg: <num_crawls>: How many times to crawl"
-"OptionalArg: <array>: Sets self.a.custom_crawling_death_array"
-"OptionalArg: <nofallanim>: Sets self.nofallanim"
-"Example: self force_crawling_death( self.angles[ 1 ], 2, level.scr_anim[ "crawl_death_1" ], 1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 force_crawling_death( angle, num_crawls, array, nofallanim )
 {
 	if ( !isdefined( num_crawls ) )
@@ -2232,20 +1658,7 @@ shock_ondeath()
 	self ShellShock( "default", 3 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: delete_on_death_wait_sound( <ent> , <sounddone> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 delete_on_death_wait_sound( ent, sounddone )
 {
 	ent endon( "death" );
@@ -2264,22 +1677,7 @@ is_dead_sentient()
 	return IsSentient( self ) && !isalive( self );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: play_sound_on_tag( <alias> , <tag>, <ends_on_death> )"
-"Summary: Play the specified sound alias on a tag of an entity"
-"Module: Sound"
-"CallOn: An entity"
-"MandatoryArg: <alias> : Sound alias to play"
-"OptionalArg: <tag> : Tag on the entity to play sound on. If no tag is specified the entities origin will be used."
-"OptionalArg: <ends_on_death> : The sound will be cut short if the entity dies. Defaults to false."
-"OptionalArg: <op_notify_string> : Optional notify string on sound done."
-"Example: vehicle thread play_sound_on_tag( "horn_honk", "tag_engine" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 play_sound_on_tag( alias, tag, ends_on_death, op_notify_string, radio_dialog )
 {
 	if ( is_dead_sentient() )
@@ -2321,39 +1719,13 @@ play_sound_on_tag( alias, tag, ends_on_death, op_notify_string, radio_dialog )
 }
 
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: play_sound_on_tag_endon_death( <alias>, <tag> )"
-"Summary: Play the specified sound alias on a tag of an entity but gets cut short if the entity dies"
-"Module: Sound"
-"CallOn: An entity"
-"MandatoryArg: <alias> : Sound alias to play"
-"OptionalArg: <tag> : Tag on the entity to play sound on. If no tag is specified the entities origin will be used."
-"Example: vehicle thread play_sound_on_tag_endon_death( "horn_honk", "tag_engine" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 play_sound_on_tag_endon_death( alias, tag )
 {
 	play_sound_on_tag( alias, tag, true );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: play_sound_on_entity( <alias> , <op_notify_string> )"
-"Summary: Play the specified sound alias on an entity at it's origin"
-"Module: Sound"
-"CallOn: An entity"
-"MandatoryArg: <alias> : Sound alias to play"
-"OptionalArg: <op_notify_string> : Optional notify string on sound done."
-"Example: level.player play_sound_on_entity( "breathing_better" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 play_sound_on_entity( alias, op_notify_string )
 {
 	AssertEx( !isSpawner( self ), "Spawner tried to play a sound" );
@@ -2361,21 +1733,7 @@ play_sound_on_entity( alias, op_notify_string )
 	play_sound_on_tag( alias, undefined, undefined, op_notify_string );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: play_loop_sound_on_tag( <alias> , <tag>, bStopSoundOnDeath )"
-"Summary: Play the specified looping sound alias on a tag of an entity"
-"Module: Sound"
-"CallOn: An entity"
-"MandatoryArg: <alias> : Sound alias to loop"
-"OptionalArg: <tag> : Tag on the entity to play sound on. If no tag is specified the entities origin will be used."
-"OptionalArg: <bStopSoundOnDeath> : Defaults to true. If true, will stop the looping sound when self dies"
-"Example: vehicle thread play_loop_sound_on_tag( "engine_belt_run", "tag_engine" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 play_loop_sound_on_tag( alias, tag, bStopSoundOnDeath )
 {
 	org = Spawn( "script_origin", ( 0, 0, 0 ) );
@@ -2419,19 +1777,7 @@ save_friendlies()
 	game[ "total characters" ] = game_characters;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: spawn_failed( <spawn> )"
-"Summary: Checks to see if the spawned AI spawned correctly or had errors. Also waits until all spawn initialization is complete. Returns true or false."
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <spawn> : The actor that just spawned"
-"Example: spawn_failed( level.price );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 spawn_failed( spawn )
 {
 	if ( !isalive( spawn ) )
@@ -2474,18 +1820,7 @@ view_tag( tag )
 	}
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: assign_animtree( <animname> )"
-"Summary: Assigns the level.scr_animtree for the given animname to self."
-"Module: _Anim"
-"OptionalArg: <animname> : You can optionally assign the animname for self at this juncture."
-"Example: model = assign_animtree( "whatever" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 assign_animtree( animname )
 {
@@ -2496,20 +1831,7 @@ assign_animtree( animname )
 	self UseAnimTree( level.scr_animtree[ self.animname ] );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: assign_model( <assign_model> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 assign_model()
 {
 	AssertEx( IsDefined( level.scr_model[ self.animname ] ), "There is no level.scr_model for animname " + self.animname );
@@ -2523,19 +1845,7 @@ assign_model()
 		self SetModel( level.scr_model[ self.animname ] );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: spawn_anim_model( <animname>, <origin> )"
-"Summary: Spawns a script model and gives it the animtree and model associated with that animname"
-"Module: _Anim"
-"MandatoryArg: <animname> : Name of the animname from this map_anim.gsc."
-"OptionalArg: <origin> : Optional origin."
-"Example: model = spawn_anim_model( "player_rappel" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 spawn_anim_model( animname, origin )
 {
@@ -2548,20 +1858,7 @@ spawn_anim_model( animname, origin )
 	return model;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: trigger_wait( <strName> , <strKey> )"
-"Summary: Waits until a trigger with the specified key / value is triggered"
-"Module: Trigger"
-"CallOn: "
-"MandatoryArg: <strName> : Name of the key on this trigger"
-"MandatoryArg: <strKey> : Key on the trigger to use, example: "targetname" or "script_noteworthy""
-"Example: trigger_wait( "player_in_building1", "targetname" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 trigger_wait( strName, strKey )
 {
 	eTrigger = GetEnt( strName, strKey );
@@ -2574,19 +1871,7 @@ trigger_wait( strName, strKey )
 	level notify( strName, eOther );
 	return eOther;
 }
- /* 
- ============= 
-///ScriptDocBegin
-"Name: trigger_wait_targetname( <strName> )"
-"Summary: Waits until a trigger with the specified key / value is triggered"
-"Module: Trigger"
-"CallOn: "
-"MandatoryArg: <strKey> : targetname key to waitfor"
-"Example: trigger_wait_targetname( "player_in_building1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 trigger_wait_targetname( strName )
 {
@@ -2601,58 +1886,19 @@ trigger_wait_targetname( strName )
 	return eOther;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_flag_on_dead( <spawners> , <strFlag> )"
-"Summary: the function will set the flag <strFlag> after the actors from <spawners> have spawned and then died "
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <spawners>: the array of spawners"
-"MandatoryArg: <strFlag>: the flag to set"
-"Example: set_flag_on_dead( spawners, "base_guys_dead" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_flag_on_dead( spawners, strFlag )
 {
 	thread set_flag_on_func_wait_proc( spawners, strFlag, ::waittill_dead, "set_flag_on_dead" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_flag_on_dead_or_dying( <spawners> , <strFlag> )"
-"Summary: the function will set the flag <strFlag> after the actors from <spawners> have spawned and then are dead or dying ( long death )."
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <spawners>: the array of spawners"
-"MandatoryArg: <strFlag>: the flag to set"
-"Example: set_flag_on_dead_or_dying( spawners, "base_guys_dead" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_flag_on_dead_or_dying( spawners, strFlag )
 {
 	thread set_flag_on_func_wait_proc( spawners, strFlag, ::waittill_dead_or_dying, "set_flag_on_dead_or_dying" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_flag_on_spawned( <spawners> , <strFlag> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_flag_on_spawned( spawners, strFlag )
 {
 	thread set_flag_on_func_wait_proc( spawners, strFlag, ::empty_func, "set_flag_on_spawned" );
@@ -2693,20 +1939,7 @@ set_flag_on_func_wait_proc( spawners, strFlag, waitfunc, internal_flag )
 	flag_set( strFlag );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_flag_on_trigger( <eTrigger> , <strFlag> )"
-"Summary: Calls flag_set to set the specified flag when the trigger is triggered"
-"Module: Trigger"
-"CallOn: "
-"MandatoryArg: <eTrigger> : trigger entity to use"
-"MandatoryArg: <strFlag> : name of the flag to set"
-"Example: set_flag_on_trigger( trig, "player_is_outside" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 set_flag_on_trigger( eTrigger, strFlag )
 {
 	if ( !flag( strFlag ) )
@@ -2717,19 +1950,7 @@ set_flag_on_trigger( eTrigger, strFlag )
 	}
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_flag_on_targetname_trigger( <flag> )"
-"Summary: Sets the specified flag when a trigger with targetname < flag > is triggered."
-"Module: Trigger"
-"CallOn: "
-"MandatoryArg: <flag> : name of the flag to set, and also the targetname of the trigger to use"
-"Example:  set_flag_on_targetname_trigger( "player_is_outside" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 set_flag_on_targetname_trigger( msg )
 {
 	Assert( IsDefined( level.flag[ msg ] ) );
@@ -2741,20 +1962,7 @@ set_flag_on_targetname_trigger( msg )
 	flag_set( msg );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: is_in_array( <aeCollection> , <eFindee> )"
-"Summary: Returns true if < eFindee > is an entity in array < aeCollection > . False if it is not. "
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <aeCollection> : array of entities to search through"
-"MandatoryArg: <eFindee> : entity to check if it's in the array"
-"Example: qBool = is_in_array( eTargets, vehicle1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 is_in_array( aeCollection, eFindee )
 {
 	for ( i = 0; i < aeCollection.size; i++ )
@@ -2766,21 +1974,7 @@ is_in_array( aeCollection, eFindee )
 	return( false );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: waittill_dead( <guys> , <num> , <timeoutLength> )"
-"Summary: Waits until all the AI in array < guys > are dead."
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <guys> : Array of actors to wait until dead"
-"OptionalArg: <num> : Number of guys that must die for this function to continue"
-"OptionalArg: <timeoutLength> : Number of seconds before this function times out and continues"
-"Example: waittill_dead( GetAIArray( "axis" ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 waittill_dead( guys, num, timeoutLength )
 {
 	// verify the living - ness of the ai
@@ -2822,21 +2016,7 @@ waittill_dead( guys, num, timeoutLength )
 		ent waittill( "waittill_dead guy died" );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: waittill_dead_or_dying( <guys> , <num> , <timeoutLength> )"
-"Summary: Similar to waittill_dead(). Waits until all the AI in array < guys > are dead OR dying (long deaths)."
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <guys> : Array of actors to wait until dead or dying"
-"OptionalArg: <num> : Number of guys that must die or be dying for this function to continue"
-"OptionalArg: <timeoutLength> : Number of seconds before this function times out and continues"
-"Example: waittill_dead_or_dying( GetAIArray( "axis" ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 waittill_dead_or_dying( guys, num, timeoutLength )
 {
 	// verify the living - ness and healthy - ness of the ai
@@ -2923,19 +2103,7 @@ get_ai_group_ai( aigroup )
 	return( aiSet );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: waittill_notetrack_or_damage( <notetrack> )"
-"Summary: Waits until the entity hits a certain notetrack or is damaged or killed"
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <notetrack> : the notetrack to wait for"
-"Example: self waittill_notetrack_or_damage( "bodyfall large" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 waittill_notetrack_or_damage( notetrack )
 {
@@ -2944,20 +2112,7 @@ waittill_notetrack_or_damage( notetrack )
 	self waittillmatch( "single anim", notetrack );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_living_ai( <name> , <type> )"
-"Summary: Returns single spawned ai in the level of <name> and <type>. Error if used on more than one ai with same name and type "
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the ai"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"Example: patroller = get_living_ai( "patrol", "script_noteworthy" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_living_ai( name, type )
 {
 	array = get_living_ai_array( name, type );
@@ -2969,20 +2124,7 @@ get_living_ai( name, type )
 	return array[ 0 ];
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_living_ai_array( <name> , <type> )"
-"Summary: Returns array of spawned ai in the level of <name> and <type> "
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the ai"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"Example: patrollers = get_living_ai_array( "patrol", "script_noteworthy" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_living_ai_array( name, type )
 {
 	ai = GetAISpeciesArray( "all", "all" );
@@ -3007,20 +2149,7 @@ get_living_ai_array( name, type )
 	}
 	return array;
 }
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_vehicle( <name> , <type> )"
-"Summary: Returns the vehicle spawned from the SHIFT-V radient menu of <name> and <type> "
-"Module: Vehicle"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the vehicle"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"Example: patrollers = get_vehicle( "heli_1", "script_noteworthy" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_vehicle( name, type )
 {
 	Assert( IsDefined( name ) );
@@ -3033,20 +2162,7 @@ get_vehicle( name, type )
 	return array[ 0 ];
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_vehicle_array( <name> , <type> )"
-"Summary: Returns the vehicles spawned from the SHIFT-V radient menu of <name> and <type> "
-"Module: Vehicle"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the vehicle"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"Example: helis = get_vehicle_array( "tower_helis", "script_noteworthy" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_vehicle_array( name, type )
 {
 	array = GetEntArray( name, type );
@@ -3073,21 +2189,7 @@ get_vehicle_array( name, type )
 	}
 	return vehicle;
 }
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_living_aispecies( <name> , <type>, <breed> )"
-"Summary: Returns single spawned ai in the level of <name> and <type>. Error if used on more than one ai with same name and type "
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the ai"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"OptionalArg: <bread> : the breadof spieces, if none is given, defaults to 'all' "
-"Example: patroller = get_living_aispecies( "patrol", "script_noteworthy", "dog" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_living_aispecies( name, type, breed )
 {
 	array = get_living_ai_array( name, type, breed );
@@ -3099,21 +2201,7 @@ get_living_aispecies( name, type, breed )
 	return array[ 0 ];
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_living_aispecies_array( <name> , <type>, <breed> )"
-"Summary: Returns array of spawned ai of any speices in the level of <name>, <type>, and <breed> "
-"Module: AI"
-"CallOn: "
-"MandatoryArg: <name> : the value of the targetname or script_noteworthy of the ai"
-"MandatoryArg: <type> : valid types are targetname and script_noteworthy"
-"OptionalArg: <bread> : the breadof spieces, if none is given, defaults to 'all' "
-"Example: patrollers = get_living_aispecies_array( "patrol", "script_noteworthy", "dog" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_living_aispecies_array( name, type, breed )
 {
 	if ( !isdefined( breed ) )
@@ -3208,18 +2296,7 @@ getchar( num )
 		return "9";
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: player_god_on()"
-"Summary: Puts the player in god mode. Player takes damage but will never die."
-"Module: Player"
-"CallOn: "
-"Example: thread player_god_on();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 player_god_on()
 {
 	thread player_god_on_thread();
@@ -3237,18 +2314,7 @@ player_god_on_thread()
 	}
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: player_god_off()"
-"Summary: Remove god mode from player. Player will be vulnerable to death again."
-"Module: Player"
-"CallOn: "
-"Example: thread player_god_off();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 player_god_off()
 {
 	self notify( "godoff" );
@@ -3275,20 +2341,7 @@ getlinks_array( array, linkMap )// don't pass stuff through as an array of struc
 
 // Adds only things that are new to the array.
 // Requires the arrays to be of node with script_linkname defined.
-/*
-=============
-///ScriptDocBegin
-"Name: array_merge_links( <array1> , <array2> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_merge_links( array1, array2 )
 {
 	if ( !array1.size )
@@ -3316,20 +2369,7 @@ array_merge_links( array1, array2 )
 	return array1;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_merge( <array1> , <array2> )"
-"Summary: Combines the two arrays and returns the resulting array. Adds only things that are new to the array, no duplicates."
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array1> : first array"
-"MandatoryArg: <array2> : second array"
-"Example: combinedArray = array_merge( array1, array2 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_merge( array1, array2 )// adds only things that are new to the array
 {
 	if ( array1.size == 0 )
@@ -3357,20 +2397,7 @@ array_merge( array1, array2 )// adds only things that are new to the array
 	return newarray;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_exclude( <array> , <arrayExclude> )"
-"Summary: Returns an array excluding all members of < arrayExclude > "
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : Array containing all items"
-"MandatoryArg: <arrayExclude> : Arary containing all items to remove"
-"Example: newArray = array_exclude( array1, array2 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_exclude( array, arrayExclude )// returns "array" minus all members of arrayExclude
 {
 	newarray = array;
@@ -3383,20 +2410,7 @@ array_exclude( array, arrayExclude )// returns "array" minus all members of arra
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_compare( <array1> , <array2> )"
-"Summary: checks whether 2 arrays are equal.  Returns true if they are, false if they are not"
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array1>: the first array to compare "
-"MandatoryArg: <array2>: the second array to compare "
-"Example:  if( array_compare( array1, array2 ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_compare( array1, array2 )
 {
 	if ( array1.size != array2.size )
@@ -3416,20 +2430,7 @@ array_compare( array1, array2 )
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_contains( <array> , <compare> )"
-"Summary: Checks whether an item is in the array or not."
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array>: The array to search."
-"MandatoryArg: <compare>: The item to see if it exists in the array"
-"Example:  if( arrray_contains( array, important_item ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_contains( array, compare )
 {
 	if ( array.size <= 0 )
@@ -3444,18 +2445,7 @@ array_contains( array, compare )
 	return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getLinkedVehicleNodes()"
-"Summary: Returns an array of vehicle nodes that SELF is linked to"
-"Module: Utility"
-"CallOn: An entity that links to vehicle nodes"
-"Example: spawners = heli get_linked_ents()"
-"SPMP: both"
-///ScriptDocEnd
-=============
-*/
+
 getLinkedVehicleNodes()
 {
 	array = [];
@@ -3476,23 +2466,7 @@ getLinkedVehicleNodes()
 
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_line( <org1> , <org2> , <r> , <g> , <b> )"
-"Summary: Draws a line from < org1 > to < org2 > in the specified color forever"
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <org1> : starting origin for the line"
-"MandatoryArg: <org2> : ending origin for the line"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"Example: thread draw_line( level.player.origin, vehicle.origin, 1, 0, 0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_line( org1, org2, r, g, b )
 {
 	while ( 1 )
@@ -3503,24 +2477,7 @@ draw_line( org1, org2, r, g, b )
 
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_line_to_ent_for_time( <org1> , <ent> , <r> , <g> , <b> , <timer> )"
-"Summary: Draws a line from < org1 > to < ent > origin in the specified color for the specified duration. Updates to the entities origin each frame."
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <org1> : starting origin for the line"
-"MandatoryArg: <ent> : entity to draw line to"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"MandatoryArg: <timer> : time in seconds the line should last"
-"Example: thread draw_line_to_ent_for_time( level.player.origin, vehicle, 1, 0, 0, 10.0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_line_to_ent_for_time( org1, ent, r, g, b, timer )
 {
 	timer = GetTime() + ( timer * 1000 );
@@ -3534,43 +2491,13 @@ draw_line_to_ent_for_time( org1, ent, r, g, b, timer )
 
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: draw_line_from_ent_for_time( <ent> , <org> , <r> , <g> , <b> , <timer> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 draw_line_from_ent_for_time( ent, org, r, g, b, timer )
 {
 	draw_line_to_ent_for_time( org, ent, r, g, b, timer );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_line_from_ent_to_ent_for_time( <ent1> , <ent2> , <r> , <g> , <b> , <timer> )"
-"Summary: Draws a line from one entity origin to another entity origin in the specified color for the specified duration. Updates to the entities origin each frame."
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <ent1> : entity to draw line from"
-"MandatoryArg: <ent2> : entity to draw line to"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"MandatoryArg: <timer> : time in seconds the line should last"
-"Example: thread draw_line_from_ent_to_ent_for_time( level.player, vehicle, 1, 0, 0, 10.0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_line_from_ent_to_ent_for_time( ent1, ent2, r, g, b, timer )
 {
 	ent1 endon( "death" );
@@ -3585,25 +2512,7 @@ draw_line_from_ent_to_ent_for_time( ent1, ent2, r, g, b, timer )
 
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_line_from_ent_to_ent_until_notify( <ent1> , <ent2> , <r> , <g> , <b> , <notifyEnt> , <notifyString> )"
-"Summary: Draws a line from one entity origin to another entity origin in the specified color until < notifyEnt > is notified < notifyString > . Updates to the entities origin each frame."
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <ent1> : entity to draw line from"
-"MandatoryArg: <ent2> : entity to draw line to"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"MandatoryArg: <notifyEnt> : entity that waits for the notify"
-"MandatoryArg: <notifyString> : notify string that will make the line stop being drawn"
-"Example: thread draw_line_from_ent_to_ent_until_notify( level.player, guy, 1, 0, 0, guy, "anim_on_tag_done" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_line_from_ent_to_ent_until_notify( ent1, ent2, r, g, b, notifyEnt, notifyString )
 {
 	Assert( IsDefined( notifyEnt ) );
@@ -3622,25 +2531,7 @@ draw_line_from_ent_to_ent_until_notify( ent1, ent2, r, g, b, notifyEnt, notifySt
 
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_line_until_notify( <org1> , <org2> , <r> , <g> , <b> , <notifyEnt> , <notifyString> )"
-"Summary: Draws a line from < org1 > to < org2 > in the specified color until < notifyEnt > is notified < notifyString > "
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <org1> : starting origin for the line"
-"MandatoryArg: <org2> : ending origin for the line"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"MandatoryArg: <notifyEnt> : entity that waits for the notify"
-"MandatoryArg: <notifyString> : notify string that will make the line stop being drawn"
-"Example: thread draw_line_until_notify( self.origin, targetLoc, 1, 0, 0, self, "stop_drawing_line" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_line_until_notify( org1, org2, r, g, b, notifyEnt, notifyString )
 {
 	Assert( IsDefined( notifyEnt ) );
@@ -3654,25 +2545,7 @@ draw_line_until_notify( org1, org2, r, g, b, notifyEnt, notifyString )
 	}
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: draw_circle_until_notify( <center> , <radius> , <r> , <g> , <b> , <notifyEnt> , <notifyString> )"
-"Summary: Draws a circle at < center > with < radius > in the specified color until < notifyEnt > is notified < notifyString > "
-"Module: Debug"
-"CallOn: "
-"MandatoryArg: <center> : origin center of the circle"
-"MandatoryArg: <radius> : radius of the circle to draw"
-"MandatoryArg: <r> : red color value( 0 to 1 )"
-"MandatoryArg: <g> : green color value( 0 to 1 )"
-"MandatoryArg: <b> : blue color value( 0 to 1 )"
-"MandatoryArg: <notifyEnt> : entity that waits for the notify"
-"MandatoryArg: <notifyString> : notify string that will make the line stop being drawn"
-"Example: thread draw_circle_until_notify( self.origin, self.radius, 1, 0, 0, self, "stop_drawing_circle" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 draw_circle_until_notify( center, radius, r, g, b, notifyEnt, notifyString )
 {
 	circle_sides = 16;
@@ -3743,19 +2616,7 @@ clear_enemy_passthrough()
 	self ClearEnemy();
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: battlechatter_off( <team> )"
-"Summary: Disable battlechatter for the specified team"
-"Module: Battlechatter"
-"CallOn: "
-"MandatoryArg: <team> : team to disable battlechatter on"
-"Example: battlechatter_off( "allies" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 battlechatter_off( team )
 {
 	level notify( "battlechatter_off_thread" );
@@ -3809,19 +2670,7 @@ battlechatter_off( team )
 		level notify( "done speaking" );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: battlechatter_on( <team> )"
-"Summary: Enable battlechatter for the specified team"
-"Module: Battlechatter"
-"CallOn: "
-"MandatoryArg: <team> : team to enable battlechatter on"
-"Example: battlechatter_on( "allies" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 battlechatter_on( team )
 {
 	thread battlechatter_on_thread( team );
@@ -3863,19 +2712,7 @@ battlechatter_on_thread( team )
 		soldiers[ index ] set_battlechatter( true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_battlechatter( <state> )"
-"Summary: Turns an AI's battlechatter on/off.  Will be overridden if a spawner's .script_bcdialog is set to 0."
-"Module: Battlechatter"
-"CallOn: An AI"
-"MandatoryArg: <state>: True/false, describes whether battlechatter should be on or off for this AI"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_battlechatter( state )
 {
 	if ( !anim.chatInitialized )
@@ -3900,37 +2737,13 @@ set_battlechatter( state )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: flavorbursts_on( <team> )"
-"Summary: Gives all the AIs on a team the ability to play flavor burst transmissions.  (Only US allies can use FBTs.)  Note: if the battlechatter system is not working, the flavorbursts will not work even if the AIs have this set on them."
-"Module: Battlechatter"
-"CallOn: "
-"OptionalArg: <team>: which team? Usually, only allies have flavorbursts."
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flavorbursts_on( team )
 {
 	thread set_flavorbursts_team_state( true, team );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: flavorbursts_off( <team> )"
-"Summary: Removes the ability to play flavor burst transmissions from all AIs on a team.  (Only US allies can use FBTs.)"
-"Module: Battlechatter"
-"CallOn: "
-"OptionalArg: <team>: which team? Usually, only allies have flavorbursts."
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flavorbursts_off( team )
 {
 	thread set_flavorbursts_team_state( false, team );
@@ -3959,34 +2772,13 @@ set_flavorbursts_team_state( state, team )
 	array_thread( guys, ::set_flavorbursts, state );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_flavorbursts( <state> )"
-"Summary: Turns battlechatter flavor burst transmissions for an AI on or off"
-"Module: Entity"
-"CallOn: An AI"
-"MandatoryArg: <state> "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_flavorbursts( state )
 {
 	self.flavorbursts = state;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: friendlyfire_warnings_off()"
-"Summary: Disables player-originated friendly fire warnings for all allied AI."
-"Module: Entity"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 friendlyfire_warnings_off()
 {
 	ais = GetAiArray( "allies" );
@@ -4002,16 +2794,7 @@ friendlyfire_warnings_off()
 	level.friendlyfire_warnings = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: friendlyfire_warnings_on()"
-"Summary: Enables player-originated friendly fire warnings for all allied AI."
-"Module: Entity"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 friendlyfire_warnings_on()
 {
 	ais = GetAiArray( "allies" );
@@ -4027,19 +2810,7 @@ friendlyfire_warnings_on()
 	level.friendlyfire_warnings = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_friendlyfire_warnings( <state> )"
-"Summary: Turns player-originated friendly fire warnings for an AI on or off"
-"Module: Entity"
-"CallOn: An AI"
-"MandatoryArg: <state> "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_friendlyfire_warnings( state )
 {
 	if( state )
@@ -4065,14 +2836,7 @@ set_friendly_chain_wrapper( node )
 
 
 // Newvillers objective management
- /* 
-	level.currentObjective = "obj1";// disables non obj1 friendly chains if you're using newvillers style friendlychains
-	objEvent = get_obj_event( "center_house" );// a trigger with targetname objective_event and a script_deathchain value
-	
-	objEvent waittill_objectiveEvent();// this waits until the AI with the event's script_deathchain are dead, 
-											then waits for trigger from the player. If it targets a friendly chain then it'll
-											make the friendlies go to the chain.
- */ 
+  
 
 get_obj_origin( msg )
 {
@@ -4123,20 +2887,7 @@ flood_begin()
 
 flood_and_secure_scripted( spawners, instantRespawn )
 {
-	 /* 
-		The "scripted" version acts as if it had been player triggered.
-		
-		Spawns AI that run to a spot then get a big goal radius. They stop spawning when auto delete kicks in, then start
-		again when they are retriggered or the player gets close.
-	
-		trigger targetname flood_and_secure
-		ai spawn and run to goal with small goalradius then get large goalradius
-		spawner starts with a notify from any flood_and_secure trigger that triggers it
-		spawner stops when an AI from it is deleted to make space for a new AI or when count is depleted
-		spawners with count of 1 only make 1 guy.
-		Spawners with count of more than 1 only deplete in count when the player kills the AI.
-		spawner can target another spawner. When first spawner's ai dies from death( not deletion ), second spawner activates.
-	 */ 
+	  
 
 	if ( !isdefined( instantRespawn ) )
 		instantRespawn = false;
@@ -4177,18 +2928,7 @@ debugorigin()
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_linked_structs()"
-"Summary: Returns an array of entities that SELF is linked to"
-"Module: Utility"
-"CallOn: An entity that links to other entities"
-"Example: spawners = heli get_linked_structs()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_linked_structs()
 {
 	array = [];
@@ -4209,19 +2949,7 @@ get_linked_structs()
 	return array;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_last_ent_in_chain( <sEntityType> )"
-"Summary: Get the last entity/node/vehiclenode in a chain of targeted entities"
-"Module: Entity"
-"CallOn: Any entity that targets a chain of linked nodes, vehiclenodes or other entities like script_origin"
-"MandatoryArg: <sEntityType>: needs to be specified as 'vehiclenode', 'pathnode', 'ent' or 'struct'"
-"Example: eLastNode = eVehicle get_last_ent_in_chain( "vehiclenode" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_last_ent_in_chain( sEntityType )
 {
 	ePathpoint = self;
@@ -4282,20 +3010,7 @@ timeout( timeout )
 	self notify( "timeout" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_forcegoal( <set_forcegoal> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_forcegoal()
 {
 	if ( IsDefined( self.set_forcedgoal ) )
@@ -4311,20 +3026,7 @@ set_forcegoal()
 	self.set_forcedgoal = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: unset_forcegoal( <unset_forcegoal> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 unset_forcegoal()
 {
 	if ( !isdefined( self.set_forcedgoal ) )
@@ -4337,39 +3039,14 @@ unset_forcegoal()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_add( <array> , <ent> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_add( array, ent )
 {
 	array[ array.size ] = ent;
 	return array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_removeDead_keepkeys( <array> )"
-"Summary: Remove dead from an array but keep keys intact"
-"Module: Utility"
-"CallOn: An array"
-"MandatoryArg: <array>: The array "
-"Example: array = array_removeDead_keepkeys( <array> );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_removeDead_keepkeys( array )
 {
 	newArray = [];
@@ -4385,19 +3062,7 @@ array_removeDead_keepkeys( array )
 	return newArray;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_removeDead( <array> )"
-"Summary: Returns a new array of < array > minus the dead entities"
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : The array to search for dead entities in."
-"Example: friendlies = array_removeDead( friendlies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_removeDead( array )
 {
 	newArray = [];
@@ -4411,19 +3076,7 @@ array_removeDead( array )
 	return newArray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_removeDead_or_dying( <array> )"
-"Summary:  Returns a new array of < array > minus the dead or dying ai"
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : The array to search for dead ai in."
-"Example: friendlies = array_removeDead_or_dying( friendlies );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_removeDead_or_dying( array )
 {
 	newArray = [];
@@ -4440,21 +3093,7 @@ array_removeDead_or_dying( array )
 
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: array_insert( <array> , <object> , <index> )"
-"Summary: Returns a new array of < array > plus < object > at the specified index"
-"Module: Array"
-"CallOn: "
-"MandatoryArg: <array> : The array to add to."
-"MandatoryArg: <object> : The entity to add"
-"MandatoryArg: <index> : The index position < object > should be added to."
-"Example: ai = array_insert( ai, spawned, 0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 array_insert( array, object, index )
 {
 	if ( index == array.size )
@@ -4480,20 +3119,7 @@ array_insert( array, object, index )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_remove_nokeys( <ents> , <remover> )"
-"Summary: array_remove used on non keyed arrays doesn't flip the array "
-"Module: Utility"
-"CallOn: Level"
-"MandatoryArg: <ents>: array to remove from"
-"MandatoryArg: <remover>: thing to remove from the array"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 array_remove_nokeys( ents, remover )
 {
@@ -4504,20 +3130,7 @@ array_remove_nokeys( ents, remover )
 	return newents;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_remove_index( <array> , <index> )"
-"Summary: Removes the element in the array with this index, resulting array order is intact."
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_remove_index( array, index )
 {
 	for ( i = 0; i < array.size - 1; i++ )
@@ -4532,20 +3145,7 @@ array_remove_index( array, index )
 	return array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_notify( <ents> , <notifier> )"
-"Summary: notify this array of entities with <notifier>"
-"Module: Array"
-"CallOn: array of entities"
-"MandatoryArg: <ents>: "
-"MandatoryArg: <notifier>: "
-"Example: array_notify( enemies, "time_to_dance" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_notify( ents, notifier, match )
 {
 	foreach ( key, value in ents )
@@ -4565,15 +3165,7 @@ struct_arrayspawn()
 	return struct;
 }
 
- /* 
-structarray_add( struct, object )
-{
-	struct.array[ struct.lastindex ] = SpawnStruct();
-	struct.array[ struct.lastindex ].object = object;
-	struct.array[ struct.lastindex ].struct_array_index = struct.lastindex;
-	struct.lastindex ++ ;
-}
- */ 
+  
 structarray_add( struct, object )
 {
 	Assert( !isdefined( object.struct_array_index ) );// can't have elements of two structarrays on these. can add that later if it's needed
@@ -4582,20 +3174,7 @@ structarray_add( struct, object )
 	struct.lastindex++;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: structarray_remove( <struct> , <object )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1> : "
-"OptionalArg: <param2> : "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 structarray_remove( struct, object )
 {
@@ -4659,20 +3238,7 @@ set_ambient_alias( ambient, alias )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_use_key( <get_use_key> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_use_key()
 {
 	if ( level.console )
@@ -4690,39 +3256,14 @@ doom()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: custom_battlechatter( <phrase> )"
-"Summary: Call this on an AI to get him to use the battlechatter system to say a specific kind of phrase.  AIs who have battlechatter turned off won't be able to say the phrase.  Returns false if it couldn't do the custom battlechatter for some reason (will output to console or assert with errors, depending on severity)."
-"Module: Battlechatter"
-"CallOn: An AI"
-"MandatoryArg: <phrase>: the string ID for the phrase that the AI will try to say.  Legit phrases are: "order_move_combat", "order_move_noncombat", "order_action_coverme", "inform_reloading""
-"Example: level.sarge custom_battlechatter( "move_combat" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 custom_battlechatter( phrase )
 {
 	return self animscripts\battlechatter_ai::custom_battlechatter_internal( phrase );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_stop_watch( <time> , <othertime> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_stop_watch( time, othertime )
 {
 	watch = NewHudElem();
@@ -4845,39 +3386,13 @@ set_objective_active( msg )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: detect_friendly_fire( <detect_friendly_fire> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 detect_friendly_fire()
 {
 	level thread maps\_friendlyfire::detectFriendlyFireOnEntity( self );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: missionFailedWrapper( <missionFailedWrapper> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 missionFailedWrapper()
 {
 	if ( level.MissionFailed )
@@ -4886,15 +3401,7 @@ missionFailedWrapper()
 	if ( IsDefined( level.nextmission ) )
 		return;// don't fail the mission while the game is on it's way to the next mission.
 
-/*	// will return in the next game
-	/#
-	if ( IsGodMode( level.player ) )
-	{
-		PrintLn( GetDvar( "ui_deadquote" ) );
-		return;
-	}
-	#/ 
-*/
+
 
 	level.MissionFailed = true;
 	flag_set( "missionfailed" );
@@ -4915,20 +3422,7 @@ missionFailedWrapper()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: script_delay( <script_delay> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 script_delay()
 {
 	if ( IsDefined( self.script_delay ) )
@@ -4947,20 +3441,7 @@ script_delay()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: script_wait( <script_wait> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 script_wait()
 {
 	startTime = GetTime();
@@ -4985,38 +3466,13 @@ script_wait()
 	return( GetTime() - startTime );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: guy_enter_vehicle( <guy> )"
-"Summary: Makes a guy get in a vehicle"
-"Module: Utility"
-"CallOn: A vehicle"
-"MandatoryArg: <guy>: The guy getting in"
-"Example: tank guy_enter_vehicle( guy );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 guy_enter_vehicle( guy )
 {
 	self maps\_vehicle_aianim::guy_enter( guy );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: guy_runtovehicle_load( <guy> , <vehicle> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 guy_runtovehicle_load( guy, vehicle )
 {
 	maps\_vehicle_aianim::guy_runtovehicle( guy, vehicle );
@@ -5055,18 +3511,7 @@ get_all_force_color_friendlies()
 	return guys;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_all_target_ents( <target> )"
-"Summary: Returns array of targetted ent, structs, nodes"
-"Module: Utility"
-"OptionalArg: <target>: Optional target override"
-"Example: node = guy get_target_ent();"
-"SPMP: both"
-///ScriptDocEnd
-=============
-*/
+
 get_all_target_ents( target )
 {
 	if ( !isdefined( target ) )
@@ -5092,18 +3537,7 @@ get_all_target_ents( target )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_ai_color( )"
-"Summary: Enables color movement system on an AI"
-"Module: Entity"
-"CallOn: An entity"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_ai_color()
 {
 	if ( IsDefined( self.script_forcecolor ) )
@@ -5115,38 +3549,14 @@ enable_ai_color()
 	self.old_forceColor = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_ai_color_dontmove( )"
-"Summary: Enables color movement system on an AI, but wont cause them to move to that color until another order is given by script or trigger"
-"Module: Entity"
-"CallOn: An entity"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_ai_color_dontmove()
 {
 	self.dontColorMove = true;
 	self enable_ai_color();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_ai_color( <disable_ai_color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_ai_color()
 {
 	if ( IsDefined( self.new_force_color_being_set ) )
@@ -5181,39 +3591,13 @@ disable_ai_color()
 	#/
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: clear_force_color( <clear_force_color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 clear_force_color()
 {
 	disable_ai_color();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: check_force_color( <_color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 check_force_color( _color )
 {
 	color = level.colorCheckList[ ToLower( _color ) ];
@@ -5223,20 +3607,7 @@ check_force_color( _color )
 		return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_force_color( <get_force_color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_force_color()
 {
 	color = self.script_forceColor;
@@ -5250,20 +3621,7 @@ shortenColor( color )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_force_color( <_color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_force_color( _color )
 {
 	// shorten and lowercase the ai's forcecolor to a single letter
@@ -5278,11 +3636,7 @@ set_force_color( _color )
 	}
 
 	AssertEx( IsAlive( self ), "Tried to set force color on a dead / undefined entity." );
-	 /* 
-	 /#
-	thread insure_player_does_not_set_forcecolor_twice_in_one_frame();
-	#/ 
-	 */ 
+	  
 
 	if ( self.team == "allies" )
 	{
@@ -5317,23 +3671,7 @@ set_force_color( _color )
 
 set_force_color_spawner( color )
 {
-	 /* 
-	team = undefined;
-	colorTeam = undefined;
-	if( IsSubStr( self.classname, "axis" ) )
-	{
-		colorTeam = self.script_color_axis;
-		team = "axis";
-	}
-	
-	if( IsSubStr( self.classname, "ally" ) )
-	{
-		colorTeam = self.script_color_allies;
-		team = "allies";
-	}
-
-	maps\_colors::removeSpawnerFromColorNumberArray();	
-	 */ 
+	  
 
 	self.script_forcecolor = color;
 // 	self.script_color_axis = undefined;
@@ -5527,39 +3865,13 @@ flashNearbyAllies( baseDuration, team )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: restartEffect( <restartEffect> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 restartEffect()
 {
 	self common_scripts\_createfx::restart_fx_looper();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: pauseExploder( <num> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 pauseExploder( num )
 {
 	num += "";
@@ -5576,20 +3888,7 @@ pauseExploder( num )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: restartExploder( <num> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 restartExploder( num )
 {
 	num += "";
@@ -5605,20 +3904,7 @@ restartExploder( num )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getfxarraybyID( <fxid> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getfxarraybyID( fxid )
 {
 	array = [];
@@ -5700,112 +3986,39 @@ ignoreAllEnemies( qTrue )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: vehicle_detachfrompath( <vehicle_detachfrompath> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 vehicle_detachfrompath()
 {
 	maps\_vehicle::vehicle_pathdetach();
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: vehicle_resumepath()"
-"Summary: will resume to the last path a vehicle was on.  Only used for helicopters, ground vehicles don't ever deviate."
-"Module: Vehicle"
-"CallOn: An entity"
-"Example: helicopter vehicle_resumepath();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 vehicle_resumepath()
 {
 	thread maps\_vehicle::vehicle_resumepathvehicle();
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: vehicle_land( <neargoaldist>)"
-"Summary: lands a vehicle on the ground, _vehicle scripts take care of offsets and determining where the ground is relative to the origin.  Returns when land is complete"
-"Module: Vehicle"
-"CallOn: An entity"
-"OptionalArg: <neargoaldist>: neargoal distance for notifying near_goal"
-"Example: helicopter vehicle_land();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 vehicle_land( neargoaldist )
 {
 	maps\_vehicle::vehicle_landvehicle( neargoaldist );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: vehicle_liftoff( <height> )"
-"Summary: make a vehicle lift of to the specified height. if the vehicle was on a path and went through vehicle_land, this will resume that path"
-"Module: Entity"
-"CallOn: An entity"
-"OptionalArg: <height>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 vehicle_liftoff( height )
 {
 	maps\_vehicle::vehicle_liftoffvehicle( height );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: vehicle_dynamicpath( <node> , <bwaitforstart> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 vehicle_dynamicpath( node, bwaitforstart )
 {
 	maps\_vehicle::vehicle_paths( node, bwaitforstart );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: groundpos( <origin> )"
-"Summary: bullettraces to the ground and returns the position that it hit."
-"Module: Utility"
-"CallOn: An entity"
-"MandatoryArg: <origin> : "
-"Example: groundposition = helicopter groundpos( helicopter.origin ); "
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 groundpos( origin )
 {
@@ -5826,20 +4039,7 @@ change_player_health_packets( num )
 // 		self Kill();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getvehiclespawner( <targetname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getvehiclespawner( targetname )
 {
 	spawners = getvehiclespawnerarray( targetname );
@@ -5847,39 +4047,13 @@ getvehiclespawner( targetname )
 	return spawners[ 0 ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getvehiclespawnerarray( <targetname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getvehiclespawnerarray( targetname )
 {
 	return maps\_vehicle::_getvehiclespawnerarray( targetname );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: player_fudge_moveto( <dest> , <moverate> )"
-"Summary: this function is to fudge move the player. Use this as a placeholder for an actual animation. returns when finished"
-"Module: Player"
-"CallOn: Level"
-"MandatoryArg: <dest> : origin to move the player to"
-"OptionalArg: <moverate> : Units per second to move the player.  defaults to 200"
-"Example: player_fudge_moveto( carexitorg );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 player_fudge_moveto( dest, moverate )
 {
@@ -5899,22 +4073,7 @@ player_fudge_moveto( dest, moverate )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_start( <msg> , <func> , <loc_string> , <optional_func> )"
-"Summary: add start with a string"
-"Module: Utility"
-"CallOn: Level"
-"MandatoryArg: <msg>: string to identify the start"
-"MandatoryArg: <func>: thread to start when this start is initialized"
-"OptionalArg: <loc_string>: Localizated string to display, this became a requirement when loc_warnings were turned on."
-"OptionalArg: <Optional_func>: The main logic function associated with this start point, will run in the order of the start points when a previous function completes."
-"Example: 	add_start( "first_hind", ::start_first_hind, &"STARTS_FIRSTHIND" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 add_start( msg, func, loc_string, optional_func )
 {
@@ -5945,37 +4104,13 @@ level_has_start_points()
 	return level.start_functions.size > 1;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_default_start( <start> )"
-"Summary: Set the default start point by name."
-"Module: Utility"
-"MandatoryArg: <start>: Which start to use as the default start."
-"Example: set_default_start( "ride" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_default_start( start )
 {
 	level.default_start_override = start;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: default_start( <func> )"
-"Summary: "
-"Module: Utility"
-"CallOn: Level"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 default_start( func )
 {
 	level.default_start = func;
@@ -5986,22 +4121,7 @@ linetime( start, end, color, timer )
 	thread linetime_proc( start, end, color, timer );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: within_fov( <start_origin> , <start_angles> , <end_origin> , <fov> )"
-"Summary: Returns true if < end_origin > is within the players field of view, otherwise returns false."
-"Module: Vector"
-"CallOn: "
-"MandatoryArg: <start_origin> : starting origin for FOV check( usually the players origin )"
-"MandatoryArg: <start_angles> : angles to specify facing direction( usually the players angles )"
-"MandatoryArg: <end_origin> : origin to check if it's in the FOV"
-"MandatoryArg: <fov> : cosine of the FOV angle to use"
-"Example: qBool = within_fov( level.player.origin, level.player.angles, target1.origin, Cos( 45 ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 within_fov( start_origin, start_angles, end_origin, fov )
 {
 	normal = VectorNormalize( end_origin - start_origin );
@@ -6011,22 +4131,7 @@ within_fov( start_origin, start_angles, end_origin, fov )
 	return dot >= fov;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: within_fov_2d( <start_origin> , <start_angles> , <end_origin> , <fov> )"
-"Summary: Returns true if < end_origin > is within the players field of view, otherwise returns false. Compares in 2d only."
-"Module: Vector"
-"CallOn: "
-"MandatoryArg: <start_origin> : starting origin for FOV check( usually the players origin )"
-"MandatoryArg: <start_angles> : angles to specify facing direction( usually the players angles )"
-"MandatoryArg: <end_origin> : origin to check if it's in the FOV"
-"MandatoryArg: <fov> : cosine of the FOV angle to use"
-"Example: qBool = within_fov_2d( level.player.origin, level.player.angles, target1.origin, Cos( 45 ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 within_fov_2d( start_origin, start_angles, end_origin, fov )
 {
 	start_origin = set_z( start_origin, 0 );
@@ -6041,21 +4146,7 @@ within_fov_2d( start_origin, start_angles, end_origin, fov )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_dot( <start_origin> , <start_angles> , <end_origin> )"
-"Summary: Returns the dot product."
-"Module: Vector"
-"CallOn: "
-"MandatoryArg: <start_origin> : starting origin for FOV check( usually the players origin )"
-"MandatoryArg: <start_angles> : angles to specify facing direction( usually the players angles )"
-"MandatoryArg: <end_origin> : origin to check if it's in the FOV"
-"Example: fov = get_dot( level.player.origin, level.player.angles, target1.origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 get_dot( start_origin, start_angles, end_origin )
 {
 	normal = VectorNormalize( end_origin - start_origin );
@@ -6067,20 +4158,7 @@ get_dot( start_origin, start_angles, end_origin )
 
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: within_fov_of_players( <end_origin> , <fov> )"
-"Summary: Returns true if < end_origin > is within the all of the players field of view (single or coop), otherwise returns false. Start origin and start angles are of the individual players in the map (single or coop)"
-"Module: Vector"
-"CallOn: "
-"MandatoryArg: <end_origin> : origin to check if it's in the FOV"
-"MandatoryArg: <fov> : cosine of the FOV angle to use"
-"Example: qBool = within_fov_of_players( target1.origin, Cos( 45 ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 within_fov_of_players( end_origin, fov )
 {
 	bDestInFOV = undefined;
@@ -6133,19 +4211,7 @@ waitSpread( start, end )
 
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_buffer_time_to_pass( <start_time> , <buffer_time> )"
-"Summary: Wait until the current time is equal or greater than the start_time (in ms) + buffer_time (in seconds)"
-"Module: Utility"
-"MandatoryArg: <start_time>: The GetTime() at the start of the scene."
-"MandatoryArg: <buffer_time>: The amount of time you want to insure has passed since start_time."
-"Example: wait_for_buffer_time_to_pass( level.last_time_we_checked, 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_buffer_time_to_pass( last_queue_time, buffer_time )
 {
 	timer = buffer_time * 1000 - ( GetTime() - last_queue_time );
@@ -6162,19 +4228,7 @@ bcs_scripted_dialogue_start()
 	anim.scriptedDialogueStartTime = GetTime();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: dialogue_queue( <msg> )"
-"Summary: Plays an anim_single_queue on the guy, with the guy as the actor"
-"Module: Utility"
-"CallOn: An ai"
-"MandatoryArg: <msg>: The dialogue scene, defined as level.scr_sound[ guys.animname ][ "scene" ] "
-"Example: level.price dialogue_queue( "nice_find_macgregor" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 dialogue_queue( msg )
 {
 	bcs_scripted_dialogue_start();
@@ -6182,20 +4236,7 @@ dialogue_queue( msg )
 	self maps\_anim::anim_single_queue( self, msg );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: generic_dialogue_queue( <msg>, <timeout> )"
-"Summary: Plays an anim_generic_queue on the guy, with the guy as the actor"
-"Module: Utility"
-"CallOn: An ai"
-"MandatoryArg: <msg>: The dialogue scene, defined as level.scr_sound[ "generic" ][ "scene" ] "
-"OptionalArg: <timeout>: optional timeout to forget the radio dialogue if it's been in the queue for longer than this many seconds"
-"Example: level.price dialogue_queue( "nice_find_macgregor" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 generic_dialogue_queue( msg, timeout )
 {
@@ -6204,19 +4245,7 @@ generic_dialogue_queue( msg, timeout )
 	self maps\_anim::anim_generic_queue( self, msg, undefined, undefined, timeout );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue( <msg> )"
-"Summary: puts radio dialogue into a queue. Dialogue plays when it gets it's turn in the queue."
-"Module: Utility"
-"MandatoryArg: <msg>: the radio dialogue alias to play"
-"OptionalArg: <timeout>: optional timeout to forget the radio dialogue if it's been in the queue for longer than this many seconds"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue( msg, timeout )
 {
 	AssertEx( IsDefined( level.scr_radio[ msg ] ), "Tried to play radio dialogue " + msg + " that did not exist! Add it to level.scr_radio" );
@@ -6245,18 +4274,7 @@ radio_dialogue( msg, timeout )
 	return success;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue_overlap( <msg> )"
-"Summary: Play a radio dialogue sound on top of whatever radio dialogue is currently playing (overlapping)."
-"Module: Utility"
-"MandatoryArg: <msg>: The dialogue alias"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue_overlap( msg )
 {
 	AssertEx( IsDefined( level.scr_radio[ msg ] ), "Tried to play radio dialogue " + msg + " that did not exist! Add it to level.scr_radio" );
@@ -6265,17 +4283,7 @@ radio_dialogue_overlap( msg )
 	level.player_radio_emitter play_sound_on_tag( level.scr_radio[ msg ], undefined, true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue_stop()"
-"Summary: Stops any radio dialogue currently playing and Stops any further radio dialogue queued up from playing ( removes those requests from the queue )"
-"Module: Utility"
-"Example: radio_dialogue_stop();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue_stop()
 {
 	if ( !isdefined( level.player_radio_emitter ) )
@@ -6284,17 +4292,7 @@ radio_dialogue_stop()
 	level.player_radio_emitter Delete();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue_clear_stack()"
-"Summary: Stops any further radio dialogue queued up from playing ( removes those requests from the queue )"
-"Module: Utility"
-"Example: radio_dialogue_clear_stack();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue_clear_stack()
 {
 	if ( !isdefined( level.player_radio_emitter ) )
@@ -6302,18 +4300,7 @@ radio_dialogue_clear_stack()
 	level.player_radio_emitter function_stack_clear();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue_interupt( <msg> )"
-"Summary: plays a radio dialogue line and oversteps any previous radio dialogue being played (doesn't stop any previous dialogue being played )"
-"Module: Utility"
-"MandatoryArg: <msg>: the radio dialogue alias to play"
-"Example: radio_dialogue_interupt( "shutup" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue_interupt( msg )
 {
 	AssertEx( IsDefined( level.scr_radio[ msg ] ), "Tried to play radio dialogue " + msg + " that did not exist! Add it to level.scr_radio" );
@@ -6328,18 +4315,7 @@ radio_dialogue_interupt( msg )
 	level.player_radio_emitter play_sound_on_tag( level.scr_radio[ msg ], undefined, true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: radio_dialogue_safe( <msg> )"
-"Summary: trys to play a radio dialogue line - only plays if there is no other radio dialogue playing"
-"Module: Utility"
-"MandatoryArg: <msg>: the radio dialogue alias to play"
-"Example: radio_dialogue_interupt( "shutup_please" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 radio_dialogue_safe( msg )
 {
 	return radio_dialogue( msg, .05 );
@@ -6415,20 +4391,7 @@ hint_position_internal( bgAlpha )
 	self.bg.alpha = bgAlpha;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: string( <num> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 string( num )
 {
 	return( "" + num );
@@ -6443,22 +4406,7 @@ ignoreEachOther( group1, group2 )
 	SetIgnoreMeGroup( group2, group1 );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: add_global_spawn_function( <team> , <func> , <param1> , <param2> , <param3> )"
-"Summary: All spawners of this team will run this function on spawn."
-"Module: Utility"
-"MandatoryArg: <team> : The team of the spawners that will run this function."
-"MandatoryArg: <func> : The function to run."
-"OptionalArg: <param1> : An optional parameter."
-"OptionalArg: <param2> : An optional parameter."
-"OptionalArg: <param3> : An optional parameter."
-"Example: add_global_spawn_function( "axis", ::do_the_amazing_thing, some_amazing_parameter );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 add_global_spawn_function( team, function, param1, param2, param3 )
 {
@@ -6473,19 +4421,7 @@ add_global_spawn_function( team, function, param1, param2, param3 )
 	level.spawn_funcs[ team ][ level.spawn_funcs[ team ].size ] = func;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: remove_global_spawn_function( <team> , <func> )"
-"Summary: Remove this function from the global spawn functions for this team."
-"Module: Utility"
-"MandatoryArg: <team> : The team of the spawners that will no longer run this function."
-"MandatoryArg: <func> : The function to remove."
-"Example: remove_global_spawn_function( "allies", ::do_the_amazing_thing );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 remove_global_spawn_function( team, function )
 {
@@ -6504,19 +4440,7 @@ remove_global_spawn_function( team, function )
 	level.spawn_funcs[ team ] = array;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: exists_global_spawn_function( <team> , <func> )"
-"Summary: Check if thisfunction from the global spawn functions for this team exists. Returns true or false."
-"Module: Utility"
-"MandatoryArg: <team> : The team of the spawners that will no longer run this function."
-"MandatoryArg: <func> : The function to remove."
-"Example: if ( exists_global_spawn_function( "allies", ::do_the_amazing_thing ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 exists_global_spawn_function( team, function )
 {
@@ -6533,18 +4457,7 @@ exists_global_spawn_function( team, function )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: remove_spawn_function( <func> )"
-"Summary: Remove this spawn function from this spawner."
-"Module: Utility"
-"MandatoryArg: <func1> : The function to remove."
-"Example: spawner remove_spawn_function( ::do_the_amazing_thing );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 remove_spawn_function( function )
 {
@@ -6566,23 +4479,7 @@ remove_spawn_function( function )
 	self.spawn_functions = new_spawn_functions;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: add_spawn_function( <func> , <param1> , <param2> , <param3>, <param4>, <param5> )"
-"Summary: Anything that spawns from this spawner will run this function. Anything."
-"Module: Utility"
-"MandatoryArg: <func1> : The function to run."
-"OptionalArg: <param1> : An optional parameter."
-"OptionalArg: <param2> : An optional parameter."
-"OptionalArg: <param3> : An optional parameter."
-"OptionalArg: <param4> : An optional parameter."
-"OptionalArg: <param5> : An optional parameter."
-"Example: spawner add_spawn_function( ::do_the_amazing_thing, some_amazing_parameter );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 add_spawn_function( function, param1, param2, param3, param4, param5 )
 {
@@ -6607,20 +4504,7 @@ add_spawn_function( function, param1, param2, param3, param4, param5 )
 	self.spawn_functions[ self.spawn_functions.size ] = func;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_delete( <array> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_delete( array )
 {
 	for ( i = 0; i < array.size; i++ )
@@ -6645,105 +4529,41 @@ ignore_triggers( timer )
 	self.ignoreTriggers = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: activate_trigger_with_targetname( <name> )"
-"Summary: Notifies a trigger of 'trigger'"
-"Module: Trigger"
-"MandatoryArg: <name>: string get the entity that has a targetname of <name>"
-"Example: activate_trigger_with_targetname( "red_team1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 activate_trigger_with_targetname( msg )
 {
 	trigger = GetEnt( msg, "targetname" );
 	trigger activate_trigger();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: activate_trigger_with_noteworthy( <name> )"
-"Summary: Notifies a trigger of 'trigger'"
-"Module: Trigger"
-"MandatoryArg: <name>: string get the entity that has a script_noteworthy of <name>"
-"Example: activate_trigger_with_noteworthy( "red_team1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 activate_trigger_with_noteworthy( msg )
 {
 	trigger = GetEnt( msg, "script_noteworthy" );
 	trigger activate_trigger();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_trigger_with_targetname( <name> )"
-"Summary: calls trigger_off() on a trigger with targetname of <name>"
-"Module: Trigger"
-"MandatoryArg: <name>: string get the entity that has a targetname of <name>"
-"Example: disable_trigger_with_targetname( "red_team1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_trigger_with_targetname( msg )
 {
 	trigger = GetEnt( msg, "targetname" );
 	trigger trigger_off();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_trigger_with_noteworthy( <name> )"
-"Summary: calls trigger_off() on a trigger with script_noteworthy of <name>"
-"Module: Trigger"
-"MandatoryArg: <name>: string get the entity that has a script_noteworthy of <name>"
-"Example: disable_trigger_with_noteworthy( "red_team1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_trigger_with_noteworthy( msg )
 {
 	trigger = GetEnt( msg, "script_noteworthy" );
 	trigger trigger_off();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: is_hero()"
-"Summary: check to see if AI is a hero"
-"Module: AI"
-"Example: level.price ishero()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 is_hero()
 {
 	return IsDefined( level.hero_list[ get_ai_number() ] );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_ai_number()"
-"Summary: gets an AI's ai number"
-"Module: AI"
-"Example: num = level.price get_ai_number()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_ai_number()
 {
 	if ( !isdefined( self.unique_id ) )
@@ -6753,69 +4573,26 @@ get_ai_number()
 	return self.unique_id;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_ai_number( <set_ai_number> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_ai_number()
 {
 	self.unique_id = "ai" + level.ai_number;
 	level.ai_number++;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: make_hero()"
-"Summary: makes an AI a hero"
-"Module: AI"
-"Example: level.price make_hero()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 make_hero()
 {
 	level.hero_list[ self.unique_id ] = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: unmake_hero()"
-"Summary: makes an AI not a hero"
-"Module: "
-"Example: level.price unmake_hero()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 unmake_hero()
 {
 	level.hero_list[ self.unique_id ] = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_heroes()"
-"Summary: returns an array of hero AI"
-"Module: "
-"Example: level.heros =  get_heroes()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_heroes()
 {
 	array = [];
@@ -6828,20 +4605,7 @@ get_heroes()
 	return array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_team_pacifist( <team> , <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_team_pacifist( team, val )
 {
 	ai = GetAIArray( team );
@@ -6851,18 +4615,7 @@ set_team_pacifist( team, val )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: replace_on_death()"
-"Summary: Color friendlies that run this will be replaced when they die"
-"Module: Utility"
-"CallOn: A friendly"
-"Example: red_shirt thread replace_on_death(); // poor guy"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 replace_on_death()
 {
 	// kill with either:
@@ -6912,17 +4665,7 @@ set_empty_promotion_order( deadguy )
 	level.current_color_order[ deadguy ] = "none";
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_dead_from_array( <array> )"
-"Summary: remove_dead_from_array"
-"Module: "
-"Example: array = remove_dead_from_array( array )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_dead_from_array( array )
 {
 	newarray = [];
@@ -6935,17 +4678,7 @@ remove_dead_from_array( array )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_heroes_from_array( <array> )"
-"Summary: remove_heroes_from_array"
-"Module: "
-"Example: array = remove_heroes_from_array( array )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_heroes_from_array( array )
 {
 	newarray = [];
@@ -6958,17 +4691,7 @@ remove_heroes_from_array( array )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_all_animnamed_guys_from_array( <array> )"
-"Summary: remove_all_animnamed_guys_from_array"
-"Module: "
-"Example: array = remove_all_animnamed_guys_from_array( array )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_all_animnamed_guys_from_array( array )
 {
 	newarray = [];
@@ -6982,20 +4705,7 @@ remove_all_animnamed_guys_from_array( array )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_color_from_array( <array> , <color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_color_from_array( array, color )
 {
 	newarray = [];
@@ -7011,20 +4721,7 @@ remove_color_from_array( array, color )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_noteworthy_from_array( <array> , <noteworthy> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_noteworthy_from_array( array, noteworthy )
 {
 	newarray = [];
@@ -7040,20 +4737,7 @@ remove_noteworthy_from_array( array, noteworthy )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_closest_colored_friendly( <color> , <origin> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_closest_colored_friendly( color, origin )
 {
 	allies = get_force_color_guys( "allies", color );
@@ -7067,20 +4751,7 @@ get_closest_colored_friendly( color, origin )
 	return getClosest( friendly_origin, allies );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_without_classname( <array> , <classname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_without_classname( array, classname )
 {
 	newarray = [];
@@ -7093,20 +4764,7 @@ remove_without_classname( array, classname )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_without_model( <array> , <model> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_without_model( array, model )
 {
 	newarray = [];
@@ -7119,20 +4777,7 @@ remove_without_model( array, model )
 	return newarray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_closest_colored_friendly_with_classname( <color> , <classname> , <origin> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_closest_colored_friendly_with_classname( color, classname, origin )
 {
 	allies = get_force_color_guys( "allies", color );
@@ -7150,20 +4795,7 @@ get_closest_colored_friendly_with_classname( color, classname, origin )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: promote_nearest_friendly( <colorFrom> , <colorTo> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 promote_nearest_friendly( colorFrom, colorTo )
 {
 	for ( ;; )
@@ -7180,20 +4812,7 @@ promote_nearest_friendly( colorFrom, colorTo )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: instantly_promote_nearest_friendly( <colorFrom> , <colorTo> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 instantly_promote_nearest_friendly( colorFrom, colorTo )
 {
 	for ( ;; )
@@ -7210,20 +4829,7 @@ instantly_promote_nearest_friendly( colorFrom, colorTo )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: instantly_promote_nearest_friendly_with_classname( <colorFrom> , <colorTo> , <classname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 instantly_promote_nearest_friendly_with_classname( colorFrom, colorTo, classname )
 {
 	for ( ;; )
@@ -7240,20 +4846,7 @@ instantly_promote_nearest_friendly_with_classname( colorFrom, colorTo, classname
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: promote_nearest_friendly_with_classname( <colorFrom> , <colorTo> , <classname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 promote_nearest_friendly_with_classname( colorFrom, colorTo, classname )
 {
 	for ( ;; )
@@ -7270,59 +4863,20 @@ promote_nearest_friendly_with_classname( colorFrom, colorTo, classname )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: riotshield_lock_orientation( <yaw_angle> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 riotshield_lock_orientation( yaw_angle )
 {
 	self OrientMode( "face angle", yaw_angle );
 	self.lockOrientation = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: riotshield_unlock_orientation( <riotshield_unlock_orientation> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 riotshield_unlock_orientation()
 {
 	self.lockOrientation = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: instantly_set_color_from_array_with_classname( <array> , <color> , <classname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 instantly_set_color_from_array_with_classname( array, color, classname )
 {
 	// the guy is removed from the array so the function can be run on the array again
@@ -7343,20 +4897,7 @@ instantly_set_color_from_array_with_classname( array, color, classname )
 	return newArray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: instantly_set_color_from_array( <array> , <color> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 instantly_set_color_from_array( array, color )
 {
 	// the guy is removed from the array so the function can be run on the array again
@@ -7377,58 +4918,19 @@ instantly_set_color_from_array( array, color )
 	return newArray;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_script_noteworthy_trigger( <msg> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_script_noteworthy_trigger( msg )
 {
 	wait_for_trigger( msg, "script_noteworthy" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_targetname_trigger( <msg> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_targetname_trigger( msg )
 {
 	wait_for_trigger( msg, "targetname" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_flag_or_timeout( <msg> , <timer> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_flag_or_timeout( msg, timer )
 {
 	if ( flag( msg ) )
@@ -7440,20 +4942,7 @@ wait_for_flag_or_timeout( msg, timer )
 	ent waittill( "done" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_notify_or_timeout( <msg> , <timer> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_notify_or_timeout( msg, timer )
 {
 	ent = SpawnStruct();
@@ -7462,20 +4951,7 @@ wait_for_notify_or_timeout( msg, timer )
 	ent waittill( "done" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_trigger_or_timeout( <timer> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_trigger_or_timeout( timer )
 {
 	ent = SpawnStruct();
@@ -7484,20 +4960,7 @@ wait_for_trigger_or_timeout( timer )
 	ent waittill( "done" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: wait_for_either_trigger( <msg1> , <msg2> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 wait_for_either_trigger( msg1, msg2 )
 {
 	ent = SpawnStruct();
@@ -7513,20 +4976,7 @@ wait_for_either_trigger( msg1, msg2 )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: dronespawn_bodyonly( <spawner> )"
-"Summary: Create a drone body, doesn't take damage, die, etc."
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 dronespawn_bodyonly( spawner )
 {
 	drone = maps\_spawner::spawner_dronespawn( spawner );
@@ -7536,20 +4986,7 @@ dronespawn_bodyonly( spawner )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: dronespawn( <spawner> )"
-"Summary: Create a drone, make it behave like AI"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 dronespawn( spawner )
 {
 	if ( !isdefined( spawner ) )
@@ -7566,39 +5003,13 @@ dronespawn( spawner )
 	return drone;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: makerealai( <drone> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 makerealai( drone )
 {
 	return maps\_spawner::spawner_makerealai( drone );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_trigger_flag( <get_trigger_flag> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_trigger_flag()
 {
 	if ( IsDefined( self.script_flag ) )
@@ -7621,20 +5032,7 @@ set_default_pathenemy_settings()
 	self.pathenemyfightdist = 192;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: cqb_walk( <on_or_off> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 cqb_walk( on_or_off )// ( deprecated )
 {
 	if ( on_or_off == "on" )
@@ -7648,20 +5046,7 @@ cqb_walk( on_or_off )// ( deprecated )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_cqbwalk( <autoEnabled> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_cqbwalk( autoEnabled )
 {
 	if ( !isdefined( autoEnabled ) )
@@ -7676,20 +5061,7 @@ enable_cqbwalk( autoEnabled )
 	#/
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_cqbwalk( <disable_cqbwalk> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_cqbwalk()
 {
 	self.cqbwalking = undefined;
@@ -7702,20 +5074,7 @@ disable_cqbwalk()
 	#/
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: cqb_aim( <the_target> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 cqb_aim( the_target )
 {
 	if ( !isdefined( the_target ) )
@@ -7732,20 +5091,7 @@ cqb_aim( the_target )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_force_cover( <val> )"
-"Summary: true to be suppressed, false to turn off
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_force_cover( val )
 {
  	AssertEx( !isdefined( val ) || val == false || val == true, "invalid force cover set on guy" );
@@ -7756,20 +5102,7 @@ set_force_cover( val )
 		self.forceSuppression = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: do_in_order( <func1> , <param1> , <func2> , <param2> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 do_in_order( func1, param1, func2, param2 )
 {
 	if ( IsDefined( param1 ) )
@@ -7788,20 +5121,7 @@ scrub()
 	self maps\_spawner::scrub_guy();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: send_notify( <msg> , <optional_param> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 send_notify( msg, optional_param )
 {
 	// functionalized so it can be function pointer'd
@@ -7812,20 +5132,7 @@ send_notify( msg, optional_param )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_match_or_timeout( <msg> , <match>, <timer> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_match_or_timeout( msg, match, timer )
 {
 	ent = SpawnStruct();
@@ -7844,19 +5151,7 @@ deleteEnt( ent )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: first_touch( <ent> )"
-"Summary: Returns true the first time this check is run against an entity."
-"Module: Utility"
-"CallOn: An entity that notifies trigger to a trigger."
-"MandatoryArg: <ent>: The ent that caused trigger to be notified "
-"Example: if ( first_touch( guy ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 first_touch( ent )
 {
 	if ( !isdefined( self.touched ) )
@@ -7872,19 +5167,7 @@ first_touch( ent )
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getanim( <anime> )"
-"Summary: Gets the animation referenced by the string for the animname of the caller"
-"Module: Animation"
-"CallOn: An entity that has an animname."
-"MandatoryArg: <anime> The animation scene. "
-"Example: animation = guy getanim( "run" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getanim( anime )
 {
 	AssertEx( IsDefined( self.animname ), "Called getanim on a guy with no animname" );
@@ -7892,39 +5175,14 @@ getanim( anime )
 	return level.scr_anim[ self.animname ][ anime ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hasanim( <anime> )"
-"Summary: Returns whether a guy has the animation referenced by the string for the animname of the caller."
-"Module: Animation"
-"CallOn: An entity that has an animname."
-"MandatoryArg: <anime> The animation scene. "
-"Example: if( guy hasanim( "run" ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hasanim( anime )
 {
 	AssertEx( IsDefined( self.animname ), "Called getanim on a guy with no animname" );
 	return IsDefined( level.scr_anim[ self.animname ][ anime ] );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getanim_from_animname( <anime> , <animname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getanim_from_animname( anime, animname )
 {
 	AssertEx( IsDefined( animname ), "Must supply an animname" );
@@ -7932,41 +5190,14 @@ getanim_from_animname( anime, animname )
 	return level.scr_anim[ animname ][ anime ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getanim_generic( <anime> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getanim_generic( anime )
 {
 	AssertEx( IsDefined( level.scr_anim[ "generic" ][ anime ] ), "Called getanim_generic on an inexistent anim" );
 	return level.scr_anim[ "generic" ][ anime ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_hint_string( <name> , <string> , <optionalFunc> )"
-"Summary: Adds a hint string that will be displayed with display_hint. The hint runs until the function returns true"
-"Module: Hint"
-"MandatoryArg: <name>: Name of the hint"
-"MandatoryArg: <string>: String to display for the hint"
-"MandatoryArg: <optionalFunc>: Draw the string until this function returns true."
-// Press^3 [{+actionslot 1}] ^7to disable Night Vision Goggles.
-"Example: add_hint_string( "disable_nvg", &"SCRIPT_NIGHTVISION_STOP_USE", maps\_nightvision::should_break_disable_nvg_print );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_hint_string( name, string, optionalFunc )
 {
 	if ( !isdefined( level.trigger_hint_string ) )
@@ -8034,20 +5265,7 @@ ThrowGrenadeAtPlayerASAP()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_combine_keys( <array1> , <keys> , <keys> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_combine_keys( array1, array2 )// mashes them in. array 2 will overwrite like keys, this works for what I'm using it for - Nate.
 {
 	if ( !array1.size )
@@ -8058,39 +5276,13 @@ array_combine_keys( array1, array2 )// mashes them in. array 2 will overwrite li
 	return array1;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_ignoreSuppression( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_ignoreSuppression( val )
 {
 	self.ignoreSuppression = val;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_goalradius( <radius> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_goalradius( radius )
 {
 	self.goalradius = radius;
@@ -8112,39 +5304,13 @@ try_forever_spawn()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_allowdeath( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_allowdeath( val )
 {
 	self.allowdeath = val;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_run_anim( <anime> , <alwaysRunForward> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_run_anim( anime, alwaysRunForward )
 {
 	AssertEx( IsDefined( anime ), "Tried to set run anim but didn't specify which animation to ues" );
@@ -8162,20 +5328,7 @@ set_run_anim( anime, alwaysRunForward )
 	self.walk_overrideanim = self.run_overrideanim;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_dog_walk_anim( <set_dog_walk_anim> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_dog_walk_anim()
 {
 	AssertEx( self.type == "dog" );
@@ -8187,40 +5340,14 @@ set_dog_walk_anim()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_combat_stand_animset( <fire>, <aim_straight>, <idle>, <reload> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_combat_stand_animset( fire_anim, aim_straight, idle_anim, reload_anim )
 {
 	self animscripts\animset::init_animset_custom_stand( fire_anim, aim_straight, idle_anim, reload_anim );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_move_animset( <move_mode>, <move_anim>, <sprint_anim> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_move_animset( move_mode, move_anim, sprint_anim )
 {
 	AssertEx( IsDefined( anim.animsets.move[ move_mode ] ), "Default anim set is not defined" );
@@ -8252,19 +5379,7 @@ set_move_animset( move_mode, move_anim, sprint_anim )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_generic_idle_anim( <anime> )"
-"Summary: Sets the override idle anim, needs to be set each time he idles"
-"Module: Utility"
-"CallOn: An ai"
-"MandatoryArg: <anime>: The idle scene "
-"Example: guy set_idle_anim( "yay" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_generic_idle_anim( anime )
 {
 	AssertEx( IsDefined( anime ), "Tried to set generic idle but didn't specify which animation to ues" );
@@ -8278,19 +5393,7 @@ set_generic_idle_anim( anime )
 		self.specialIdleAnim[ 0 ] = idleAnim;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_idle_anim( <anime> )"
-"Summary: Sets the override idle anim, needs to be set each time he idles"
-"Module: Utility"
-"CallOn: An ai"
-"MandatoryArg: <anime>: The idle scene "
-"Example: guy set_idle_anim( "yay" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_idle_anim( anime )
 {
 	AssertEx( IsDefined( self.animname ), "No animname!" );
@@ -8306,18 +5409,7 @@ set_idle_anim( anime )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: clear_generic_idle_anim()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 clear_generic_idle_anim()
 {
 	self.specialIdleAnim = undefined;
@@ -8325,20 +5417,7 @@ clear_generic_idle_anim()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_generic_run_anim( <anime> , <alwaysRunForward> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_generic_run_anim( anime, alwaysRunForward )
 {
 	AssertEx( IsDefined( anime ), "Tried to set generic run anim but didn't specify which animation to ues" );
@@ -8358,21 +5437,7 @@ set_generic_run_anim( anime, alwaysRunForward )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_generic_run_anim_array( <array>, <weights>, <alwaysRunForward> )"
-"Summary: "
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <string anime>: index to an array of run cycles (run cycle and twitches) to pass"
-"OptionalArg: <string weights>: relative weights of animation variations, if not specified, all are equal"
-"OptionalArg: <alwaysRunForward>: bool to always face in the direction of motion or not"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_generic_run_anim_array( anime, weights, alwaysRunForward )
 {
 	AssertEx( IsDefined( anime ), "Tried to set generic run anim but didn't specify which animation to ues" );
@@ -8402,21 +5467,7 @@ set_generic_run_anim_array( anime, weights, alwaysRunForward )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_run_anim_array( <array>, <weights>, <alwaysRunForward> )"
-"Summary: "
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <string anime>: index to an array of run cycles (run cycle and twitches) to pass"
-"OptionalArg: <string weights>: relative weights of animation variations, if not specified, all are equal"
-"OptionalArg: <alwaysRunForward>: bool to always face in the direction of motion or not"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_run_anim_array( anime, weights, alwaysRunForward )
 {
 	AssertEx( IsDefined( anime ), "Tried to set generic run anim but didn't specify which animation to ues" );
@@ -8447,20 +5498,7 @@ set_run_anim_array( anime, weights, alwaysRunForward )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: clear_run_anim( <clear_run_anim> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 clear_run_anim()
 {
 	self notify( "clear_run_anim" );
@@ -8539,38 +5577,13 @@ physicsjolt_proximity( outer_radius, inner_radius, force )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_goal_entity( <ent> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_goal_entity( ent )
 {
 	self SetGoalEntity( ent );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: activate_trigger( <name> , <type> )"
-"Summary: Notifies a trigger of 'trigger'"
-"Module: Trigger"
-"MandatoryArg: <name>: string to get the entity with"
-"MandatoryArg: <type>: type that string refers to (ie. targetname, script_noteworthy, target )"
-"Example: activate_trigger( "red_team1", "targetname" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 activate_trigger( name, type, triggeringEnt )
 {
 	if ( !isdefined( name ) )
@@ -8599,28 +5612,10 @@ activate_trigger_process( triggeringEnt )
 
 	self notify( "trigger", triggeringEnt );
 
-	/*
-	if ( self.classname != "trigger_friendlychain" )
-		return;
-
-	node = GetNode( self.target, "targetname" );
-	AssertEx( IsDefined( node ), "Trigger_friendlychain at " + self.origin + " doesn't target a node" );
-	level.player SetFriendlyChain( node );
-	*/
+	
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: self_delete()"
-"Summary: Just calls the Delete() script command on self. Reason for this is so that we can use array_thread to delete entities"
-"Module: Entity"
-"CallOn: An entity"
-"Example: ai[ 0 ] thread self_delete();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 self_delete()
 {
 	self Delete();
@@ -8668,20 +5663,7 @@ clear_team_colors( team )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_script_palette( <get_script_palette> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_script_palette()
 {
 	rgb = [];
@@ -8695,20 +5677,7 @@ get_script_palette()
 	return rgb;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: notify_delay( <notify_string> , <delay> )"
-"Summary: Notifies self the string after waiting the specified delay time"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <notify_string> : The string to notify"
-"MandatoryArg: <delay> : Time to wait( in seconds ) before sending the notify."
-"Example: vehicle notify_delay( "start_to_smoke", 3.5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 notify_delay( sNotifyString, fDelay )
 {
 	Assert( IsDefined( self ) );
@@ -8723,18 +5692,7 @@ notify_delay( sNotifyString, fDelay )
 	self notify( sNotifyString );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: gun_remove()"
-"Summary: Removed the gun from the given AI. Often used for scripted sequences where you dont want the AI to carry a weapon."
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price gun_remove();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 gun_remove()
 {
 	if ( IsAI( self ) )		// regular AI
@@ -8744,18 +5702,7 @@ gun_remove()
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: gun_recall()"
-"Summary: Give the AI his gun back."
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price gun_recall();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
- */ 
+  
 gun_recall()
 {
 	if ( IsAI( self ) )		// regular AI
@@ -8765,20 +5712,7 @@ gun_recall()
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: place_weapon_on( <weapon>, <location> )"
-"Summary: Equip a wepaon on an AI."
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <weapon> : The name of the weapon to equip"
-"MandatoryArg: <> : Slot to store the weapon in. 'right', 'left', 'chest', or 'back'."
-"Example: level.price place_weapon_on( "at4", "back" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
  place_weapon_on( weapon, location )
  {
 	Assert( IsAI( self ) );
@@ -8790,20 +5724,7 @@ gun_recall()
  }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: forceUseWeapon( <newWeapon>, <targetSlot> )"
-"Summary: Forces the AI to switch to a specified weapon."
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <newWeapon> : The name of the weapon to use/give"
-"MandatoryArg: <target slot> : Slot to store the weapon in. primary, secondary or sidearm."
-"Example: level.price forceUseWeapon( "glock", "sidearm" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 forceUseWeapon( newWeapon, targetSlot )
 {
 	Assert( IsDefined( newWeapon ) );
@@ -8863,70 +5784,21 @@ forceUseWeapon( newWeapon, targetSlot )
 }
 
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: lerp_player_view_to_tag( <player>, <tag> , <lerptime> , <fraction> , <right_arc> , <left_arc> , <top_arc> , <bottom_arc> )"
-"Summary: Lerps the player's view to the tag on the entity that calls the function.."
-"Module: Utility"
-"CallOn: An entity you want to lerp the player's view to."
-"MandatoryArg: <player> : Player to do the lerp on"
-"MandatoryArg: <tag> : Tag on the entity that you're lerping to."
-"MandatoryArg: <lerptime> : Time to lerp over."
-"OptionalArg: <fraction> : 0 to 1 amount that the rotation of the player's view should be effected by the entity. If you set it less than 1 then the player's view will not get all the way to the final angle."
-"OptionalArg: <arcs> : Various arcs that limit how far the player can change his view."
-"Example: car lerp_player_view_to_tag( "tag_windshield", 1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 
 lerp_player_view_to_tag( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc )
 {
 	lerp_player_view_to_tag_internal( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc, false );
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: lerp_player_view_to_tag_and_hit_geo( <player>, <tag> , <lerptime> , <fraction> , <right_arc> , <left_arc> , <top_arc> , <bottom_arc> )"
-"Summary: Lerps the player's view to the tag on the entity that calls the function. Geo will block the player."
-"Module: Utility"
-"CallOn: An entity you want to lerp the player's view to."
-"MandatoryArg: <player> : Player to do the lerp on"
-"MandatoryArg: <tag> : Tag on the entity that you're lerping to."
-"MandatoryArg: <lerptime> : Time to lerp over."
-"OptionalArg: <fraction> : 0 to 1 amount that the rotation of the player's view should be effected by the entity. If you set it less than 1 then the player's view will not get all the way to the final angle."
-"OptionalArg: <arcs> : Various arcs that limit how far the player can change his view."
-"Example: car lerp_player_view_to_tag_and_hit_geo( "tag_windshield", 1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 
 lerp_player_view_to_tag_and_hit_geo( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc )
 {
 	lerp_player_view_to_tag_internal( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc, true );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: lerp_player_view_to_position( <origin> , <angles> , <lerptime> , <fraction> , <right_arc> , <left_arc> , <top_arc> , <bottom_arc>, <hit_geo> )"
-"Summary: Lerps the player's view to an origin and angles. See lerp_player_view_to_tag."
-"Module: Utility"
-"CallOn: A player (optional. If not cvalled on player, will default to level.player)"
-"MandatoryArg: <origin> : The origin you're lerping to."
-"MandatoryArg: <angles> : The angles you're lerping to."
-"MandatoryArg: <lerptime> : Time to lerp over."
-"OptionalArg: <fraction> : 0 to 1 amount that the rotation of the player's view should be effected by the destination angles. If you set it less than 1 then the player's view will not get all the way to the final angle."
-"OptionalArg: <arcs> : Various arcs that limit how far the player can change his view."
-"OptionalArg: <hit_geo> : Sets if the player will hit geo."
-"Example: lerp_player_view_to_position( org.origin, org.angles );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 lerp_player_view_to_position( origin, angles, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc, hit_geo, player )
 {
@@ -8962,45 +5834,13 @@ lerp_player_view_to_position( origin, angles, lerptime, fraction, right_arc, lef
 }
 
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: lerp_player_view_to_tag_oldstyle( <player>, <tag> , <lerptime> , <fraction> , <right_arc> , <left_arc> , <top_arc> , <bottom_arc> )"
-"Summary: Lerps the player's view to the tag on the entity that calls the function, using the oldstyle link which moves the player's view when the tag rotates."
-"Module: Utility"
-"CallOn: An entity you want to lerp the player's view to."
-"MandatoryArg: <player> : Which player."
-"MandatoryArg: <tag> : Tag on the entity that you're lerping to."
-"MandatoryArg: <lerptime> : Time to lerp over."
-"OptionalArg: <fraction> : 0 to 1 amount that the rotation of the player's view should be effected by the entity. If you set it less than 1 then the player's view will not get all the way to the final angle."
-"OptionalArg: <arcs> : Various arcs that limit how far the player can change his view."
-"Example: car lerp_player_view_to_tag_oldstyle( "tag_windshield", 1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 lerp_player_view_to_tag_oldstyle( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc )
 {
 	lerp_player_view_to_tag_oldstyle_internal( player, tag, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc, false );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: lerp_player_view_to_position_oldstyle( <origin> , <angles> , <lerptime> , <fraction> , <right_arc> , <left_arc> , <top_arc> , <bottom_arc>, <hit_geo> )"
-"Summary: Lerps the player's view to an origin and angles. See lerp_player_view_to_tag_oldstyle. Oldstyle means that you're going to move to the point where the player's feet would be, rather than directly below the point where the view would be."
-"Module: Utility"
-"MandatoryArg: <origin> : The origin you're lerping to."
-"MandatoryArg: <angles> : The angles you're lerping to."
-"MandatoryArg: <lerptime> : Time to lerp over."
-"OptionalArg: <fraction> : 0 to 1 amount that the rotation of the player's view should be effected by the destination angles. If you set it less than 1 then the player's view will not get all the way to the final angle."
-"OptionalArg: <arcs> : Various arcs that limit how far the player can change his view."
-"OptionalArg: <hit_geo> : Sets if the player will hit geo."
-"Example: lerp_player_view_to_position_oldstyle( org.origin, org.angles );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 lerp_player_view_to_position_oldstyle( origin, angles, lerptime, fraction, right_arc, left_arc, top_arc, bottom_arc, hit_geo )
 {
@@ -9042,18 +5882,7 @@ timer( time )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: player_moves( <dist> )"
-"Summary: Returns when the player has moved < dist > distance."
-"Module: Utility"
-"MandatoryArg: <dist> : The distance the player must move for the function to return."
-"Example: player_moves( 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 player_moves( dist )
 {
@@ -9067,21 +5896,7 @@ player_moves( dist )
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: waittill_either_function( <func1> , <parm1> , <func2> , <parm2> )"
-"Summary: Returns when either func1 or func2 have returned."
-"Module: Utility"
-"MandatoryArg: <func1> : A function pointer to a function that may return at some point."
-"MandatoryArg: <func2> : Another function pointer to a function that may return at some point."
-"OptionalArg: <parm1> : An optional parameter for func1."
-"OptionalArg: <parm2> : An optional parameter for func2."
-"Example: player_moves( 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 waittill_either_function( func1, parm1, func2, parm2 )
 {
@@ -9091,38 +5906,14 @@ waittill_either_function( func1, parm1, func2, parm2 )
 	ent waittill( "done" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_msg( <msg> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_msg( msg )
 {
 	self waittill( msg );
 }
 
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: display_hint( <hint> )"
-"Summary: Displays a hint created with add_hint_string."
-"Module: Utility"
-"MandatoryArg: <hint> : The hint reference created with add_hint_string."
-"Example: display_hint( "huzzah" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 display_hint( hint, parm1, parm2, parm3 )
 {
 	player = get_player_from_self();
@@ -9142,18 +5933,7 @@ display_hint( hint, parm1, parm2, parm3 )
 	}
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: display_hint_timeout( <hint> )"
-"Summary: Displays a hint created with add_hint_string."
-"Module: Utility"
-"MandatoryArg: <hint> : The hint reference created with add_hint_string."
-"Example: display_hint( "huzzah" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 display_hint_timeout( hint, timeout, parm1, parm2, parm3 )
 {
 	player = get_player_from_self();
@@ -9169,54 +5949,21 @@ display_hint_timeout( hint, timeout, parm1, parm2, parm3 )
 	player thread HintPrint( level.trigger_hint_string[ hint ], level.trigger_hint_func[ hint ], parm1, parm2, parm3, timeout );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getGenericAnim( <anime> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getGenericAnim( anime )
 {
 	AssertEx( IsDefined( level.scr_anim[ "generic" ][ anime ] ), "Generic anim " + anime + " was not defined in your _anim file." );
 	return level.scr_anim[ "generic" ][ anime ];
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: enable_careful()"
-"Summary: Makes an AI not advance into his fixednode safe radius if an enemy enters it."
-"Module: AI"
-"Example: guy enable_careful()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 enable_careful()
 {
 	AssertEx( IsAI( self ), "Tried to make an ai careful but it wasn't called on an AI" );
 	self.script_careful = true;
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: disable_careful()"
-"Summary: Turns off careful mode for this AI."
-"Module: AI"
-"Example: guy disable_careful()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 disable_careful()
 {
 	AssertEx( IsAI( self ), "Tried to unmake an ai careful but it wasn't called on an AI" );
@@ -9224,69 +5971,27 @@ disable_careful()
 	self notify( "stop_being_careful" );
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: enable_sprint()"
-"Summary: Force an ai to sprint."
-"Module: AI"
-"Example: guy enable_sprint()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 enable_sprint()
 {
 	AssertEx( IsAI( self ), "Tried to make an ai sprint but it wasn't called on an AI" );
 	self.sprint = true;
 }
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: disable_sprint()"
-"Summary: Disable forced sprinting."
-"Module: AI"
-"Example: guy disable_sprint()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 disable_sprint()
 {
 	AssertEx( IsAI( self ), "Tried to unmake an ai sprint but it wasn't called on an AI" );
 	self.sprint = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_bulletwhizbyreaction()"
-"Summary: disables the bulletwhizby reactions by ai"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price disable_bulletwhizbyreaction();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_bulletwhizbyreaction()
 {
 	self.disableBulletWhizbyReaction = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_bulletwhizbyreaction()"
-"Summary: renables the bulletwhizby reactions by ai"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price enable_bulletwhizbyreaction();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_bulletwhizbyreaction()
 {
 	self.disableBulletWhizbyReaction = undefined;
@@ -9297,75 +6002,26 @@ clear_dvar( msg )
 	SetDvar( msg, "" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: mission( <name> )"
-"Summary: Returns true if name is the current mission"
-"Module: Utility"
-"MandatoryArg: <name>: Name of the mission to test"
-"Example: if ( mission( "bog_a" ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 mission( name )
 {
 	return level.script == name;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_fixednode_true( <set_fixednode_true> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_fixednode_true()
 {
 	self.fixednode = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_fixednode_false( <set_fixednode_false> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_fixednode_false()
 {
 	self.fixednode = false;
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: spawn_ai( <bForceSpawn> )"
-"Summary: Spawns the AI spawner and returns the alive AI"
-"Module: Entity"
-"CallOn: An entity"
-"OptionalArg: <bForceSpawn>: Set to true to force spawn the AI"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 spawn_ai( bForceSpawn )
 {
 	if ( IsDefined( self.script_delay_spawn ) )
@@ -9405,24 +6061,7 @@ spawn_ai( bForceSpawn )
 	return spawnedGuy;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: function_stack( <function>, <param1>, <param2>, <param3>, <param4>, <param5> )"
-"Summary: function stack is used to thread off multiple functions one after another an insure that they get called in the order you sent them in (like a FIFO queue or stack). function_stack will wait for the function to finish before continuing the next line of code, but since it internally threads the function off, the function will not end if the parent function which called function_stack() ends.  function_stack is also local to the entity that called it, if you call it on nothing it will use level and all functions sent to the stack will wait on the previous one sent to level.  The same works for entities.  This way you can have 2 AI's that thread off multiple functions but those functions are in individual stacks for each ai"
-"Module: Utility"
-"CallOn: level or an entity."
-"MandatoryArg: <function> : the function to send to the stack" 
-"OptionalArg: <param1> : An optional parameter for <function>."
-"OptionalArg: <param2> : An optional parameter for <function>."
-"OptionalArg: <param3> : An optional parameter for <function>."
-"OptionalArg: <param4> : An optional parameter for <function>."
-"OptionalArg: <param5> : An optional parameter for <function>."
-"Example: level thread function_stack(::radio_dialogue, "scoutsniper_mcm_okgo" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 function_stack( func, param1, param2, param3, param4, param5 )
 {
 	//self might die - but if we endon( "death" ) this function will return without a bool, which is bad.
@@ -9434,25 +6073,7 @@ function_stack( func, param1, param2, param3, param4, param5 )
 	return self function_stack_wait_finish( localentity );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: function_stack_timeout( <timeout> , <func> , <param1> , <param2> , <param3> , <param4> )"
-"Summary: function stack is used to thread off multiple functions one after another an insure that they get called in the order you sent them in (like a FIFO queue or stack). function_stack will wait for the function to finish before continuing the next line of code, but since it internally threads the function off, the function will not end if the parent function which called function_stack() ends.  function_stack is also local to the entity that called it, if you call it on nothing it will use level and all functions sent to the stack will wait on the previous one sent to level.  The same works for entities.  This way you can have 2 AI's that thread off multiple functions but those functions are in individual stacks for each ai"
-"Module: Utility"
-"CallOn: level or an entity."
-"MandatoryArg: <timeout> : number of seconds before this function times out of the stack" 
-"MandatoryArg: <function> : the function to send to the stack" 
-"OptionalArg: <param1> : An optional parameter for <function>."
-"OptionalArg: <param2> : An optional parameter for <function>."
-"OptionalArg: <param3> : An optional parameter for <function>."
-"OptionalArg: <param4> : An optional parameter for <function>."
-"OptionalArg: <param5> : An optional parameter for <function>."
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 function_stack_timeout( timeout, func, param1, param2, param3, param4, param5 )
 {
 	//self might die - but if we endon( "death" ) this function will return without a bool, which is bad.
@@ -9472,18 +6093,7 @@ function_stack_timeout( timeout, func, param1, param2, param3, param4, param5 )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: function_stack_clear()"
-"Summary: kills the stack of funcitons waiting to run"
-"Module: Utility"
-"CallOn: level or entity"
-"Example: level function_stack_clear();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 function_stack_clear()
 {
 	newstack = [];
@@ -9512,20 +6122,7 @@ function_stack_clear()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: geo_off( <geo_off> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 geo_off()
 {
 	if ( IsDefined( self.geo_off ) )
@@ -9537,20 +6134,7 @@ geo_off()
 	self.geo_off = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: geo_on( <geo_on> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 geo_on()
 {
 	if ( !isDefined( self.geo_off ) )
@@ -9561,115 +6145,37 @@ geo_on()
 	self.geo_off = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_exits( <value> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_exits()
 {
 	self.disableexits = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_exits( <enable_exits> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_exits()
 {
 	self.disableexits = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_turnAnims( <disable_turnAnims> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_turnAnims()
 {
 	self.noTurnAnims = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_turnAnims()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_turnAnims()
 {
 	self.noTurnAnims = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_arrivals()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_arrivals()
 {
 	self.disablearrivals = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_arrivals()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_arrivals()
 {
 	self endon( "death" );
@@ -9678,56 +6184,19 @@ enable_arrivals()
 	self.disablearrivals = undefined;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_blur( <magnitude>, <transition time> )"
-"Summary: calls script command SetBlur( <magnitude>, <transition time> )"
-"Module: Utility"
-"CallOn: "
-"MandatoryArg: <magnitude> : amount of blur to transition to" 
-"MandatoryArg: <transition time> : time in seconds to transition to desired blur amount"
-"Example: set_blur( 8, 3.1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 set_blur( magnitude, time )
 {
 	SetBlur( magnitude, time );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_goal_radius( <radius> )"
-"Summary: sets .goalradius parameter on ai to <radius>"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <radius> : radius to set ai's .goalradius to"
-"Example: guy set_goal_radius( 128 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 set_goal_radius( radius )
 {
 	self.goalradius = radius;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_goal_node( <node> )"
-"Summary: calls script command SetGoalNode( <node> ), but also sets self.last_set_goalnode to <node>"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <node> : node to send the ai to"
-"Example: guy set_goal_node( node );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 set_goal_node( node )
 {
 	self.last_set_goalnode 	 = node;
@@ -9737,19 +6206,7 @@ set_goal_node( node )
 	self SetGoalNode( node );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_goal_node_targetname( <targetname> )"
-"Summary: gets the node with the spedified targetname then calls script command SetGoalNode( <node> ), but also sets self.last_set_goalnode to <node>"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <targetname> : node targetname to send the ai to"
-"Example: guy set_goal_node( "first_node" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 set_goal_node_targetname( targetname )
 {
 	Assert( IsDefined( targetname ) );
@@ -9759,19 +6216,7 @@ set_goal_node_targetname( targetname )
 	self set_goal_node( node );
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: set_goal_pos( <origin> )"
-"Summary: calls script command SetGoalPos( <origin> ), but also sets self.last_set_goalpos to <origin>"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <origin> : origin to send the ai to"
-"Example: guy set_goal_pos( vector );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+ 
 set_goal_pos( origin )
 {
 	self.last_set_goalnode 	 = undefined;
@@ -9781,38 +6226,14 @@ set_goal_pos( origin )
 	self SetGoalPos( origin );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_goal_ent( <entity> )"
-"Summary: calls script command SetGoalPos( <entity>.origin ), but also sets self.last_set_goalent to <origin>"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <entity> : entity with .origin variable to send the ai to"
-"Example: guy set_goal_ent( script_origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */
+
 set_goal_ent( target )
 {
 	set_goal_pos( target.origin );
 	self.last_set_goalent 	 = target;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: objective_complete( <obj> )"
-"Summary: Sets an objective to DONE"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <obj>: The objective index"
-"Example: objective_complete( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 objective_complete( obj )
 {
 	Objective_State( obj, "done" );
@@ -9820,29 +6241,7 @@ objective_complete( obj )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: handsignal( <xanim> , <ender> , <waiter> )"
-"Summary: Makes an AI do a handsignal"
-"Module: Utility"
-"CallOn: An ai"
-"MandatoryArg: <xanim>: The string name of the animation. Options are 'moveout', 'moveup', 'stop', 'onme', 'enemy', 'go'."
-"OptionalArg: <wait anim done>: if true, wait till animation is over. Defaults to false."
-"OptionalArg: <ender>: An optional ender "
-"OptionalArg: <waiter>: An optional string to wait for level notify on "
-"Example: level.price handsignal( "go" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
 
-Add this to your _anim script:
-	level.scr_anim[ "generic" ][ "signal_onme" ]				= %CQB_stand_wave_on_me;
-	level.scr_anim[ "generic" ][ "signal_go" ]					= %CQB_stand_wave_go_v1;
-	level.scr_anim[ "generic" ][ "signal_stop" ]				= %CQB_stand_signal_stop;
-	
-
-*/
 handsignal( xanim, waitAnimDone, ender, waiter )
 {
 	returnImmediate = true;
@@ -9870,20 +6269,7 @@ handsignal( xanim, waitAnimDone, ender, waiter )
 		self maps\_anim::anim_generic( self, animName );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_guy_with_script_noteworthy_from_spawner( <script_noteworthy> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_guy_with_script_noteworthy_from_spawner( script_noteworthy )
 {
 	spawner = GetEntArray( script_noteworthy, "script_noteworthy" );
@@ -9892,20 +6278,7 @@ get_guy_with_script_noteworthy_from_spawner( script_noteworthy )
 	return guys[ 0 ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_guy_with_targetname_from_spawner( <targetname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_guy_with_targetname_from_spawner( targetname )
 {
 	spawner = GetEntArray( targetname, "targetname" );
@@ -9914,20 +6287,7 @@ get_guy_with_targetname_from_spawner( targetname )
 	return guys[ 0 ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_guys_with_targetname_from_spawner( <targetname> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_guys_with_targetname_from_spawner( targetname )
 {
 	spawners = GetEntArray( targetname, "targetname" );
@@ -9935,20 +6295,7 @@ get_guys_with_targetname_from_spawner( targetname )
 	return array_spawn( spawners );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn( <spawners>, <bForceSpawn> )"
-"Summary: spawns every spawner in the array and then returns an array of the alive AI that were spawned"
-"Module: Utility"
-"CallOn: An array of spawners"
-"MandatoryArg: <spawners>: The spawners"
-"OptionalArg: <bForceSpawn>: use stalingradspawn to force spawn the AI"
-"Example: guys = array_spawn( hooligans );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn( spawners, bForceSpawn )
 {
 	guys = [];
@@ -9984,18 +6331,7 @@ array_spawn( spawners, bForceSpawn )
 	return guys;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn_targetname( <targetname> )"
-"Summary: Spawn guys with this targetname"
-"Module: Utility"
-"MandatoryArg: <targetname>: The targetname "
-"Example: array_spawn_targetname( "badguy_spawner" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn_targetname( targetname )
 {
 	spawners = GetEntArray( targetname, "targetname" );
@@ -10003,18 +6339,7 @@ array_spawn_targetname( targetname )
 	return array_spawn( spawners );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn_noteworthy( <noteworthy> )"
-"Summary: Spawn guys with this noteworthy"
-"Module: Utility"
-"MandatoryArg: <noteworthy>: The noteworthy "
-"Example: array_spawn_noteworthy( "badguy_spawner" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn_noteworthy( noteworthy )
 {
 	spawners = GetEntArray( noteworthy, "script_noteworthy" );
@@ -10023,18 +6348,7 @@ array_spawn_noteworthy( noteworthy )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: spawn_script_noteworthy( <script_noteworthy> )"
-"Summary: Spawns an AI spawner with a specific script_noteworthy"
-"Module: Utility"
-"MandatoryArg: <script_noteworthy>: The script_noteworthy of the spawner"
-"Example: level.price = spawn_script_noteworthy( "friendly_price" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 spawn_script_noteworthy( script_noteworthy, bForceSpawn )
 {
 	spawner = GetEnt( script_noteworthy, "script_noteworthy" );
@@ -10044,19 +6358,7 @@ spawn_script_noteworthy( script_noteworthy, bForceSpawn )
 	return guy;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: spawn_targetname( <targetname> )"
-"Summary: Spawns an AI spawner with a specific targetname"
-"Module: Utility"
-"MandatoryArg: <targetname>: The targetname of the spawner"
-"OptionalArg: <bForcespawn>: make this spawn with stalingradspawn"
-"Example: level.price = targetname( "targetname" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 spawn_targetname( targetname, bForceSpawn )
 {
 	spawner = GetEnt( targetname, "targetname" );
@@ -10066,20 +6368,7 @@ spawn_targetname( targetname, bForceSpawn )
 	return guy;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_dialogue_line( <name> , <msg>, <name_color> )"
-"Summary: Prints temp dialogue on the screen in lieu of a sound alias."
-"Module: Utility"
-"MandatoryArg: <name>: The character."
-"MandatoryArg: <msg>: The dialogue."
-"OptionalArg: <name_color>: An optional string of a color to give the name (makes different names delivering dialogue easier to follow...colors red, green, yellow, blue, cyan, purple, white, black "
-"Example: thread add_dialogue_line( "MacMillan", "Put me down over there on the slope by the mattress." );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_dialogue_line( name, msg, name_color )
 {
 	if ( GetDvarInt( "loc_warnings", 0 ) )
@@ -10170,35 +6459,13 @@ add_dialogue_line( name, msg, name_color )
 	level.dialogue_huds[ index ] = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: destructible_disable_explosion()"
-"Summary: Disables a destructibles ( ie destructible vehicle ) ability to explode. It will catch fire, take window damage etc but not explode."
-"Module: Destructibles"
-"CallOn: Destructible"
-"Example: car thread destructible_disable_explosion();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 destructible_disable_explosion()
 {
 	self common_scripts\_destructible::disable_explosion();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: destructible_force_explosion()"
-"Summary: Forces a destructible ( ie destructible vehicle ) to explode immediately."
-"Module: Destructibles"
-"CallOn: Destructible"
-"Example: car thread destructible_force_explosion();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 destructible_force_explosion()
 {
 	self common_scripts\_destructible::force_explosion();
@@ -10209,20 +6476,7 @@ set_grenadeammo( count )
 	self.grenadeammo = count;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_player_feet_from_view( <get_player_feet_from_view> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_player_feet_from_view()
 {
 	Assert( IsPlayer( self ) );
@@ -10241,39 +6495,13 @@ get_player_feet_from_view()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_baseaccuracy( <val> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_baseaccuracy( val )
 {
 	self.baseaccuracy = val;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_console_status( <set_console_status> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_console_status()
 {
 	if ( !isdefined( level.Console ) )
@@ -10292,110 +6520,37 @@ set_console_status()
 		AssertEx( level.ps3 == ( GetDvar( "ps3Game" ) == "true" ), "Level.ps3 got set incorrectly." );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: autosave_now( <suppress_print> )"
-"Summary: "
-"Module: Utility"
-"CallOn: Level"
-"OptionalArg: <suppress_print>: "
-"Example: thread autosave_now();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 autosave_now( suppress_print )
 {
 	return maps\_autosave::_autosave_game_now( suppress_print );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: autosave_now_silent()"
-"Summary: No checkpoint msg"
-"Module: Utility"
-"CallOn: Level"
-"OptionalArg: <suppress_print>: "
-"Example: thread autosave_now_silent();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 autosave_now_silent()
 {
 	return maps\_autosave::_autosave_game_now( true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_generic_deathanim( <deathanim> )"
-"Summary: Sets a deathanim for a generic guy"
-"Module: Utility"
-"CallOn: AI"
-"MandatoryArg: <deathanim>: The death animation reference"
-"Example: guy set_generic_deathanim( "explosive_death" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_generic_deathanim( deathanim )
 {
 	self.deathanim = getGenericAnim( deathanim );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_deathanim( <deathanim> )"
-"Summary: Sets the deathanim on an AI"
-"Module: Utility"
-"CallOn: AI"
-"MandatoryArg: <deathanim>: The death animation reference"
-"Example: guy set_deathanim( "death" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_deathanim( deathanim )
 {
 	self.deathanim = getanim( deathanim );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: clear_deathanim( <clear_deathanim> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 clear_deathanim()
 {
 	self.deathanim = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hunted_style_door_open( <soundalias> )"
-"Summary: Animates the door/gate/whatever in the style of Hunted's cool price door opening."
-"Module: Utility"
-"CallOn: A door or gate calls it"
-"OptionalArg: <Soundalias>: A soundalias to play "
-"Example: door hunted_style_door_open( "door_wood_slow_creaky_open" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hunted_style_door_open( soundalias )
 {
 	wait( 1.75 );
@@ -10411,19 +6566,7 @@ hunted_style_door_open( soundalias )
 	self RotateTo( self.angles + ( 0, 40, 0 ), 2, 0, 2 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: palm_style_door_open( <soundalias> )"
-"Summary: Animates the door/gate/whatever in the style of Hunted's cool price door opening but with the palm instead of door knob."
-"Module: Utility"
-"CallOn: A door or gate calls it"
-"OptionalArg: <Soundalias>: A soundalias to play "
-"Example: door palm_style_door_open( "door_wood_slow_creaky_open" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 palm_style_door_open( soundalias )
 {
 	wait( 1.35 );
@@ -10441,20 +6584,7 @@ palm_style_door_open( soundalias )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: lerp_fov_overtime( <time> , <destfov> )"
-"Summary: lerps from the current cg_fov value to the destfov value linearly over time"
-"Module: Player"
-"CallOn: Level"
-"MandatoryArg: <time>: time to lerp"
-"OptionalArg: <destfov>: field of view to go to"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 lerp_fov_overtime( time, destfov )
 {
@@ -10474,20 +6604,7 @@ lerp_fov_overtime( time, destfov )
 
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: lerp_fovscale_overtime( <time> , <destfovscale> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 lerp_fovscale_overtime( time, destfovscale )
 {
 	basefov = GetDvarFloat( "cg_fovscale" );
@@ -10505,18 +6622,7 @@ lerp_fovscale_overtime( time, destfovscale )
 	SetSavedDvar( "cg_fovscale", destfovscale );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: putGunAway()"
-"Summary: Puts the AI's weapon away"
-"Module: Utility"
-"CallOn: An ai"
-"Example: level.price putGunAaway();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 putGunAway()
 {
@@ -10524,53 +6630,20 @@ putGunAway()
 	self.weapon = "none";
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: apply_fog()"
-"Summary: Applies the "start" fog settings for this trigger"
-"Module: Utility"
-"CallOn: A trigger_fog"
-"Example: trigger_fog apply_fog()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 apply_fog()
 {
 	maps\_load::set_fog_progress( 0 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: apply_end_fog()"
-"Summary: Applies the "end" fog settings for this trigger"
-"Module: Utility"
-"CallOn: A trigger_fog"
-"Example: trigger_fog apply_end_fog()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 apply_end_fog()
 {
 	maps\_load::set_fog_progress( 1 );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: anim_stopanimscripted()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 anim_stopanimscripted()
 {
 	self StopAnimScripted();
@@ -10579,18 +6652,7 @@ anim_stopanimscripted()
 	self notify( "looping anim", "end" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_pain()"
-"Summary: Disables pain on the AI"
-"Module: Utility"
-"CallOn: An ai"
-"Example: level.zakhaev disable_pain();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_pain()
 {
 	AssertEx( IsAI( self ), "Tried to disable pain on a non ai" );
@@ -10598,18 +6660,7 @@ disable_pain()
 	self.allowPain = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_pain()"
-"Summary: Enables pain on the AI"
-"Module: Utility"
-"CallOn: An ai"
-"Example: level.zakhaev enable_pain();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_pain()
 {
 	AssertEx( IsAI( self ), "Tried to enable pain on a non ai" );
@@ -10617,54 +6668,19 @@ enable_pain()
 	self.allowPain = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _delete( <_delete> )"
-"Summary: "
-"Module: Code Wrappers"
-"CallOn: An entity"
-"Example: pointer = ::_delete"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _delete()
 {
 	self Delete();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _kill( <_kill> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _kill()
 {
 	self Kill();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: kill_wrapper( <kill_wrapper> )"
-"Summary: Wrapper to safely handle killing entities. Does special checks to ensure stability when killing players in Special Ops. Returns true or false depending on whether it actually killed the player."
-"Module: Entity"
-"CallOn: An entity"
-"Example: level.player kill_wrapper();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 kill_wrapper()
 {
 	// Only do special checking in special ops for now, and only on players.
@@ -10688,72 +6704,26 @@ kill_wrapper()
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _setentitytarget( <target> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _setentitytarget( target )
 {
 	self SetEntityTarget( target );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _ClearEntityTarget()"
-"Summary: "
-"Module: Code Wrappers"
-"CallOn: An entity"
-"Example: pointer = ::_ClearEntityTarget"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _ClearEntityTarget()
 {
 	self ClearEntityTarget();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _unlink()"
-"Summary: "
-"Module: Code Wrappers"
-"CallOn: An entity"
-"Example: pointer = ::_unlink"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _unlink()
 {
 	self Unlink();
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_oneshotfx_with_noteworthy( <noteworthy> )"
-"Summary: Disables _global_fx that have the given noteworthy on them"
-"Module: Utility"
-"MandatoryArg: <noteworthy>: The script_noteworthy"
-"Example: disable_oneshotfx_with_noteworthy( "blackout_spotlight_fx" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_oneshotfx_with_noteworthy( noteworthy )
 {
 	AssertEx( IsDefined( level._global_fx_ents[ noteworthy ] ), "No _global_fx ents have noteworthy " + noteworthy );
@@ -10765,19 +6735,7 @@ disable_oneshotfx_with_noteworthy( noteworthy )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _setLightIntensity( <val> )"
-"Summary: function pointer to code command SetLightIntensity()"
-"Module: Code Wrappers"
-"CallOn: An entity"
-"MandatoryArg: <val>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 _setLightIntensity( val )
 {
@@ -10785,22 +6743,7 @@ _setLightIntensity( val )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: _linkto( <targ> , <tag> , <org> , <angles> )"
-"Summary: wrapper for linkto 
-"Module: Code Wrappers"
-"CallOn: An entity"
-"MandatoryArg: <targ>: "
-"OptionalArg: <tag>: "
-"OptionalArg: <org>: "
-"OptionalArg: <angles>: "
-"Example: array_thread( guys, ::_linkto, blackhawk, "tag_detach" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _linkto( targ, tag, org, angles )
 {
 	if ( IsDefined( angles ) )
@@ -10821,20 +6764,7 @@ _linkto( targ, tag, org, angles )
 	self LinkTo( targ );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_wait( <array>, <msg>, <timeout> )"
-"Summary: waits for every entry in the <array> to recieve the <msg> notify, die, or timeout"
-"Module: Utility"
-"MandatoryArg: <array>: the array of entities to wait on"
-"MandatoryArg: <msg>: the msg each array entity will wait on"
-"OptionalArg: <timeout>: timeout to kill the wait prematurely"
-"Example: array_wait( guys, "at the hq" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_wait( array, msg, timeout )
 {
 	keys = GetArrayKeys( array );
@@ -10862,69 +6792,27 @@ array_wait( array, msg, timeout )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: die()"
-"Summary: The entity does damage to itself of > health value"
-"Module: Utility"
-"CallOn: An entity"
-"Example: enemy die();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 die()
 {
 	self Kill( ( 0, 0, 0 ) );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getmodel( <model> )"
-"Summary: Returns the level.scr_model[ model ]"
-"Module: Utility"
-"MandatoryArg: <model>: The string index into level.scr_model"
-"Example: SetModel( getmodel( "zakhaevs arm" ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getmodel( str )
 {
 	AssertEx( IsDefined( level.scr_model[ str ] ), "Tried to getmodel on model " + str + " but level.scr_model[ " + str + " was not defined." );
 	return level.scr_model[ str ];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: isADS()"
-"Summary: Returns true if the player is more than 50% ads"
-"Module: Utility"
-"Example: player_is_ads = isADS();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 isADS()
 {
 	Assert( IsPlayer( self ) );
 	return( self PlayerAds() > 0.5 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_auto_adjust_threatbias()"
-"Summary: Allows auto adjust to change the player threatbias. Defaults to on"
-"Module: Utility"
-"Example: enable_auto_adjust_threatbias();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 enable_auto_adjust_threatbias()
 {
@@ -10946,58 +6834,21 @@ enable_auto_adjust_threatbias()
 	level.player.threatbias = Int( maps\_gameskill::get_blended_difficulty( "threatbias", current_frac ) );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_auto_adjust_threatbias()"
-"Summary: Disallows auto adjust to change the player threatbias. Defaults to on"
-"Module: Utility"
-"Example: disable_auto_adjust_threatbias();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 disable_auto_adjust_threatbias()
 {
 	level.auto_adjust_threatbias = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_replace_on_death()"
-"Summary: Disables replace on death"
-"Module: Color"
-"CallOn: An AI"
-"Example: guy disable_replace_on_death();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_replace_on_death()
 {
 	self.replace_on_death = undefined;
 	self notify( "_disable_reinforcement" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_player_lookat( <dot>, <timer>, <dot_only>, <timeout>  )"
-"Summary: Waits until the player is looking at this entity."
-"Module: Utility"
-"CallOn: An AI or entity"
-"OptionalArg: <dot>: Overwrite the default dot of .92 "
-"OptionalArg: <timer>: Optional parameter to control how long you have to look before it triggers"
-"OptionalArg: <dot_only>: Set to false if the player must trace to the entity to pass"
-"OptionalArg: <timeout>: Time to pass before this function will timeout and give up"
-"OptionalArg: <player>: When specified, is the player you want to detect is doing the looking."
-"Example: level.price waittill_player_lookat();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_player_lookat( dot, timer, dot_only, timeout, ignore_ent, player )
 {
 	if ( !isdefined( player ) )
@@ -11040,41 +6891,14 @@ waittill_player_lookat( dot, timer, dot_only, timeout, ignore_ent, player )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_player_lookat_for_time( <timer> , <dot> )"
-"Summary: Wait until the player is looking at this entity for x time"
-"Module: Utility"
-"CallOn: An AI"
-"MandatoryArg: <timer>: How long the player must look before the timer passes "
-"OptionalArg: <dot>: Optional override dot"
-"OptionalArg: <dot_only>: If true, it will only check FOV and not tracepassed"
-"Example: self waittill_player_lookat_for_time( 0.5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_player_lookat_for_time( timer, dot, dot_only, ignore_ent )
 {
 	AssertEx( IsDefined( timer ), "Tried to do waittill_player_lookat_for_time with no time parm." );
 	waittill_player_lookat( dot, timer, dot_only, undefined, ignore_ent );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_looking_at( <org>, <dot> )"
-"Summary: Checks to see if the player can dot and trace to a point"
-"Module: Utility"
-"MandatoryArg: <org>: The position you're checking if the player is looking at"
-"OptionalArg: <dot>: Optional override dot"
-"OptionalArg: <dot_only>: If true, it will only check FOV and not tracepassed"
-"Example: if ( player_looking_at( org.origin ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_looking_at( start, dot, dot_only, ignore_ent )
 {
 	if ( !isdefined( dot ) )
@@ -11105,20 +6929,7 @@ player_looking_at( start, dot, dot_only, ignore_ent )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: players_looking_at( <org>, <dot>, <dot_only> )"
-"Summary: Checks to see if all players can dot and trace to a point"
-"Module: Utility"
-"MandatoryArg: <org>: The position you're checking if the players are all looking at"
-"OptionalArg: <dot>: Optional override dot"
-"OptionalArg: <dot_only>: If true, it will only check FOV and not tracepassed"
-"Example: if ( players_looking_at( org.origin ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 players_looking_at( org, dot, dot_only, ignore_ent )
 {
 	for ( i = 0; i < level.players.size; i++ )
@@ -11129,20 +6940,7 @@ players_looking_at( org, dot, dot_only, ignore_ent )
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: either_player_looking_at( <org>, <dot>, <dot_only> )"
-"Summary: returns true when either of the two players can trace and/or dot to a point"
-"Module: Utility"
-"MandatoryArg: <org>: The position you're checking if a player is looking at"
-"OptionalArg: <dot>: Optional override dot"
-"OptionalArg: <dot_only>: If true, it will only check FOV and not tracepassed"
-"Example: if ( either_player_looking_at( org.origin ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 either_player_looking_at( org, dot, dot_only, ignore_ent )
 {
 	for ( i = 0; i < level.players.size; i++ )
@@ -11154,18 +6952,7 @@ either_player_looking_at( org, dot, dot_only, ignore_ent )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_can_see_ai( <ai> )"
-"Summary: Rough method to test if an AI is in view of the player - only checks three points on the AI (low, mid, high)."
-"Module: Utility"
-"MandatoryArg: <ai>: The AI whom you're testing if the player can see."
-"Example: if( player_can_see_ai( ambushGuy ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_can_see_ai( ai )
 {
 	feetOrigin = ai.origin;
@@ -11201,19 +6988,7 @@ player_can_see_origin( origin )
 	return true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: players_within_distance( <fDist>, <org> )"
-"Summary: Determines if any players are within a distance of a certain point. Returns false if any players are within the distance"
-"Module: Utility"
-"MandatoryArg: <fDist>: The distance away from the <org>"
-"MandatoryArg: <org>: The location in space we are checking distance from"
-"Example: if ( players_within_distance( 1024, enemy.origin ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 players_within_distance( fDist, org )
 {
 	fDistSquared = fDist * fDist;
@@ -11224,19 +6999,7 @@ players_within_distance( fDist, org )
 	}
 	return false;
 }
-/*
-=============
-///ScriptDocBegin
-"Name: AI_delete_when_out_of_sight( <aAI_to_delete>, <fDist> )"
-"Summary: Deletes all of the AI in the array passed as players reach a certain distance away (and are not looking at them)"
-"Module: Utility"
-"MandatoryArg: <aAI_to_delete>: The array of AI to delete"
-"MandatoryArg: <fDist>: The distance away from the players the AI will be deleted"
-"Example: thread AI_delete_when_out_of_sight( aEnemies, 2048 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 AI_delete_when_out_of_sight( aAI_to_delete, fDist )
 {
 	if ( !isdefined( aAI_to_delete ) )
@@ -11254,24 +7017,18 @@ AI_delete_when_out_of_sight( aAI_to_delete, fDist )
 
 		for ( i = 0; i < aAI_to_delete.size; i++ )
 		{
-			/*-----------------------
-			KEEP LOOPING AND REMOVE ENEMY IF DEAD/DELETED
-			-------------------------*/			
+						
 			if ( ( !isdefined( aAI_to_delete[ i ] ) ) || ( !isalive( aAI_to_delete[ i ] ) ) )
 			{
 				aAI_to_delete = array_remove( aAI_to_delete, aAI_to_delete[ i ] );
 				continue;
 			}
-			/*-----------------------
-			KEEP LOOPING IF ANY PLAYERS TOO CLOSE OR IS FACING THE AI
-			-------------------------*/
+			
 			if ( players_within_distance( fDist, aAI_to_delete[ i ].origin ) )
 				continue;
 			if ( either_player_looking_at( aAI_to_delete[ i ].origin + ( 0, 0, 48 ), off_screen_dot, true ) )
 				continue;
-			/*-----------------------
-			ALL TESTS PASSED, DELETE THE BASTARD
-			-------------------------*/
+			
 			if ( IsDefined( aAI_to_delete[ i ].magic_bullet_shield ) )
 				aAI_to_delete[ i ] stop_magic_bullet_shield();
 			aAI_to_delete[ i ] Delete();
@@ -11279,21 +7036,7 @@ AI_delete_when_out_of_sight( aAI_to_delete, fDist )
 		}
 	}
 }
-/*
-=============
-///ScriptDocBegin
-"Name: add_wait( <func> , <parm1> , <parm2> , <parm3> )"
-"Summary: Adds a function that you want to wait for completion on. Self of the function will be whatever add_wait is called on. Make sure you call add_wait before any wait, since the functions are stored globally."
-"Module: Utility"
-"MandatoryArg: <func>: The function."
-"OptionalArg: <parm1>: Optional parameter"
-"OptionalArg: <parm2>: Optional parameter"
-"OptionalArg: <parm3>: Optional parameter"
-"Example: add_wait( ::waittill_player_lookat );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_wait( func, parm1, parm2, parm3 )
 {
 	/#
@@ -11320,21 +7063,7 @@ add_wait( func, parm1, parm2, parm3 )
 
 	level.wait_any_func_array[ level.wait_any_func_array.size ] = ent;
 }
-/*
-=============
-///ScriptDocBegin
-"Name: add_abort( <func> , <parm1> , <parm2> , <parm3> )"
-"Summary: Adds a function that when completed aborts both the do_wait and any add_funcs added to the system."
-"Module: Utility"
-"MandatoryArg: <func>: The function."
-"OptionalArg: <parm1>: Optional parameter"
-"OptionalArg: <parm2>: Optional parameter"
-"OptionalArg: <parm3>: Optional parameter"
-"Example: add_abort( ::flag_wait, "shazam" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_abort( func, parm1, parm2, parm3 )
 {
 	/#
@@ -11362,21 +7091,7 @@ add_abort( func, parm1, parm2, parm3 )
 	level.abort_wait_any_func_array[ level.abort_wait_any_func_array.size ] = ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_func( <func> , <parm1> , <parm2> , <parm3> )"
-"Summary: Adds a function that runs after an add_wait/do_wait completes."
-"Module: Utility"
-"MandatoryArg: <func>: The function."
-"OptionalArg: <parm1>: Optional parameter"
-"OptionalArg: <parm2>: Optional parameter"
-"OptionalArg: <parm3>: Optional parameter"
-"Example: add_func( ::waittill_player_lookat );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_func( func, parm1, parm2, parm3, parm4, parm5 )
 {
 	/#
@@ -11412,21 +7127,7 @@ add_func( func, parm1, parm2, parm3, parm4, parm5 )
 	level.run_func_after_wait_array[ level.run_func_after_wait_array.size ] = ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_call( <func> , <parm1> , <parm2> , <parm3> )"
-"Summary: Adds a code function call that runs after an add_wait/do_wait completes."
-"Module: Utility"
-"MandatoryArg: <func>: The function."
-"OptionalArg: <parm1>: Optional parameter"
-"OptionalArg: <parm2>: Optional parameter"
-"OptionalArg: <parm3>: Optional parameter"
-"Example: level.player add_call( ::playerlinktodelta, node );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_call( func, parm1, parm2, parm3, parm4, parm5 )
 {
 	/#
@@ -11462,21 +7163,7 @@ add_call( func, parm1, parm2, parm3, parm4, parm5 )
 	level.run_call_after_wait_array[ level.run_call_after_wait_array.size ] = ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_noself_call( <func> , <parm1> , <parm2> , <parm3> )"
-"Summary: Adds a code function call that runs after an add_wait/do_wait completes."
-"Module: Utility"
-"MandatoryArg: <func>: The function."
-"OptionalArg: <parm1>: Optional parameter"
-"OptionalArg: <parm2>: Optional parameter"
-"OptionalArg: <parm3>: Optional parameter"
-"Example: add_noself_call( ::earthquake, blah, blah, blah );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_noself_call( func, parm1, parm2, parm3, parm4, parm5 )
 {
 	/#
@@ -11511,18 +7198,7 @@ add_noself_call( func, parm1, parm2, parm3, parm4, parm5 )
 	level.run_noself_call_after_wait_array[ level.run_noself_call_after_wait_array.size ] = ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_endon( <endon> )"
-"Summary: Adds an endon that will kill a do_wait. Threads can't acquire a parent's endons so this is a way to force an endon in cases where a do_wait could be killed, otherwise it'll cause a thread leak."
-"Module: Utility"
-"MandatoryArg: <endon>: The endon."
-"Example: level.price add_endon( "shazam" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_endon( name )
 {
 	/#
@@ -11536,17 +7212,7 @@ add_endon( name )
 	level.do_wait_endons_array[ level.do_wait_endons_array.size ] = ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: do_wait_any()"
-"Summary: Waits until any of functions defined by add_wait complete. Clears the global variable where the functions were being stored."
-"Module: Utility"
-"Example: do_wait_any();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 do_wait_any()
 {
 	AssertEx( IsDefined( level.wait_any_func_array ), "Tried to do a do_wait without addings funcs first" );
@@ -11554,17 +7220,7 @@ do_wait_any()
 	do_wait( level.wait_any_func_array.size - 1 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: do_wait()"
-"Summary: Waits until all of the functions defined by add_wait complete. Clears the global variable where the functions were being stored."
-"Module: Utility"
-"Example: do_wait();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 do_wait( count_to_reach )
 {
 	if ( !isdefined( count_to_reach ) )
@@ -11610,17 +7266,7 @@ do_wait( count_to_reach )
 	array_levelthread( nscall_array, ::exec_call_noself );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: do_funcs()"
-"Summary: Calls a series of add_funcs in order. When one finishes, the next starts. Etc."
-"Module: Utility"
-"Example: thread do_funcs();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 do_funcs()
 {
 	/#
@@ -11648,17 +7294,7 @@ do_funcs()
 	ent notify( "all_funcs_ended" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: is_default_start()"
-"Summary: Returns true if you're playing from the default start"
-"Module: Utility"
-"Example: if ( is_default_start() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 is_default_start()
 {
 	if ( IsDefined( level.default_start_override ) && level.default_start_override == level.start_point )
@@ -11674,17 +7310,7 @@ is_default_start()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: is_first_start()"
-"Summary: Returns true if it is the first start point in the list of starts."
-"Module: Utility"
-"Example: if ( is_first_start() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 is_first_start()
 {
 	if ( !level_has_start_points() )
@@ -11694,40 +7320,13 @@ is_first_start()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: _Earthquake( <scale> , <duration> , <source> , <radius> )"
-"Summary: Wrapper for earthquake command"
-"Module: Code Wrappers"
-"CallOn: Level"
-"MandatoryArg: <scale>: "
-"MandatoryArg: <duration>: "
-"MandatoryArg: <source>: "
-"MandatoryArg: <radius>: "
-"Example: delayThread( 0.1, ::_Earthquake, 0.4, 1.2, ent.origin, 6000 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _Earthquake( scale, duration, source, radius )
 {
 	Earthquake( scale, duration, source, radius );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waterfx( <endflag> )"
-"Summary: Makes AI have trails in water. Can be used on the player as well, so you're not a vampire."
-"Module: Utility"
-"CallOn: An AI or player"
-"OptionalArg: <endflag>: A flag to end on "
-"Example: level.price thread waterfx();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waterfx( endflag )
 {
 // currently using these devraw fx:
@@ -11774,19 +7373,7 @@ waterfx( endflag )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: playerSnowFootsteps( <endflag> )"
-"Summary: Make the player have footstep fx in snow"
-"Module: Utility"
-"CallOn: player"
-"OptionalArg: <endflag>: A flag to end on "
-"Example: level.player thread playerSnowFootsteps();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 playerSnowFootsteps( endflag )
 {
 // currently using these devraw fx:
@@ -11827,19 +7414,7 @@ playerSnowFootsteps( endflag )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: mix_up( <sound> )"
-"Summary: Used to blend sounds on a script model vehicle. See maps\sniperescape_code::seaknight_sound()"
-"Module: Utility"
-"CallOn: A sound blend entity"
-"OptionalArg: <Sound>: The sound alias to blend, blends with the _off version of the alias. "
-"Example: maps\sniperescape_code::seaknight_sound();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 mix_up( sound )
 {
 	timer = 3 * 20;
@@ -11850,19 +7425,7 @@ mix_up( sound )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: mix_down( <sound> )"
-"Summary: Used to blend sounds on a script model vehicle. See maps\sniperescape_code::seaknight_sound()"
-"Module: Utility"
-"CallOn: A sound blend entity"
-"OptionalArg: <Sound>: The sound alias to blend, blends with the _off version of the alias. "
-"Example: maps\sniperescape_code::seaknight_sound();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 mix_down( sound )
 {
 	timer = 3 * 20;
@@ -11873,20 +7436,7 @@ mix_down( sound )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: manual_linkto( <entity> , <offset> )"
-"Summary: Sets an entity to the origin of another entity every server frame, for entity types that don't support linkto"
-"Module: Utility"
-"CallOn: An entity that doesn't support linkto, like soundblend entities."
-"MandatoryArg: <entity>: The entity to link to "
-"OptionalArg: <offset>: The offset to use "
-"Example: flyblend thread manual_linkto( self, (0,0,0) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 manual_linkto( entity, offset )
 {
 	entity endon( "death" );
@@ -11905,41 +7455,14 @@ manual_linkto( entity, offset )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: nextmission()"
-"Summary: Sends level to nextmission via _endmission script, one place for handling transitions"
-"Module: Code Wrappers"
-"CallOn: Level"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 nextmission()
 {
 	maps\_endmission::_nextmission();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: make_array( <index1> , <index2> , <index3> , <index4> , <index5> )"
-"Summary: make an array with the stuff. (up to 5 things) "
-"Module: Utility"
-"CallOn: An entity"
-"MandatoryArg: <index1>: "
-"OptionalArg: <index2>: "
-"OptionalArg: <index3>: "
-"OptionalArg: <index4>: "
-"OptionalArg: <index5>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 make_array( index1, index2, index3, index4, index5 )
 {
 	AssertEx( IsDefined( index1 ), "Need to define index 1 at least" );
@@ -11969,49 +7492,19 @@ make_array( index1, index2, index3, index4, index5 )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: fail_on_friendly_fire()"
-"Summary: If this is run, the player will fail the mission if he kills a friendly"
-"Module: Utility"
-"Example: fail_on_friendly_fire();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 fail_on_friendly_fire()
 {
 	level.failOnFriendlyFire = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: normal_friendly_fire_penalty()"
-"Summary: Returns friendly fire penalty to normal"
-"Module: Utility"
-"Example: normal_friendly_fire_penalty();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 normal_friendly_fire_penalty()
 {
 	level.failOnFriendlyFire = false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getPlayerClaymores()"
-"Summary: Returns the number of claymores the player has"
-"Module: Utility"
-"Example: count = getPlayerClaymores();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getPlayerClaymores()
 {
 	Assert( IsPlayer( self ) );
@@ -12033,17 +7526,7 @@ getPlayerClaymores()
 	return claymoreCount;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getPlayerC4()"
-"Summary: Returns the number of c4 the player has"
-"Module: Utility"
-"Example: count = getPlayerC4();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getPlayerC4()
 {
 	Assert( IsPlayer( self ) );
@@ -12065,77 +7548,25 @@ getPlayerC4()
 	return c4Count;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _wait( <timer> )"
-"Summary: wrapper for wait command"
-"Module: Code Wrappers"
-"CallOn: An entity"
-"MandatoryArg: <timer>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _wait( timer )
 {
 	wait( timer );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _waittillmatch( <msg> , <match> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _waittillmatch( msg, match )
 {
 	self waittillmatch( msg, match );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _setsaveddvar( <var> , <val> )"
-"Summary: code wrapper for setsaveddvar"
-"Module: Code Wrappers"
-"CallOn: Level"
-"MandatoryArg: <var>: dvar"
-"OptionalArg: <val>: value to set"
-"Example: delayThread( 9, ::_setsaveddvar, "g_friendlynamedist", level.friendlynamedist );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _setsaveddvar( var, val )
 {
 	SetSavedDvar( var, val );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: lerp_savedDvar( <name> , <value> , <time> )"
-"Summary: lerps a saveddvar float setting over time"
-"Module: dvar"
-"CallOn: "
-"MandatoryArg: <name>: the name of the dvar"
-"MandatoryArg: <value>: the value to set it to"
-"MandatoryArg: <time>: the time to blend to the new value"
-"Example: thread lerp_savedDvar( "r_lightGridIntensity", .695, .75 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 lerp_savedDvar( name, value, time )
 {
 	curr = 	GetDvarFloat( name );
@@ -12159,18 +7590,7 @@ lerp_savedDvar( name, value, time )
 	SetSavedDvar( name, value );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: giveachievement_wrapper( <achievement> )"
-"Summary: Gives achievement to all players. Only does so if the player isn't cheating and hasn't cheated."
-"Module: Code Wrappers"
-"MandatoryArg: <achievement>: "
-"Example: giveachievement_wrapper( "RESCUE_ROYCEWICZ" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 giveachievement_wrapper( achievement )
 {		
 	if( level.script == "ending" && isdefined( level.level_mode ) && level.level_mode == "free" )//char museum 
@@ -12186,19 +7606,7 @@ giveachievement_wrapper( achievement )
 	#/
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_giveachievement_wrapper( <achievement> )"
-"Summary: Gives achievement to a specific player. Only does so if the player isn't cheating and hasn't cheated."
-"Module: Code Wrappers"
-"CallOn: Player"
-"MandatoryArg: <achievement>: "
-"Example: player giveachievement_wrapper( "RESCUE_ROYCEWICZ" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_giveachievement_wrapper( achievement )
 {
 	if( level.script == "ending" && isdefined( level.level_mode ) && level.level_mode == "free" )//char museum 
@@ -12211,19 +7619,7 @@ player_giveachievement_wrapper( achievement )
 	#/
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_jav_glow( <optional_glow_delete_flag> )"
-"Summary: Adds glow to the Javelin."
-"Module: Utility"
-"CallOn: A Javelin weapon"
-"OptionalArg: <optional_glow_delete_flag>: Flag to disable the glow. "
-"Example: jav thread add_jav_glow( "overpass_baddies_flee" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_jav_glow( optional_glow_delete_flag )
 {
 	jav_glow = Spawn( "script_model", ( 0, 0, 0 ) );
@@ -12245,19 +7641,7 @@ add_jav_glow( optional_glow_delete_flag )
 	jav_glow Delete();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_c4_glow( <optional_glow_delete_flag> )"
-"Summary: Adds glow to the C4."
-"Module: Utility"
-"CallOn: A C4 weapon"
-"OptionalArg: <optional_glow_delete_flag>: Flag to disable the glow. "
-"Example: c4 thread add_c4_glow( "overpass_baddies_flee" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_c4_glow( optional_glow_delete_flag )
 {
 	c4_glow = Spawn( "script_model", ( 0, 0, 0 ) );
@@ -12279,18 +7663,7 @@ add_c4_glow( optional_glow_delete_flag )
 	c4_glow Delete();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: delete_on_not_defined()"
-"Summary: Weapons don't seem to notify death when they're picked up."
-"Module: Utility"
-"CallOn: An entity"
-"Example: javelin delete_on_not_defined()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 delete_on_not_defined()
 {
 	for ( ;; )
@@ -12304,172 +7677,55 @@ delete_on_not_defined()
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_start( <slowmo_start> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_start()
 {
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_end( <slowmo_end> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_end()
 {
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_setspeed_slow( <speed> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_setspeed_slow( speed )
 {
 	level.slowmo.speed_slow = speed;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_setspeed_norm( <speed> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_setspeed_norm( speed )
 {
 	level.slowmo.speed_norm = speed;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_setlerptime_in( <time> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_setlerptime_in( time )
 {
 	level.slowmo.lerp_time_in = time;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_setlerptime_out( <time> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_setlerptime_out( time )
 {
 	level.slowmo.lerp_time_out = time;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_lerp_in( <slowmo_lerp_in> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_lerp_in()
 {
 	SetSlowMotion( level.slowmo.speed_norm, level.slowmo.speed_slow, level.slowmo.lerp_time_in );
 	//setslowmotionview( level.slowmo.speed_norm, level.slowmo.speed_slow, level.slowmo.lerp_time_in ); //changed  for slomo breach
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: slowmo_lerp_out( <slowmo_lerp_out> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 slowmo_lerp_out()
 {
 	setslowmotion( level.slowmo.speed_slow, level.slowmo.speed_norm, level.slowmo.lerp_time_out );
 
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_earthquake( <name> , <mag> , <duration> , <radius> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_earthquake( name, mag, duration, radius )
 {
 	level.earthquake[ name ][ "magnitude" ] = mag;
@@ -12477,20 +7733,7 @@ add_earthquake( name, mag, duration, radius )
 	level.earthquake[ name ][ "radius" ] = radius;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: arcadeMode_kill( <origin> , <damage_type> , <amount> )"
-"Summary: Rewards points for a kill in arcade mode."
-"Module: ArcadeMode"
-"MandatoryArg: <origin>: Location of kill"
-"MandatoryArg: <damage_type>: explosive, pistol, rifle, or melee"
-"MandatoryArg: <amount>: Amount of points rewarded"
-"Example: arcadeMode_kill( self.origin, "explosive", 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 arcadeMode_kill( origin, damage_type, amount )
 {
 	if ( GetDvar( "arcademode" ) != "1" )
@@ -12498,20 +7741,7 @@ arcadeMode_kill( origin, damage_type, amount )
 	thread maps\_arcademode::arcadeMode_add_points( origin, true, damage_type, amount );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: arcadeMode_damage( <origin> , <damage_type> , <amount> )"
-"Summary: Rewards points for a kill in arcade mode."
-"Module: ArcadeMode"
-"MandatoryArg: <origin>: Location of kill"
-"MandatoryArg: <damage_type>: explosive, pistol, rifle, or melee"
-"MandatoryArg: <amount>: Amount of points rewarded"
-"Example: arcadeMode_damage( self.origin, "explosive", 500 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 arcadeMode_damage( origin, damage_type, amount )
 {
 	if ( GetDvar( "arcademode" ) != "1" )
@@ -12519,18 +7749,7 @@ arcadeMode_damage( origin, damage_type, amount )
 	thread maps\_arcademode::arcadeMode_add_points( origin, false, damage_type, amount );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: arcademode_checkpoint( <minutes_remaining> )"
-"Summary: Gives a checkpoint in Arcademode and sets a new remaining time."
-"Module: ArcadeMode"
-"MandatoryArg: <minutes_remaining>: The time the player has until they fail or reach the next checkpoint or win "
-"Example: arcademode_checkpoint( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 arcademode_checkpoint( time_remaining, unique_id )
 {
 	if ( 1 )
@@ -12579,34 +7798,13 @@ arcademode_checkpoint( time_remaining, unique_id )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: arcadeMode()"
-"Summary: returns true if arcade mode is on"
-"Module: Utility"
-"CallOn: Level"
-"Example: if(arcademode){ dothestuf(); }"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 arcadeMode()
 {
 	return GetDvar( "arcademode" ) == "1";
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: arcadeMode_stop_timer()"
-"Summary: Stops the countdown timer in arcademode, for missions that have non-competitive ending sequences."
-"Module: ArcadeMode"
-"Example: arcadeMode_stop_timer();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 arcadeMode_stop_timer()
 {
  	if ( !isdefined( level.arcadeMode_hud_timer ) )
@@ -12619,21 +7817,7 @@ arcadeMode_stop_timer()
 	level.arcadeMode_hud_timer = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: MusicPlayWrapper( <song> , <timescale> , <overrideCheat> )"
-"Summary: wrapper for music play for arcade mode stuff."
-"Module: Code Wrappers"
-"CallOn: Level"
-"MandatoryArg: <song>: song to play"
-"OptionalArg: <timescale>: timescale param to pass to musicplay"
-"OptionalArg: <overrideCheat>: overrideCheat param to pass to musicplay"
-"Example: MusicPlayWrapper( "credits_bog_victory" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 MusicPlayWrapper( song, timescale, overrideCheat )
 {
@@ -12650,60 +7834,19 @@ MusicPlayWrapper( song, timescale, overrideCheat )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: music_loop( <name> , <time>, <fade_time> )"
-"Summary: stops any previously playing music, and plays a track of music that loops."
-"Module: Utility"
-"CallOn: "
-"MandatoryArg: <name>: the name of the music track"
-"MandatoryArg: <time>: The amount of time to wait between loops. If > 10, will be ignored."
-"OptionalArg: <fade_time>: optional fade time IN SECONDS to fade out any previously playing music...if undefined, previously playing music will end immediately"
-"Example: music_loop( 'ICBM_tension_music', 112 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 music_loop( name, time, fade_time, timescale, overrideCheat )
 {
 	thread music_loop_internal( name, time, fade_time, timescale, overrideCheat );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: music_loop_stealth( <name> , <length>, <fade_time> )"
-"Summary: stops any previously playing music, and plays a track of music that loops.  The music will automatically pause on stealth_spotted and resume on stealth_hidden."
-"Module: Utility"
-"CallOn: "
-"MandatoryArg: <name>: the name of the music track"
-"MandatoryArg: <length>: the length of the music track IN SECONDS (if short, the song will end and loop early )"
-"OptionalArg: <fade_time>: optional fade time IN SECONDS to fade out any previously playing music...if undefined, previously playing music will end immediately"
-"Example: music_loop_stealth( 'ICBM_tension_music', 112 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 music_loop_stealth( name, length, fade_time, timescale, overrideCheat )
 {
 	thread music_loop_internal( name, length, fade_time, timescale, overrideCheat, true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: music_play( <name> , <fade_time> )"
-"Summary: stops any previously playing music, and plays a new piece of music."
-"Module: Utility"
-"CallOn: "
-"MandatoryArg: <name>: the name of the music track"
-"OptionalArg: <fade_time>: optional fade time IN SECONDS to fade out any previously playing music...if undefined, previously playing music will end immediately"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 music_play( name, fade_time, timescale, overrideCheat )
 {
 	if ( IsDefined( fade_time ) && fade_time > 0 )
@@ -12716,19 +7859,7 @@ music_play( name, fade_time, timescale, overrideCheat )
 	MusicPlayWrapper( name, timescale, overrideCheat );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: music_stop( <fade_time> )"
-"Summary: stops any currently playing music, including loops"
-"Module: Entity"
-"CallOn: An entity"
-"OptionalArg: <fade_time>: the time IN SECONDS to stop the currently playing music"
-"Example: music_stop( 3 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 music_stop( fade_time )
 {
 	if ( !isdefined( fade_time ) || fade_time <= 0 )
@@ -12738,18 +7869,7 @@ music_stop( fade_time )
 	level notify( "stop_music" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_is_near_live_grenade()"
-"Summary: Returns true if player(s) is near a live grenade"
-"Module: Utility"
-"CallOn: Level"
-"Example: if( player_is_near_live_grenade() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_is_near_live_grenade()
 {
 	grenades = GetEntArray( "grenade", "classname" );
@@ -12772,35 +7892,13 @@ player_is_near_live_grenade()
 	return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_died_recently()"
-"Summary: check the player_died_recently dvar"
-"Module: Utility"
-"CallOn: Level"
-"Example: if(player_died_recently())"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_died_recently()
 {
 	return GetDvarInt( "player_died_recently", "0" ) > 0;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: all_players_istouching( eVolume )"
-"Summary: Returns true/false if all coop players are currently touching eVolume. Does IsTouching() code function on all coop players (or just single player if no coop enabled)."
-"Module: Player"
-"MandatoryArg: <eVolume>: The volume you are checking to see that the players are touching."
-"Example: while ( coop_players_touching( eRoomVolume ) )....<do something>"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 all_players_istouching( eVolume )
 {
 	AssertEx( IsDefined( eVolume ), "eVolume parameter not defined" );
@@ -12812,18 +7910,7 @@ all_players_istouching( eVolume )
 	return true;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: any_players_istouching( eVolume )"
-"Summary: Returns true/false if any coop players are currently touching eVolume. Does IsTouching() code function on all coop players (or just single player if no coop enabled)."
-"Module: Player"
-"MandatoryArg: <eVolume>: The volume you are checking to see that the players are touching."
-"Example: while ( coop_players_touching( eRoomVolume ) )....<do something>"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 any_players_istouching( eVolume )
 {
 	AssertEx( IsDefined( eVolume ), "eVolume parameter not defined" );
@@ -12835,18 +7922,7 @@ any_players_istouching( eVolume )
 	return false;
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: get_ent_closest_to_flag_trig( sFlagName, aEnts )"
-"Summary: Returns the entity that is closest to a given flag trigger"
-"Module: Distance"
-"MandatoryArg: <sFlagName>: The script_flag value of the trigger in question."
-"MandatoryArg: <aEnts>: Array of entities you want to check."
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 get_ent_closest_to_flag_trig( sFlagName, aEnts )
 {
@@ -12877,18 +7953,7 @@ is_legacy_map()
 {
 	return level.is_legacy_map;
 }
-/*
-=============
-///ScriptDocBegin
-"Name: getDifficulty( <getDifficulty> )"
-"Summary: Returns level difficulty in "easy","medium", "hard", or "fu" format."
-"Module: Utility"
-"CallOn: Level"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getDifficulty()
 {
 	Assert( IsDefined( level.gameskill ) );
@@ -12901,17 +7966,7 @@ getDifficulty()
 	return "fu";
 }
 
- /* 
- ============= 
-///ScriptDocBegin
-"Name: hide_players( <qBool> )"
-"Summary: Hides the player models."
-"Module: Utility"
-"MandatoryArg: <qBool>: True/false to hide/unhide the players."
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+  
 
 hide_players( qBool )
 {
@@ -12924,19 +7979,7 @@ hide_players( qBool )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: SetModelFunc( <modelFunc> )"
-"Summary: Runs the model setting function on a player, to set a player's 3rd person model."
-"Module: Utility"
-"CallOn: A player"
-"MandatoryArg: <modelFunc>: The function to run on the player "
-"Example: self SetModelFunc( ::so_body_ranger_player1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 SetModelFunc( modelFunc, starts_off )
 {
 	if ( !isdefined( starts_off ) )
@@ -12946,18 +7989,7 @@ SetModelFunc( modelFunc, starts_off )
 
 
 
-/* 
- ============= 
-///ScriptDocBegin
-"Name: isPlayerDown()"
-"Summary: Returns whether the player is dead or waiting to be revived."
-"Module: Flag"
-"CallOn: A player"
-"Example: player isPlayerDown()"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+ 
 isPlayerDown()
 {
 	Assert( IsPlayer( self ) );
@@ -12971,18 +8003,7 @@ isPlayerDown()
 	return !isAlive( self );
 }
 
-/* 
- ============= 
-///ScriptDocBegin
-"Name: getAveragePlayerOrigin()"
-"Summary: Returns the average player origin of level.players array."
-"Module: Utility"
-"CallOn: "
-"Example: org = getAveragePlayerOrigin();"
-"SPMP: singleplayer"
-///ScriptDocEnd
- ============= 
- */ 
+ 
 getAveragePlayerOrigin()
 {
 	averageOrigin_x = 0;
@@ -13000,20 +8021,7 @@ getAveragePlayerOrigin()
 	return( averageOrigin_x, averageOrigin_y, averageOrigin_z );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_average_origin( <array> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_average_origin( array )
 {
 	origin = ( 0, 0, 0 );
@@ -13027,37 +8035,13 @@ get_average_origin( array )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_damage_function( <func> )"
-"Summary: Adds a damage function to an AI. It is called when the AI takes damage. The AI function must have all 7 of the required parameters."
-"Module: Spawner"
-"CallOn: An AI"
-"MandatoryArg: <func > The function to be run when the AI takes damage. "
-"Example: ai add_damage_function( ::got_hurt );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_damage_function( func )
 {
 	self.damage_functions[ self.damage_functions.size ] = func;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: remove_damage_function( <func> )"
-"Summary: Removes a damage function that was added with add_damage_function."
-"Module: Spawner"
-"CallOn: An AI"
-"MandatoryArg: <func > The function to be removed. "
-"Example: ai remove_damage_function( ::got_hurt );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 remove_damage_function( damage_func )
 {
 	new_array = [];
@@ -13071,59 +8055,21 @@ remove_damage_function( damage_func )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: giveXp( <type>, <value> )"
-"Summary: Gives a player XP either by predefined <type> or customized <value>, single player XP gain feature must be enabled to use this."
-"Module: Spawner"
-"CallOn: A Player"
-"MandatoryArg: <type> String name of type of XP given. Does not need to be an existing type, can be any label for the XP reward."
-"OptionalArg: <value> Int value of XP given. If not defined, type's XP reward will be awarded. If type does not exist, default 'kill' type XP will be awarded."
-"Example: level.player giveXp( "assist" ); level.player2 giveXp( "pwn", 10000 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 giveXp( type, value )
 {
 	self maps\_rank::updatePlayerScore( type, value );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: giveMoney( <type>, <amount> )"
-"Summary: Gives a player money either by predefined <type> or customized <value>, single player money gain feature must be enabled to use this."
-"Module: Spawner"
-"CallOn: A Player"
-"MandatoryArg: <type> String name of type of money given. Does not need to be an existing type, can be any label for the money reward."
-"OptionalArg: <value> Int value of money given. If not defined, type's money reward will be awarded. If type does not exist, default 'kill' type money will be awarded."
-"Example: level.player giveMoney( "assist" ); level.player2 giveXp( "pwn", 1000 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 giveMoney( type, amount, attacker )
 {
 	self maps\_money::updatePlayerMoney( type, amount, attacker );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: playLocalSoundWrapper( <soundalias> )"
-"Summary: Calls playLocalSound on self. This function was made so it can be used in array_thread"
-"Module: Player"
-"CallOn: A Player"
-"MandatoryArg: <soundalias> Soundalias to played."
-"Example: level.player playLocalSoundWrapper( "mission_complete_sound" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 playLocalSoundWrapper( alias )
 {
 	Assert( IsDefined( alias ) );
@@ -13131,18 +8077,7 @@ playLocalSoundWrapper( alias )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: enablePlayerWeapons( <bool> )"
-"Summary: enables or disables weapons on single all players (singleplayer or coop)"
-"Module: Player"
-"MandatoryArg: <bool> True or false to enable or disable weapons"
-"Example: enablePlayerWeapons( false );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enablePlayerWeapons( bool )
 {
 	AssertEx( IsDefined( bool ), "Need to pass either 'true' or 'false' to enable/disable weapons" );
@@ -13157,18 +8092,7 @@ enablePlayerWeapons( bool )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: teleport_players( aNodes )"
-"Summary: Teleports coop players to an array of nodes"
-"Module: Player"
-"MandatoryArg: <aNodes> An array of exactly 2 nodes (to account for the possibility of a second player)"
-"Example: teleport_players( aPlayerNodes, true );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 teleport_players( aNodes )
 {
 	//->not supporting coop in SP anymore
@@ -13202,19 +8126,7 @@ teleport_players( aNodes )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: teleport_player( <object> )"
-"Summary: move the player to the origin and angles of the specified object"
-"Module: Player"
-"CallOn: A Player"
-"MandatoryArg: <param1>: "
-"Example: 	level.player teleport_player( getstruct("start_surprized_parachute_moment","script_noteworthy" ) );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 teleport_player( object )
 {
@@ -13222,18 +8134,7 @@ teleport_player( object )
 	level.player SetPlayerAngles( object.angles );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hide_player_model()"
-"Summary: Hide the players model."
-"Module: Utility"
-"CallOn: A player"
-"Example: level.players[0] hide_player_model(); "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hide_player_model()
 {
 
@@ -13245,18 +8146,7 @@ hide_player_model()
 	thread maps\_loadout::UpdateModel( undefined );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: show_player_model()"
-"Summary: Show the players model."
-"Module: Utility"
-"CallOn: A player"
-"Example: level.players[0] show_player_model(); "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 show_player_model()
 {
@@ -13269,26 +8159,7 @@ show_player_model()
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: translate_local()"
-"Summary: Translates an entity in space"
-"Module: Utility"
-"CallOn: A spawnstruct"
-"MandatoryArg: <.entity>: Member variable on spawnstruct that sets the entity that will be moved"
-"OptionalArg: <.entities>: Member variable on spawnstruct that sets an array of entities to be moved"
-"OptionalArg: <.forward>: Member variable on spawnstruct that determines how far forward the entity will move"
-"OptionalArg: <.right>: Member variable on spawnstruct that determines how far right the entity will move"
-"OptionalArg: <.up>: Member variable on spawnstruct that determines how far up the entity will move"
-"OptionalArg: <.yaw>: Member variable on spawnstruct that determines how much to rotate the yaw"
-"OptionalArg: <.pitch>: Member variable on spawnstruct that determines how much to rotate the pitch"
-"OptionalArg: <.roll>: Member variable on spawnstruct that determines how much to rotate the roll"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 translate_local()
 {
 	entities = [];
@@ -13302,20 +8173,7 @@ translate_local()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: open_up_fov( <time> , <player_rig> , <tag> , <arcRight> , <arcLeft> , <arcTop> , <arcBottom> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 open_up_fov( time, player_rig, tag, arcRight, arcLeft, arcTop, arcBottom )
 {
 	level.player endon( "stop_opening_fov" );
@@ -13325,20 +8183,7 @@ open_up_fov( time, player_rig, tag, arcRight, arcLeft, arcTop, arcBottom )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_ai_touching_volume( sTeam, species )"
-"Summary: Returns an array of all ai touching a specified info_volume"
-"Module: Utility"
-"CallOn: An info_volume"
-"OptionalArg: <sTeam>: 'axis' or 'allies'. Left blank the function will return an array containing all ai of all teams."
-"OptionalArg: <species>: 'human', 'dog', 'civilians'. Left blank the function will return an array containing all ai of all species."
-"Example: aEnemies = eRoomVolume get_ai_touching_volume( team )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_ai_touching_volume( sTeam, species, bGetDrones )
 {
 	if ( !isdefined( sTeam ) )
@@ -13360,19 +8205,7 @@ get_ai_touching_volume( sTeam, species, bGetDrones )
 	return aGuysTouchingVolume;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_drones_touching_volume( sTeam )"
-"Summary: Returns an array of all ai touching a specified info_volume"
-"Module: Utility"
-"CallOn: An info_volume"
-"OptionalArg: <sTeam>: 'axis', 'allies' or 'neutral. Left blank the function will return an array containing all ai of all teams."
-"Example: aDrones = eRoomVolume get_drones_touching_volume( "axis" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_drones_touching_volume( sTeam )
 {
 	if ( !isdefined( sTeam ) )
@@ -13399,18 +8232,7 @@ get_drones_touching_volume( sTeam )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_drones_with_targetname( sTargetname )"
-"Summary: Returns an array of all live drones with the specified targetname"
-"Module: Utility"
-"MandatoryArg: <"MandatoryArg>: Targetname of the drones you want."
-"Example: aDrones = get_drones_with_targetname( bunker_drones )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_drones_with_targetname( sTargetname )
 {
 	aDrones = array_merge( level.drones[ "allies" ].array, level.drones[ "axis" ].array );
@@ -13426,18 +8248,7 @@ get_drones_with_targetname( sTargetname )
 	return aDronesToReturn;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_other_player( <player> )"
-"Summary: Gets the other player in Coop."
-"Module: Utility"
-"MandatoryArg: <player>: A player. The function will return the other player in coop"
-"Example: other_player = get_other_player( player );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_other_player( player )
 {
 	Assert( is_coop() );
@@ -13453,18 +8264,7 @@ get_other_player( player )
 	AssertMsg( "get_other_player() tried to get other player but there is no other player." );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: is_other_player_downed( <player> )"
-"Summary: Checks if other player in downed in Coop."
-"Module: Utility"
-"MandatoryArg: <player>: A player. The function will check if the other player in downed in coop"
-"Example: if ( is_other_player_downed( player ); )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 is_other_player_downed( player )
 {
 	Assert( is_coop() );
@@ -13476,19 +8276,7 @@ is_other_player_downed( player )
 	return( other_player ent_flag_exist( "coop_downed" ) && other_player ent_flag( "coop_downed" ) );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_count( <count> )"
-"Summary: Set the count of a spawner"
-"Module: Utility"
-"CallOn: A spawner"
-"MandatoryArg: <Count>: The count to set to"
-"Example: spawner set_count( 3 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_count( count )
 {
 	/#
@@ -13496,26 +8284,7 @@ set_count( count )
 	AssertEx( !isalive( self ), "Spawner was alive!" );
 	#/
 	self.count = count;
-}/*
-=============
-///ScriptDocBegin
-"Name: follow_path( <node>, <require_player_dist>, <arrived_at_node_func> )"
-"Summary: Set's the AI on a path of nodes, script_structs, or script_origins.
-Internally uses maps\_spawner::go_to_node which has the following attributes:  
-- if the node has .script_requires_player set, then the AI will stop at that node until the player catches up.
-- if the node has .script_delay set, then the AI will stop at that node for the amount of delay"
-- the function will return once all nodes are traversed, and will notify self 'path_end_reached'. 
-- follow_path stops maps\_spawner::go_to_node from exploding the AI's goal_radius after the last node is reached."
-"Module: Utility"
-"CallOn: AI"
-"MandatoryArg: <node>: a node, script_struct, or script_origin that starts the path"
-"OptionalArg: <require_player_dist>: The distance the player must be to the AI before the AI will move on from a node with .script_requires_player set, defaults to 300."
-"OptionalArg: <arrived_at_node_func>: Optional function to run every time the AI reaches his goal."
-"Example: other_player = get_other_player( player );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+}
 follow_path( node, require_player_dist, arrived_at_node_func )
 {
 	self notify( "_utility::follow_path" );
@@ -13547,22 +8316,7 @@ follow_path( node, require_player_dist, arrived_at_node_func )
 	self.script_forcegoal = oldforcegoal;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_dynamic_run_speed( <pushdist> , <sprintdist> , <stopdist> , <jogdist> , <group> , <dontChangeMovePlaybackRate> )"
-"Summary: Turns on dynamic speed system for an AI, where the AI will run faster or slower based on average position of players.
-make sure to call maps\_dynamic_run_speed::main(); after maps\_load::main(). maps\_dynamic_run_speed::main() takes an optional parameter
-which is an array of dialogue lines the for the AI to say when they are stopped and want the player to catch up"
-"Module: _dynamic_run_speed.gsc"
-"CallOn: AI"
-"OptionalArg: <pushdist>: The max distance from the player to the AI that the AI will go from a jog/walk to a run, at twice this distance the ai will stop. DEFAULTS to 250."
-"OptionalArg: <sprintdist>: The min distance from the player to the AI where the AI will start sprinting. DEFAULTS to 125."
-"Example: level.price enable_dynamic_run_speed();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_dynamic_run_speed( pushdist, sprintdist, stopdist, jogdist, group, dontChangeMovePlaybackRate )
 {
 	AssertEx( IsDefined( level.scr_anim[ "generic" ][ "DRS_sprint" ] ), " - -- -- -- -- -- -- add this line: 'maps\_dynamic_run_speed::main();' AFTER maps\\\_load::main(); -- -- -- -- -- -- - " );
@@ -13585,37 +8339,13 @@ enable_dynamic_run_speed( pushdist, sprintdist, stopdist, jogdist, group, dontCh
 	self thread dynamic_run_speed_proc( pushdist, sprintdist, stopdist, jogdist, group );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_dynamic_run_speed()"
-"Summary: Stops Dynamic run speed logic on an AI."
-"Module: _dynamic_run_speed.gsc"
-"CallOn: AI"
-"OptionalArg: <pushdist>: The max distance from the player to the AI that the AI will go from a jog/walk to a run, at twice this distance the ai will stop. DEFAULTS to 250."
-"OptionalArg: <sprintdist>: The min distance from the player to the AI where the AI will start sprinting. DEFAULTS to 125."
-"Example: level.price disable_dynamic_run_speed();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_dynamic_run_speed()
 {
 	self notify( "stop_dynamic_run_speed" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_seek_enable()"
-"Summary: Makes an enemy AI seek out the closest player."
-"Module: AI"
-"CallOn: AI"
-"Example: enemy thread player_seek_enable();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_seek_enable()
 {
 	self endon( "death" );
@@ -13640,38 +8370,13 @@ player_seek_enable()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_seek_disable()"
-"Summary: Makes an enemy AI stop seeking out the closest player. Disables behavior caused by funtion player_seek_enable()"
-"Module: AI"
-"CallOn: AI"
-"Example: enemy thread player_seek_disable();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_seek_disable()
 {
 	self notify( "stop_player_seek" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_entity_in_range_or_timeout( <entity>, <range>, <timeout> )"
-"Summary: waits until a given entity is within range of the calling entity or timeout time passes"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <entity>: entity whose origin is checked to see if it is within range of the calling entity "
-"OptionalArg: <range>: distance in units to check"
-"OptionalArg: <timeout>: time in seconds to wait defaults to 5"
-"Example: level.player waittill_entity_in_range_or_timeout( level.enemyHeli, 2048, 10 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_entity_in_range_or_timeout( entity, range, timeout )
 {
 	self endon( "death" );
@@ -13689,20 +8394,7 @@ waittill_entity_in_range_or_timeout( entity, range, timeout )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_entity_in_range( <entity>, <range> )"
-"Summary: waits until a given entity is within range of the calling entity"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <entity>: entity whose origin is checked to see if it is within range of the calling entity "
-"OptionalArg: <range>: distance in units to check"
-"Example: level.player waittill_entity_in_range( level.enemyHeli, 2048 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_entity_in_range( entity, range )
 {
 	self endon( "death" );
@@ -13714,20 +8406,7 @@ waittill_entity_in_range( entity, range )
 		wait .1;
 	}
 }
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_entity_out_of_range( <entity>, <range> )"
-"Summary: waits until a given entity is out of range of the calling entity"
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <entity>: entity whose origin is checked"
-"OptionalArg: <range>: distance in units to check"
-"Example: level.player waittill_entity_out_of_range( level.enemyHeli, 2048 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_entity_out_of_range( entity, range )
 {
 	self endon( "death" );
@@ -13740,18 +8419,7 @@ waittill_entity_out_of_range( entity, range )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: has_shotgun()"
-"Summary: returns true/false if AI has a shotgun"
-"Module: AI"
-"CallOn: AI"
-"Example: self has_shotgun()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 has_shotgun()
 {
 	self endon( "death" );
@@ -13763,18 +8431,7 @@ has_shotgun()
 		return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_has_thermal()"
-"Summary: returns true/false if player has a weapon with a thermal scope"
-"Module: Player"
-"CallOn: Player"
-"Example: if ( level.player player_has_thermal() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_has_thermal()
 {
 	weapons = self GetWeaponsListAll();
@@ -13788,20 +8445,7 @@ player_has_thermal()
 	return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_true_goal( <origin> , <radius> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_true_goal( origin, radius )
 {
 	self endon( "death" );
@@ -13817,20 +8461,7 @@ waittill_true_goal( origin, radius )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_speed_percent( <percent> , <time> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_speed_percent( percent, time )
 {
 	currspeed = Int( GetDvar( "g_speed" ) );
@@ -13842,20 +8473,7 @@ player_speed_percent( percent, time )
 	level.player player_speed_set( goalspeed, time );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: blend_movespeedscale_percent( <percent> , <time> )"
-"Summary: blends the player's speed percentage using setMoveSpeedScale over time"
-"Module: player"
-"CallOn: player"
-"MandatoryArg: <percent>: percentage > 0 to scale to"
-"OptionalArg: <time>: time in seconds to lerp over if none - set speed instantly"
-"Example: level.player blend_movespeedscale_percent( 1.2, 3 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 blend_movespeedscale_percent( percent, time )
 {
 	player = self;
@@ -13870,20 +8488,7 @@ blend_movespeedscale_percent( percent, time )
 	player blend_movespeedscale( goalscale, time );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_speed_set( <speed> , <time> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_speed_set( speed, time )
 {
 	currspeed = Int( GetDvar( "g_speed" ) );
@@ -13895,20 +8500,7 @@ player_speed_set( speed, time )
 	level.player thread player_speed_proc( speed, time, get_func, set_func, "player_speed_set" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: blend_movespeedscale( <scale> , <time> )"
-"Summary: blends the player's speed scaler using setMoveSpeedScale over time"
-"Module: player"
-"CallOn: player"
-"MandatoryArg: <scale>: scale > 0 to scale to"
-"OptionalArg: <time>: time in seconds to lerp over if none - set speed instantly"
-"Example: level.player blend_movespeedscale( 1.2, 3 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 blend_movespeedscale( scale, time )
 {
 	player = self;
@@ -13949,19 +8541,7 @@ player_speed_proc( speed, time, get_func, set_func, ender )
 	[[ set_func ]]( goalspeed );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_speed_default( <time> )"
-"Summary: blends the level.player's speed back to default using the dvar g_speed over time"
-"Module: player"
-"CallOn: "
-"OptionalArg: <time>: the time to blend over, if none - then set speed instantly"
-"Example: player_speed_default( 2 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_speed_default( time )
 {
 	if ( !isdefined( level.player.g_speed ) )
@@ -13973,19 +8553,7 @@ player_speed_default( time )
 	level.player.g_speed = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: blend_movespeedscale_default( <time> )"
-"Summary: blends the player's speed scale back to default using setmovespeedscale over time"
-"Module: player"
-"CallOn: player"
-"OptionalArg: <time>: the time to blend over, if none - then set speed instantly"
-"Example: level.player blend_movespeedscale_default( 2 )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 blend_movespeedscale_default( time )
 {
 	player = self;
@@ -14001,20 +8569,7 @@ blend_movespeedscale_default( time )
 	player.movespeedscale = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: drop_to_ground( <pos> )"
-"Summary: Return the ground point for this origin"
-"Module: Utility"
-"MandatoryArg: <pos>: The origin you want to find the ground point for"
-"OptionalArg: <updist>: Optional height to drop the point from"
-"OptionalArg: <downdist>: Optional height to drop the point to"
-"Example: ground_org = drop_to_ground( origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 drop_to_ground( pos, updist, downdist )
 {
 	if ( !isdefined( updist ) )
@@ -14025,19 +8580,7 @@ drop_to_ground( pos, updist, downdist )
 	return PhysicsTrace( pos + ( 0, 0, updist ), pos + ( 0, 0, downdist ) );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: teleport_ent( <ent> )"
-"Summary: Teleport self to an ent"
-"Module: Utility"
-"CallOn: An entity you want to teleport"
-"MandatoryArg: <ent>: The entity to teleport to"
-"Example: level.player teleport_ent( player_start_ent );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 teleport_ent( ent )
 {
 	if ( IsPlayer( self ) )
@@ -14052,19 +8595,7 @@ teleport_ent( ent )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: teleport_ai( <eNode> )"
-"Summary: Force teleport of an AI to a given node and set its goalpos and goalnode to the node"
-"Module: Utility"
-"CallOn: An AI you want to teleport"
-"MandatoryArg: <eNode>: The node to teleport to"
-"Example: level.price teleport_ai( eNode );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 teleport_ai( eNode )
 {
 	AssertEx( IsAI( self ), "Function teleport_ai can only be called on an AI entity" );
@@ -14076,20 +8607,7 @@ teleport_ai( eNode )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: move_all_fx( <vec> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 move_all_fx( vec )
 {
 	foreach ( fx in level.createFXent )
@@ -14098,39 +8616,13 @@ move_all_fx( vec )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: IsSliding( <IsSliding> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 IsSliding()
 {
 	return IsDefined( self.slideModel );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: BeginSliding( <velocity> , <allowedAcceleration> , <dampening> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 BeginSliding( velocity, allowedAcceleration, dampening )
 {
 	Assert( IsPlayer( self ) );
@@ -14175,20 +8667,7 @@ BeginSliding( velocity, allowedAcceleration, dampening )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: EndSliding( <EndSliding> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 EndSliding()
 {
 	Assert( IsPlayer( self ) );
@@ -14210,18 +8689,7 @@ EndSliding()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: spawn_vehicle( <spawn_vehicle> )"
-"Summary: Self is a vehicle spawner"
-"Module: Vehicle"
-LevelOn: A vehicle spawner"
-"Example: vehicle = spawner spawn_vehicle();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 spawn_vehicle()
 {
 	/#
@@ -14234,18 +8702,7 @@ spawn_vehicle()
 	return maps\_vehicle::vehicle_spawn( self );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getEntWithFlag( <flag> )"
-"Summary: Returns an entity that has the flag"
-"Module: Utility"
-"MandatoryArg: <flag>: The flag "
-"Example: flagEnt = getEntWithFlag( "give_c4_obj" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getEntWithFlag( flag )
 {
 	trigger_classes = maps\_load::get_load_trigger_classes();
@@ -14296,18 +8753,7 @@ getEntWithFlag( flag )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getEntArrayWithFlag( <flag> )"
-"Summary: Returns an array of entities that have the flag"
-"Module: Utility"
-"MandatoryArg: <flag>: The flag "
-"Example: flagEnt = getEntArrayWithFlag( "give_c4_obj" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getEntArrayWithFlag( flag )
 {
 	trigger_classes = maps\_load::get_load_trigger_classes();
@@ -14358,75 +8804,25 @@ getEntArrayWithFlag( flag )
 	return found_triggers;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_z( <vec> , <z> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_z( vec, z )
 {
 	return( vec[ 0 ], vec[ 1 ], z );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_y( <vec> , <y> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_y( vec, y )
 {
 	return( vec[ 0 ], y, vec[ 2 ] );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_x( <vec> , <x> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_x( vec, x )
 {
 	return( x, vec[ 1 ], vec[ 2 ] );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_using_missile()"
-"Summary: detect whether player has a missile weapon equipped as his current weapon (AT4, RPG, Stinger)"
-"Module: Utility"
-"CallOn: Player"
-"Example: if ( player_using_missile() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_using_missile()
 {
 	weapon = self GetCurrentWeapon();
@@ -14449,37 +8845,14 @@ player_using_missile()
 	return false;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: doingLongDeath( <longDeath> )"
-"Summary: Returns if an AI is doing long death"
-"Module: Utility"
-"CallOn: An AI"
-"Example: if ( guy longDeath() )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 doingLongDeath()
 {
 	Assert( IsAI( self ) );
 	return IsDefined( self.a.doingLongDeath );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_rumble_ent( <rumble> )"
-"Summary: Create an entity to do rumble on. Set .intensity to change the rumble intensity or use blend commands below."
-"Module: Rumble"
-"OptionalArg: <rumble>: The rumble to use, if not specified steady_rumble is used. "
-"Example: ent = get_rumble_ent();"
-"NoteLine: don't forget to add PreCacheRumble( "steady_rumble" ) or whatever rumble you decide to use to your script. "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_rumble_ent( rumble )
 {
 	if ( is_coop() )
@@ -14501,56 +8874,19 @@ set_rumble_intensity( intensity )
 	self.intensity = intensity;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: rumble_ramp_on( <time> )"
-"Summary: Ramp rumble to 1 on entity"
-"Module: Rumble"
-"CallOn: A rumble entity created with get_rumble_ent()"
-"MandatoryArg: <time>: Time in seconds over which to ramp "
-"Example: rumble_ent rumble_ramp_on( 2 )";"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 rumble_ramp_on( time )
 {
 	thread rumble_ramp_to( 1, time );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: rumble_ramp_off( <time> )"
-"Summary: Ramp rumble to 0 on entity"
-"Module: Rumble"
-"CallOn: A rumble entity created with get_rumble_ent()"
-"MandatoryArg: <time>: Time in seconds over which to ramp "
-"Example: rumble_ent rumble_ramp_off( 2 )";"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 rumble_ramp_off( time )
 {
 	thread rumble_ramp_to( 0, time );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: rumble_ramp_to( <dest> , <time> )"
-"Summary: Ramp rumble to dest on entity"
-"Module: Rumble"
-"CallOn: A rumble entity created with get_rumble_ent()"
-"MandatoryArg: <dest>: Value to blend rumble to "
-"MandatoryArg: <time>: Time in seconds over which to ramp "
-"Example: rumble_ent rumble_ramp_to( 1, 2 )";"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 rumble_ramp_to( dest, time )
 {
 	self notify( "new_ramp" );
@@ -14569,17 +8905,7 @@ rumble_ramp_to( dest, time )
 	self.intensity = dest;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_player_from_self()"
-"Summary: Returns a player, and if self is a player then it returns that player."
-"Module: Utility"
-"Example: player = get_player_from_self();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_player_from_self()
 {
 	if ( IsDefined( self ) )
@@ -14593,37 +8919,14 @@ get_player_from_self()
 		return level.player;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_player_gameskill( <get_player_gameskill> )"
-"Summary: Returns the gameskill for a player based on the dvar."
-"Module: Entity"
-"CallOn: A player"
-"Example: player get_player_gameskill()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_player_gameskill()
 {
 	AssertEx( IsPlayer( self ), "get_player_gameskill() can only be called on a player." );
 	return Int( self GetPlayerSetting( "gameskill" ) );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: glow( <model> )"
-"Summary: Makes a model glow with"
-"Module: Utility"
-"CallOn: An entity that should glow"
-"OptionalArg: <Model>: A glow model to use. If not specified then _obj is appended to the current model, which is how it should normally work anyway. "
-"Example: keyboard glow();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 glow( model )
 {
 	if ( IsDefined( self.non_glow_model ) )
@@ -14636,18 +8939,7 @@ glow( model )
 	self SetModel( model );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: stopGlow( <model> )"
-"Summary: Stops a model from glowing."
-"Module: Utility"
-"CallOn: An entity that is glowing"
-"Example: keyboard stopGlow();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 stopGlow( model )
 {
 	if ( !isdefined( self.non_glow_model ) )
@@ -14657,21 +8949,7 @@ stopGlow( model )
 	self.non_glow_model = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_delete_evenly( <array> , <delete_size>, <set_size> )"
-"Summary: Evenly remove entries from an array. For example delete 3 out of every 4 entries in an array."
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <array>: The array, order of the array determines the order stuff is removed."
-"MandatoryArg: <delete_size>: The ratio of entries to delete."
-"MandatoryArg: <set_size>: The size of each set."
-"Example: array = array_delete_evenly( array, 1, 3 ); // Delete 1 out of every 3 entries in the array"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_delete_evenly( array, delete_size, set_size )
 {
 	AssertEx( delete_size > 0, "Save size must be at least 1" );
@@ -14705,20 +8983,7 @@ array_delete_evenly( array, delete_size, set_size )
 	return new_array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_in_range( <origin> , <range> )"
-"Summary: Wait until and entity is within range or a given origin."
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <origin>: wait until entity is within range of this position."
-"MandatoryArg: <range>: wait until entity is within this distance to the given position."
-"Example: array = array_delete_evenly( array, 1, 3 ); // Delete 1 out of every 3 entries in the array"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_in_range( origin, range )
 {
 	self endon( "death" );
@@ -14731,18 +8996,7 @@ waittill_in_range( origin, range )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_trace_fx( <name> )"
-"Summary: Adds FX that play off a trace from a tag. See _climb.gsc for examples."
-"Module: Utility"
-"MandatoryArg: <name>: Name the tracefx."
-"Example: add_trace_fx( "ice_pick" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_trace_fx( name )
 {
 	ent = SpawnStruct();
@@ -14750,21 +9004,7 @@ add_trace_fx( name )
 	return ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: traceFX_on_tag( <fx_name> , <tag> , <trace_depth> )"
-"Summary: Plays a traceFX on the specified tag."
-"Module: Utility"
-"CallOn: An entity with a tag."
-"MandatoryArg: <fx_name>: The name of the tracefx, created with add_trace_fx."
-"MandatoryArg: <tag>: The tag to play the fx on."
-"MandatoryArg: <trace_depth>: How far to trace to find a surface."
-"Example: car traceFX_on_tag( "player_ice_pick", "tag_origin", 10 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 traceFX_on_tag( fx_name, tag, trace_depth )
 {
 	origin = self GetTagOrigin( tag );
@@ -14773,21 +9013,7 @@ traceFX_on_tag( fx_name, tag, trace_depth )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: traceFx( <fx_name> , <origin> , <angles> , <trace_depth> )"
-"Summary: Trace from org/ang and then play an fx where it hits"
-"Module: Utility"
-"MandatoryArg: <fx_name>: The TraceFX name, added with add_trace_fx. "
-"MandatoryArg: <origin>: The origin to trace from. "
-"MandatoryArg: <angles>: The angles to trace from. "
-"MandatoryArg: <trace_depth>: The depth to trace for a surface. "
-"Example: traceFx( fx_name, origin, angles, trace_depth );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 traceFx( fx_name, origin, angles, trace_depth )
 {
 	// plays an effect based off surface type then deletes the tag that called it
@@ -14840,53 +9066,19 @@ traceFx( fx_name, origin, angles, trace_depth )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_surprise()"
-"Summary: Disables AI surprise"
-"Module: AI"
-"CallOn: An AI"
-"Example: guy disable_surprise();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_surprise()
 {
 	self.newEnemyReactionDistSq = 0;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_surprise()"
-"Summary: reenables AI surprise"
-"Module: AI"
-"CallOn: An AI"
-"Example: guy enable_surprise();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_surprise()
 {
 	self.newEnemyReactionDistSq = squared( 512 );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_heat_behavior( <shoot_while_moving> )"
-"Summary: Enables heat behavior"
-"Module: AI"
-"CallOn: An AI"
-"OptionalArg: <shoot_while_moving>: do regular AI shoot behavior while moving. Defaults to false"
-"Example: guy enable_heat_behavior();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_heat_behavior( shoot_while_moving )
 {
 	self.heat = true;
@@ -14907,18 +9099,7 @@ enable_heat_behavior( shoot_while_moving )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_heat_behavior()"
-"Summary: Disables heat behavior"
-"Module: AI"
-"CallOn: An AI"
-"Example: guy disable_heat_behavior();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_heat_behavior()
 {
 	self.heat = undefined;
@@ -14932,33 +9113,13 @@ disable_heat_behavior()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: getVehicleArray()"
-"Summary: Returns Vehicle_GetArray();"
-"Module: Utility"
-"Example: vehicles = getVehicleArray()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getVehicleArray()
 {
 	return Vehicle_GetArray();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hint( string, timeOut )"
-"Summary: Creates a simple white text string at the center of the screen;"
-"Module: Utility"
-"Example: thread hint( &"OILRIG_HINT_C4_SWITCH" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hint( string, timeOut, zoffset )
 {
 	if ( !isdefined( zoffset ) )
@@ -14994,17 +9155,7 @@ hint( string, timeOut, zoffset )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: hint_fade()"
-"Summary: Fades out a text hint created with the hint() function"
-"Module: Utility"
-"Example: thread hint( &"OILRIG_HINT_C4_SWITCH" )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hint_fade()
 {
 	hintfade = 1;
@@ -15017,19 +9168,7 @@ hint_fade()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: kill_deathflag( <theFlag>, <time> )"
-"Summary: Kill everything associated with a deathflag"
-"Module: Utility"
-"MandatoryArg: <theFlag>: The flag to kill on "
-"OptionalArg: <time>: random amount of time to wait before death "
-"Example: kill_deathflag( "tower_cleared" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 kill_deathflag( theFlag, time )
 {
 	//assertex( IsDefined( level.flag[ theFlag ] ), "Tried to kill_deathFlag on a flag " + theFlag + " which does not exist." );
@@ -15055,20 +9194,7 @@ kill_deathflag( theFlag, time )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_player_view_controller( <model> , <tag>, <originoffset> )"
-"Summary: Returns a turret that you can link the player to. Link the player to tag_aim."
-"Module: Utility"
-"MandatoryArg: <model>: The model to link to."
-"MandatoryArg: <tag>: The tag to link to."
-"OptionalArg: <originoffset>: Optional offset from the tag."
-"Example: player_view_controller = get_player_view_controller( level.player_heli, "tag_guy2" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_player_view_controller( model, tag, originoffset )
 {
 	if ( !isdefined( originoffset ) )
@@ -15081,31 +9207,11 @@ get_player_view_controller( model, tag, originoffset )
 	player_view_controller MakeUnusable();
 	player_view_controller Hide();
 	player_view_controller SetMode( "manual" );
-	/*
-	player_view_controller thread maps\_debug::drawTagForever( "tag_origin" );
-	player_view_controller thread maps\_debug::drawTagForever( "TAG_player", (1,0,0) );
-	player_view_controller thread maps\_debug::drawTagForever( "TAG_Weapon", (0,1,0) );
-	player_view_controller thread maps\_debug::drawTagForever( "tag_flash", (1,0,1) );
-	model thread maps\_debug::drawTagForever( tag );
-	player_view_controller thread maps\_debug::drawTagForever( "TAG_aim", (0,0,1) );
-	*/
+	
 	return player_view_controller;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: blend_dof( <start> , <end> , <time> )"
-"Summary: Blend DOF from start to end over time"
-"Module: Utility"
-"MandatoryArg: <start>: Starting dof values, usually level.dofDefault"
-"MandatoryArg: <end>: Values you want to blend to"
-"MandatoryArg: <time>: Amount of time to blend over"
-"Example: blend_dof( start, end, 14 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 blend_dof( start, end, time )
 {
 	blend = level create_blend( ::blend_default_dof, start, end );
@@ -15113,21 +9219,7 @@ blend_dof( start, end, time )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: create_blend( <func> , <var1> , <var2> , <var3> )"
-"Summary: Creates a spawnstruct that blends values over time, using a function you create (see blend_dof)"
-"Module: Utility"
-"MandatoryArg: <func>: The function that will blend the values "
-"OptionalArg: <var1>: Optional var to use."
-"OptionalArg: <var2>: Optional var to use."
-"OptionalArg: <var3>: Optional var to use."
-"Example: blend = create_blend( ::blend_dof, start, end );     blend.time = 14;"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 create_blend( func, var1, var2, var3 )
 {
 	ent = SpawnStruct();
@@ -15136,19 +9228,7 @@ create_blend( func, var1, var2, var3 )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: store_players_weapons( <scene> )"
-"Summary: Store the player's inventory to a variable that you can recall later"
-"Module: Utility"
-"CallOn: A player"
-"MandatoryArg: <scene>: String to store the inventory to."
-"Example: level.player store_players_weapons( "c4_scene" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 store_players_weapons( scene )
 {
 	if ( !isdefined( self.stored_weapons ) )
@@ -15174,18 +9254,7 @@ store_players_weapons( scene )
 	self.stored_weapons[ scene ][ "inventory" ] = array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: restore_players_weapons( <scene> )"
-"Summary: Restore the player's inventory from a variable that you stored earlier."
-"Module: Utility"
-"MandatoryArg: <scene>: String to store the inventory to."
-"Example: level.player restore_players_weapons( "c4_scene" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 restore_players_weapons( scene )
 {
 	if ( !isdefined( scene ) )
@@ -15216,18 +9285,7 @@ restore_players_weapons( scene )
 		self SwitchToWeapon( current_weapon );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hide_entity()"
-"Summary: Used to hide large groups of ents when you are unsure of the exact classname. Will use appropriate functions for turning off triggers, connecting paths in brushmodels, etc. if appropriate."
-"Module: Utility"
-"CallOn: An entity"
-"Example: array_thread( group_of_misc_entities,::hide_entity );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hide_entity()
 {
 
@@ -15259,18 +9317,7 @@ hide_entity()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: show_entity()"
-"Summary: Used to show large groups of hidden ents when you are unsure of the exact classname. Will use appropriate functions for turning off triggers, disconnecting paths in brushmodels, etc. if appropriate."
-"Module: Utility"
-"CallOn: An entity"
-"Example: array_thread( group_of_misc_entities,::show_entity );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 show_entity()
 {
 	switch( self.code_classname )
@@ -15300,20 +9347,7 @@ show_entity()
 			AssertMsg( "Unable to show entity at " + self.origin + ". Need to define a method for handling entities of classname " + self.code_classname );
 	}
 }
-/*
-=============
-///ScriptDocBegin
-"Name: _rotateyaw( <yaw_angle> , <time> , <time> , <time> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _rotateyaw( yaw_angle, time, acc_time, dec_time )
 {
 	if ( IsDefined( dec_time ) )
@@ -15325,20 +9359,7 @@ _rotateyaw( yaw_angle, time, acc_time, dec_time )
 		self RotateYaw( yaw_angle, time );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_moveplaybackrate( <rate>, <time> )"
-"Summary: set an AI's .moveplaybackrate over time"
-"Module: AI"
-"CallOn: AI"
-"MandatoryArg: <rate>: the speed of the playbackrate ( default rate is 1 )"
-"OptionalArg: <time>: time to lerp the rate in - if no time then set instantly"
-"Example: level.price set_moveplaybackrate( 1.1 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_moveplaybackrate( rate, time )
 {
 	self notify( "set_moveplaybackrate" );
@@ -15361,23 +9382,7 @@ set_moveplaybackrate( rate, time )
 	self.moveplaybackrate = rate;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn_function( <array> , <func>, param1, param2, param3, param4 )"
-"Summary: Adds a spawn function to an array of spawners"
-"Module: Utility"
-"MandatoryArg: <array>: Array of spawners"
-"MandatoryArg: <func>: Function to run on the guy when he spawns"
-"OptionalArg: <param1> : An optional parameter."
-"OptionalArg: <param2> : An optional parameter."
-"OptionalArg: <param3> : An optional parameter."
-"OptionalArg: <param4> : An optional parameter."
-"Example: array_spawn_function( spawners, ::do_it, do_it_parameter );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn_function( array, func, param1, param2, param3, param4 )
 {
 	AssertEx( IsDefined( array ), "That isn't an array!" );
@@ -15390,23 +9395,7 @@ array_spawn_function( array, func, param1, param2, param3, param4 )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn_function_targetname( <key> , <func>, param1, param2, param3, param4 )"
-"Summary: Gets spawners with the specified targetname and adds a spawn function to them"
-"Module: Utility"
-"MandatoryArg: <key>: targetname of spawners"
-"MandatoryArg: <func>: Function to run on the guys when they spawn"
-"OptionalArg: <param1> : An optional parameter."
-"OptionalArg: <param2> : An optional parameter."
-"OptionalArg: <param3> : An optional parameter."
-"OptionalArg: <param4> : An optional parameter."
-"Example: array_spawn_function_targetname( "specialguy", ::do_it );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn_function_targetname( key, func, param1, param2, param3, param4 )
 {
 	array = GetEntArray( key, "targetname" );
@@ -15414,23 +9403,7 @@ array_spawn_function_targetname( key, func, param1, param2, param3, param4 )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_spawn_function_noteworthy( <key> , <func>, param1, param2, param3, param4 )"
-"Summary: Gets spawners with the specified noteworthy and adds a spawn function to them"
-"Module: Utility"
-"MandatoryArg: <key>: noteworthy of spawners"
-"MandatoryArg: <func>: Function to run on the guys when they spawn"
-"OptionalArg: <param1> : An optional parameter."
-"OptionalArg: <param2> : An optional parameter."
-"OptionalArg: <param3> : An optional parameter."
-"OptionalArg: <param4> : An optional parameter."
-"Example: array_spawn_function_noteworthy( "specialguy", ::do_it );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_spawn_function_noteworthy( key, func, param1, param2, param3, param4 )
 {
 	array = GetEntArray( key, "script_noteworthy" );
@@ -15440,55 +9413,19 @@ array_spawn_function_noteworthy( key, func, param1, param2, param3, param4 )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_dontevershoot( <enable_dontevershoot> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_dontevershoot()
 {
 	self.dontEverShoot = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_dontevershoot( <disable_dontevershoot> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_dontevershoot()
 {
 	self.dontEverShoot = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: create_vision_set_fog( <fogset> )"
-"Module: Utility"
-"MandatoryArg: <fogset>: Name, must be the same as the vision set it works with. "
-"Example: ent = create_vision_set_fog( "gulag" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 create_vision_set_fog( fogset )
 {
 	if ( !isdefined( level.vision_set_fog ) )
@@ -15500,17 +9437,7 @@ create_vision_set_fog( fogset )
 	return ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_vision_set_fog( <fogset> )"
-"Module: Utility"
-"MandatoryArg: <fogset>: Unique vision set name"
-"Example: ent = get_vision_set_fog( "contingency_bridge" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_vision_set_fog( fogset )
 {
 	if ( !isdefined( level.vision_set_fog ) )
@@ -15522,31 +9449,7 @@ get_vision_set_fog( fogset )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: create_fog( <fogset> )"
-"Module: Utility"
-"MandatoryArg: <fogset>: Unique fog setting name"
-"Example: ent = create_fog( "contingency_bridge" );"
-"NoteLine: Here are some values you might set on the ent:"
-"NoteLine: ent.startDist"
-"NoteLine: ent.halfwayDist"
-"NoteLine: ent.red"
-"NoteLine: ent.green"
-"NoteLine: ent.blue"
-"NoteLine: ent.maxOpacity"
-"NoteLine: ent.sunRed"
-"NoteLine: ent.sunGreen"
-"NoteLine: ent.sunBlue"
-"NoteLine: ent.sunDir"
-"NoteLine: ent.sunBeginFadeAngle"
-"NoteLine: ent.sunEndFadeAngle"
-"NoteLine: ent.normalFogScale"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 
 create_fog( fogset )
 {
@@ -15559,17 +9462,7 @@ create_fog( fogset )
 	return ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_fog( <fogset> )"
-"Module: Utility"
-"MandatoryArg: <fogset>: Unique fog setting name"
-"Example: ent = get_fog( "contingency_fog_forest" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_fog( fogset )
 {
 	if ( !isdefined( level.fog_set ) )
@@ -15580,19 +9473,7 @@ get_fog( fogset )
 	return ent;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: fog_set_changes( <fog_set> , <transition_time> )"
-"Summary: Switches to a fog set over a transition time."
-"Module: Utility"
-"MandatoryArg: <fog_set>: The fog set name, defined by create_fog( name )"
-"MandatoryArg: <transition_time>: How long to transition for"
-"Example: fog_set_changes( "contingency_fog_forest", 10 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 fog_set_changes( fog_set, transition_time )
 {
 	if ( !isdefined( level.fog_transition_ent ) )
@@ -15661,19 +9542,7 @@ fog_set_changes( fog_set, transition_time )
 	level.fog_transition_ent.time = transition_time;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: vision_set_fog_changes( <vision_set> , <transition_time> )"
-"Summary: Switches to a vision set over a transition time and changes fog, safely overwriting other calls to the same function. "
-"Module: Utility"
-"MandatoryArg: <vision_set>: The vision set file"
-"MandatoryArg: <transition_time>: How long to transition for"
-"Example: vision_set_fog_changes( "gulag_flying", 10 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 vision_set_fog_changes( vision_set, transition_time )
 {
 	do_fog = vision_set_changes( vision_set, transition_time );
@@ -15682,19 +9551,7 @@ vision_set_fog_changes( vision_set, transition_time )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: vision_set_changes( <vision_set> , <transition_time> )"
-"Summary: Switches to a vision set over a transition time, safely overwriting other calls to the same function. "
-"Module: Utility"
-"MandatoryArg: <vision_set>: The vision set file"
-"MandatoryArg: <transition_time>: How long to transition for"
-"Example: vision_set_changes( "gulag_flying", 10 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 vision_set_changes( vision_set, transition_time )
 {
 	if ( !isdefined( level.vision_set_transition_ent ) )
@@ -15719,20 +9576,7 @@ vision_set_changes( vision_set, transition_time )
 	return true;// do fog
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_teamflashbangImmunity( <enable_teamflashbangImmunity> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_teamflashbangImmunity()
 {
 	self thread enable_teamflashbangImmunity_proc();
@@ -15749,39 +9593,13 @@ enable_teamflashbangImmunity_proc()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_teamflashbangImmunity( <disable_teamflashbangImmunity> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_teamflashbangImmunity()
 {
 	self.teamFlashbangImmunity = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: _radiusdamage( <origin> , <range> , <maxdamage> , <mindamage> , <attacker> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 _radiusdamage( origin, range, maxdamage, mindamage, attacker )
 {
 	if ( !isdefined( attacker ) )
@@ -15792,18 +9610,7 @@ _radiusdamage( origin, range, maxdamage, mindamage, attacker )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: mask_interactives_in_volumes( <volumes> )"
-"Summary: Masks interactive tvs in volumes so they don't use entities. Must be done before _load."
-"Module: Utility"
-"MandatoryArg: <volumes>: Array of volumes to hide interactive objects in"
-"Example: mask_interactives_in_volumes( volumes );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 mask_interactives_in_volumes( volumes )
 {
 	tvs = GetEntArray( "interactive_tv", "targetname" );
@@ -15826,20 +9633,7 @@ mask_interactives_in_volumes( volumes )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: activate_interactives_in_volume()"
-"Summary: Activates masked interactive tvs in a volume"
-"Module: Utility"
-"CallOn: A masking volume"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: volume activate_interactives_in_volume();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 activate_interactives_in_volume()
 {
 	if ( !isdefined( self.interactives ) )
@@ -15862,18 +9656,7 @@ activate_interactives_in_volume()
 	self.interactives = [];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: mask_destructibles_in_volumes( <volumes> )"
-"Summary: Masks destructibles in an array of volumes so they dont use entities. Must be done before _load.""
-"Module: Utility"
-"MandatoryArg: <volumes>: Array of volumes "
-"Example: mask_destructibles_in_volumes( vols );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 mask_destructibles_in_volumes( volumes )
 {
 	destructible_toy = GetEntArray( "destructible_toy", "targetname" );
@@ -15895,18 +9678,7 @@ mask_destructibles_in_volumes( volumes )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: activate_destructibles_in_volume()"
-"Summary: Activate destructibles in a masked volume."
-"Module: Utility"
-"CallOn: A mask volume"
-"Example: vol activate_destructibles_in_volume();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 activate_destructibles_in_volume()
 {
 	if ( !isdefined( self.destructibles ) )
@@ -15930,38 +9702,14 @@ activate_destructibles_in_volume()
 	self.destructibles = [];
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: setFlashbangImmunity( <immune> )"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 setFlashbangImmunity( immune )
 {
 	self.flashBangImmunity = immune;
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: flashBangGetTimeLeftSec()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"Example: duration = flashBangGetTimeLeftSec();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flashBangGetTimeLeftSec()
 {
 	Assert( IsDefined( self ) );
@@ -15977,36 +9725,14 @@ flashBangGetTimeLeftSec()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: flashBangIsActive()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"Example: active = flashBangIsActive();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flashBangIsActive()
 {
 	return( flashBangGetTimeLeftSec() > 0 );
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: flashBangStart( <duration> )"
-"Summary: I'm guessing it makes a guy get flash banged, maybe somebody could FILL IN THE FREAKING DOCS"
-"Module: Entity"
-"CallOn: An entity"
-"Example: actor flashBangStart( 4.5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flashBangStart( duration )
 {
 	Assert( IsDefined( self ) );
@@ -16027,18 +9753,7 @@ flashBangStart( duration )
 	self SetFlashBanged( true );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_volume_dead()"
-"Summary: Waits for all the guys in a volume to die."
-"Module: Utility"
-"CallOn: A volume"
-"Example: volume waittill_volume_dead()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_volume_dead()
 {
 	for ( ;; )
@@ -16076,18 +9791,7 @@ waittill_volume_dead()
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_volume_dead_or_dying()"
-"Summary: Waits for all the guys in a volume to die or do long death."
-"Module: Utility"
-"CallOn: A volume"
-"Example: volume waittill_volume_dead_or_dying()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_volume_dead_or_dying()
 {
 	ever_found_guy = false;
@@ -16137,39 +9841,14 @@ waittill_volume_dead_or_dying()
 	return ever_found_guy;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_volume_dead_then_set_flag( <sFlag> )"
-"Summary: Read the function name."
-"Module: Utility"
-"CallOn: A volume"
-"MandatoryArg: <param1>: "
-"OptionalArg: <param2>: "
-"Example: volume waittill_volume_dead_then_set_flag( "some_flag" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_volume_dead_then_set_flag( sFlag )
 {
 	self waittill_volume_dead();
 	flag_set( sFlag );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: waittill_targetname_volume_dead_then_set_flag( <targetname> , <msg> )"
-"Summary: Read the function name."
-"Module: Utility"
-"MandatoryArg: <targetname>: The targetname "
-"OptionalArg: <msg>: The flag "
-"Example: waittill_targetname_volume_dead_then_set_flag( "some_targetname", "some_flag" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 waittill_targetname_volume_dead_then_set_flag( targetname, msg )
 {
 	volume = GetEnt( targetname, "targetname" );
@@ -16177,17 +9856,7 @@ waittill_targetname_volume_dead_then_set_flag( targetname, msg )
 	volume waittill_volume_dead_then_set_flag( msg );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_can_be_shot()"
-"Summary: The player gets correct attackeraccuracy again."
-"Module: Utility"
-"Example: player_can_be_shot();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_can_be_shot()
 {
 	level.player ent_flag_clear( "player_zero_attacker_accuracy" );
@@ -16195,17 +9864,7 @@ player_can_be_shot()
 	level.player maps\_gameskill::update_player_attacker_accuracy();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_cant_be_shot()"
-"Summary: The player gets 0 attackeraccuracy and won't get his attackeraccuracy overwritten by _gameskill."
-"Module: Utility"
-"Example: player_cant_be_shot();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_cant_be_shot()
 {
 	level.player ent_flag_set( "player_zero_attacker_accuracy" );
@@ -16213,19 +9872,7 @@ player_cant_be_shot()
 	level.player.IgnoreRandomBulletDamage = true;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_player_attacker_accuracy( <val> )"
-"Summary: Sets the player's attacker accuracy correctly so _gameskill won't overwrite it"
-"Module: Utility"
-"CallOn: A player"
-"MandatoryArg: <val>: The attacker accuracy"
-"Example: level.player set_player_attacker_accuracy( 0.5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_player_attacker_accuracy( val )
 {
 	// sets player attackeraccuracy
@@ -16234,18 +9881,7 @@ set_player_attacker_accuracy( val )
 	player maps\_gameskill::update_player_attacker_accuracy();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_index_by_parameters( <array> )"
-"Summary: Indexes and array by its script_parameter values and returns the array"
-"Module: Utility"
-"MandatoryArg: <array>: The array of entities that all have script_parameters "
-"Example: orgs = array_index_by_parameters( friendly_escape_orgs );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_index_by_parameters( old_array )
 {
 	array = [];
@@ -16256,18 +9892,7 @@ array_index_by_parameters( old_array )
 	return array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_index_by_classname( <array> )"
-"Summary: Indexes and array by its classname values and returns the array"
-"Module: Utility"
-"MandatoryArg: <array>: The array of entities that all have classnames "
-"Example: orgs = array_index_by_classname( friendly_escape_orgs );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_index_by_classname( old_array )
 {
 	array = [];
@@ -16278,18 +9903,7 @@ array_index_by_classname( old_array )
 	return array;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: array_index_by_script_index( <array> )"
-"Summary: Indexes and array by its script_index values and returns the array"
-"Module: Utility"
-"MandatoryArg: <array>: The array of entities that all have script_indexs "
-"Example: orgs = array_index_by_script_index( friendly_escape_orgs );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 array_index_by_script_index( array )
 {
 	// sort ents by order of script_index
@@ -16310,19 +9924,7 @@ array_index_by_script_index( array )
 
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: add_target_pivot()"
-"Summary: Adds a .pivot to an entity, from the entity's .target."
-"Module: Utility"
-"CallOn: An entity that is going to rotate around a pivot point."
-"OptionalArg: <ent>: Optional override ent"
-"Example: evac_rock add_target_pivot();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 add_target_pivot( ent )
 {
 	if ( IsDefined( ent ) )
@@ -16339,18 +9941,7 @@ add_target_pivot( ent )
 	self LinkTo( self.pivot );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_color_volume_from_trigger()"
-"Summary: Gets the color volume from a trigger that has only one color code"
-"Module: Color"
-"CallOn: A color trigger"
-"Example: volume = trigger get_color_volume_from_trigger();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_color_volume_from_trigger()
 {
 	info = self get_color_info_from_trigger();
@@ -16366,18 +9957,7 @@ get_color_volume_from_trigger()
 	return undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_color_nodes_from_trigger()"
-"Summary: Gets the color nodes from a trigger that has only one color code"
-"Module: Color"
-"CallOn: A color trigger"
-"Example: nodes = trigger get_color_nodes_from_trigger();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_color_nodes_from_trigger()
 {
 	info = self get_color_info_from_trigger();
@@ -16394,37 +9974,14 @@ get_color_nodes_from_trigger()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: flashBangStop()"
-"Summary: "
-"Module: Entity"
-"CallOn: An entity"
-"Example: actor flashBangStop();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 flashBangStop()
 {
 	self.flashendtime = undefined;
 	self SetFlashBanged( false );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: getent_or_struct( param1, param2 )"
-"Summary: "
-"Module: Entity"
-"MandatoryArg: <param1>: first param of a key/value pair, such as 'self.target'"
-"MandatoryArg: <param2>: second param of a key/value pair, such as 'targetname'"
-"Example: nextNode = getent_or_struct( self.target, "targetname" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 getent_or_struct( param1, param2 )
 {
 	ent = GetEnt( param1, param2 );
@@ -16447,18 +10004,7 @@ grenade_earthQuake()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: dirt_on_screen_from_position( <position> )"
-"Summary: Self explanatory"
-"Module: Utility"
-"MandatoryArg: <position>: origin of explosion"
-"Example: dirt_on_screen_from_position( from_on_high );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 dirt_on_screen_from_position( position )
 {
 	PlayRumbleOnPosition( "grenade_rumble", position );
@@ -16474,19 +10020,7 @@ dirt_on_screen_from_position( position )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_rides_shotgun_in_humvee( <right> , <left> , <up> , <down> )"
-"Summary: Makes the player pop into the humvee's shotgun seat. Returns the org used to dismount the player"
-"Module: Utility"
-"CallOn: The humvee"
-"OptionalArg: <directions> FOV limits for the player "
-"Example: org = humvee player_rides_shotgun_in_humvee( 45,45,45,45 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_rides_shotgun_in_humvee( right, left, up, down )
 {
 	level.player AllowCrouch( false );
@@ -16535,19 +10069,7 @@ endOnDeath()
 	self notify( "end_explode" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: dirtEffect( <position> )"
-"Summary: plays a grenade dirt effect on the screen"
-"Module: player"
-"CallOn: player"
-"MandatoryArg: <position>: the position of the event that causes the effect"
-"Example: level.player dirtEffect( fx.origin );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 dirtEffect( position )
 {
 	forwardVec = VectorNormalize( AnglesToForward( self.angles ) );
@@ -16576,19 +10098,7 @@ dirtEffect( position )
 	}
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: pathrandompercent_set( <value> )"
-"Summary: sets self.pathrandompercent to the value"
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <value>: the value of self.pathrandompercent"
-"Example: level.price pathrandompercent_set( 0 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 pathrandompercent_set( value )
 {
 	if ( !isdefined( self.old_pathrandompercent ) )
@@ -16596,18 +10106,7 @@ pathrandompercent_set( value )
 	self.pathrandompercent = value;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: pathrandompercent_zero()"
-"Summary: sets self.pathrandompercent to 0"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price pathrandompercent_zero();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 pathrandompercent_zero()
 {
 	if ( IsDefined( self.old_pathrandompercent ) )
@@ -16617,18 +10116,7 @@ pathrandompercent_zero()
 	self.pathrandompercent = 0;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: pathrandompercent_reset()"
-"Summary: resets self.pathrandompercent ( see pathrandompercent_zero )"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price pathrandompercent_reset();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 pathrandompercent_reset()
 {
 	Assert( IsDefined( self.old_pathrandompercent ) );
@@ -16637,18 +10125,7 @@ pathrandompercent_reset()
 	self.old_pathrandompercent = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: walkdist_zero()"
-"Summary: sets self.walkdist and self.old_walkDistFacingMotion to 0"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price walkdist_zero();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 walkdist_zero()
 {
 	if ( IsDefined( self.old_walkDistFacingMotion ) )
@@ -16661,18 +10138,7 @@ walkdist_zero()
 	self.walkDistFacingMotion 	 = 0;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: walkdist_reset()"
-"Summary: resets self.walkdist and self.old_walkDistFacingMotion ( see walkdist_zero )"
-"Module: AI"
-"CallOn: An AI"
-"Example: level.price walkdist_reset();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 walkdist_reset()
 {
 	Assert( IsDefined( self.old_walkDist ) );
@@ -16685,18 +10151,7 @@ walkdist_reset()
 	self.old_walkDistFacingMotion 	 = undefined;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_ignorerandombulletdamage_drone()"
-"Summary: effectively has the same effect as .IgnoreRandomBulletDamage on AI, but for drones"
-"Module: Entity"
-"CallOn: An a drone"
-"Example: guy enable_ignorerandombulletdamage_drone()"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_ignorerandombulletdamage_drone()
 {
 	//threading internally so script doesn't stop here...most our enable/disable utility code doesn't stop script.
@@ -16734,18 +10189,7 @@ ignorerandombulletdamage_drone_proc()
 	self Kill();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: hide_notsolid( <hide_notsolid> )"
-"Summary: Hide an entity and make it truly notsolid via setContents"
-"Module: Utility"
-"CallOn: An entity"
-"Example: model hide_notsolid();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 hide_notsolid()
 {
 	if ( !isdefined( self.oldContents ) )
@@ -16756,16 +10200,7 @@ hide_notsolid()
 	self Hide();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: show_solid( <hide_notsolid> )"
-"CallOn: An entity"
-"Example: model show_solid();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 show_solid()
 {
 	if ( !isai( self ) )
@@ -16779,35 +10214,14 @@ show_solid()
 	self Show();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_brakes( <num> )"
-"Module: Utility"
-"CallOn: A vehicle"
-"MandatoryArg: <num>: The brakes, 0 to 1. "
-"Example: vehicle set_brakes( 0.5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_brakes( num )
 {
 	self.veh_brake = num;
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_ignorerandombulletdamage_drone()"
-"Module: Entity"
-"CallOn: An a drone"
-"Example: "
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_ignorerandombulletdamage_drone()
 {
 	if ( !isalive( self ) )
@@ -16829,23 +10243,7 @@ timeOutEnt( timeOut )
 
 
 
-/* 
-============= 
-///ScriptDocBegin
-"Name: delayThread( <delay>, <function>, <arg1>, <arg2>, <arg3>, <arg4> )"
-"Module: Utility"
-"MandatoryArg: <delay> : The delay before the function occurs"
-"MandatoryArg: <delay> : The function to run."
-"OptionalArg: <arg1> : parameter 1 to pass to the process"
-"OptionalArg: <arg2> : parameter 2 to pass to the process"
-"OptionalArg: <arg3> : parameter 3 to pass to the process"
-"OptionalArg: <arg4> : parameter 4 to pass to the process"
-"OptionalArg: <arg5> : parameter 5 to pass to the process"
-"Example: delayThread( 3, ::flag_set, "player_can_rappel" );
-"SPMP: both"
-///ScriptDocEnd
-============= 
-*/ 
+ 
 delayThread( timer, func, param1, param2, param3, param4, param5 )
 {
 	// to thread it off
@@ -16853,19 +10251,7 @@ delayThread( timer, func, param1, param2, param3, param4, param5 )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: enable_danger_react( <duration_seconds> )"
-"Summary: if nearby teammate is shot, makes AI stop at current position, find nearby cover if available, and fight."
-"Module: AI"
-"CallOn: An AI"
-"MandatoryArg: <duration_seconds>: how long to stop and fight"
-"Example: self enable_danger_react( 10 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 enable_danger_react( duration )
 {
 	duration *= 1000;
@@ -16877,18 +10263,7 @@ enable_danger_react( duration )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: disable_danger_react()"
-"Summary: disable danger reaction. See enable_danger_react"
-"Module: AI"
-"CallOn: An AI"
-"Example: self disable_danger_react();"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 disable_danger_react()
 {
 	Assert( IsAI( self ) );
@@ -16897,20 +10272,7 @@ disable_danger_react()
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_group_advance_to_enemy_parameters( <interval> <group size> )"
-"Summary: sets how often and group size for AI advancing directly toward their enemy"
-"Module: AI"
-"CallOn: level"
-"MandatoryArg: <interval millisec>: how often"
-"MandatoryArg: <group size>: how many"
-"Example: self set_group_advance_to_enemy_parameters( 30000, 5 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_group_advance_to_enemy_parameters( interval, group_size )
 {
 	level.advanceToEnemyInterval = interval;		// how often AI will try to run directly to their enemy if the enemy is not visible
@@ -16918,79 +10280,33 @@ set_group_advance_to_enemy_parameters( interval, group_size )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: reset_group_advance_to_enemy_timer( <team> )"
-"Summary: reset the advance-to-enemy time for a team. Useful when player advances to a new section of a level"
-"Module: AI"
-"CallOn: level"
-"MandatoryArg: <team>: team to reset the timer for"
-"Example: self reset_group_advance_to_enemy_timer( "team3" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 reset_group_advance_to_enemy_timer( team )
 {
 	Assert( IsDefined( level.lastAdvanceToEnemyTime[ team ] ) );
 	level.lastAdvanceToEnemyTime[ team ] = GetTime();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_custom_gameskill_func( <func> )"
-"Summary: Sets a custom func to run at the end of _gameskill::setskill(), so you can change difficulty settings."
-"Module: Utility"
-"MandatoryArg: <func>: The function to call after _gameskill::setskill()"
-"Example: set_custom_gameskill_func( maps\_gameskill::solo_player_in_coop_gameskill_settings );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_custom_gameskill_func( func )
 {
 	Assert( IsDefined( func ) );
 	level.custom_gameskill_func = func;
 
+	// reset so it takes effect
 	thread maps\_gameskill::resetSkill();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: clear_custom_gameskill_func()"
-"Summary: Sets a custom func to run at the end of _gameskill::setskill(), so you can change difficulty settings."
-"Module: Utility"
-"MandatoryArg: <func>: The function to call after _gameskill::setskill()"
-"Example: set_custom_gameskill_func( maps\_gameskill::solo_player_in_coop_gameskill_settings );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 clear_custom_gameskill_func()
 {
 	level.custom_gameskill_func = undefined;
 
+	// reset so it takes effect
 	thread maps\_gameskill::resetSkill();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: set_wind( <weight>, <rate>, <variance> )"
-"Summary: sets the blend weight,rate on the strong wind animation for animated trees. defaults at 1 and .4."
-"Module: Level"
-"CallOn: The Level"
-"MandatoryArg: <weight>: the weight of the animation"
-"MandatoryArg: <rate>: the weight of the animation"
-"OptionalArg: <variance>: How much random speed is added to the rate for each loop of the animation. "
-"Example: set_wind( 100,6 );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 set_wind( weight, rate, variance )
 {
 	Assert( IsDefined( weight ) );
@@ -17003,19 +10319,7 @@ set_wind( weight, rate, variance )
 	level notify( "windchange", "strong" );
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: string_is_single_digit_integer( <str> )"
-"Summary: Tests whether a string is a single digit integer. Helpful for situations like parsing strings for indexes, etc."
-"Module: Utility"
-"CallOn: the level"
-"MandatoryArg: <str>: the string you want to test."
-"Example: bIsInt = string_is_single_digit_integer( "1" );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 string_is_single_digit_integer( str )
 {
 	if ( str.size > 1 )
@@ -17051,18 +10355,7 @@ set_battlechatter_variable( team, val )
 	update_battlechatter_hud();
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: objective_clearAdditionalPositions( <objective_number> )"
-"Summary: Clears the positions for this objective"
-"Module: Utility"
-"MandatoryArg: <objective_number>: The index for the objective"
-"Example: objective_clearAdditionalPositions( objective_index );"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 objective_clearAdditionalPositions( objective_number )
 {
 	// can have up to 8 positions, so clear them all
@@ -17073,19 +10366,7 @@ objective_clearAdditionalPositions( objective_number )
 }
 
 
-/*
-=============
-///ScriptDocBegin
-"Name: get_minutes_and_seconds( <milliseconds> )"
-"Summary: Returns how many minutes and seconds are in the milliseconds provided. Returns array with index "minutes" and index "seconds"."
-"Module: Utility"
-"CallOn: the level"
-"MandatoryArg: <milliseconds>: Number of milliseconds to check"
-"Example: time = get_minutes_and_seconds( GetTime() ); minutes = time[ "minutes" ]; seconds = time[ "seconds" ];"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 get_minutes_and_seconds( milliseconds )
 {
 	time = [];
@@ -17103,18 +10384,7 @@ get_minutes_and_seconds( milliseconds )
 	return time;
 }
 
-/*
-=============
-///ScriptDocBegin
-"Name: player_has_weapon( <weap> )"
-"Summary: Returns true if the player has the wepaon."
-"Module: Utility"
-"MandatoryArg: <weap>: The weapon"
-"Example: if ( player_has_weapon( "riotshield" ) )"
-"SPMP: singleplayer"
-///ScriptDocEnd
-=============
-*/
+
 player_has_weapon( weap )
 {
 	weaponList = level.player GetWeaponsListPrimaries();
@@ -17125,6 +10395,7 @@ player_has_weapon( weap )
 	}
 	return false;
 }
+
 
 obj( msg )
 {
@@ -17140,6 +10411,7 @@ obj( msg )
 	
 	return level.obj_array[ msg ];
 }
+
 
 MusicLoop( alias, delay_between_tracks )
 {
@@ -17204,6 +10476,7 @@ enable_achievement_harder_they_fall()
 	self.rappeller = true;
 }
 
+
 disable_achievement_harder_they_fall()
 {
 	self.rappeller = undefined;
@@ -17234,12 +10507,12 @@ musicLength( alias )
 	return time;
 }
 
-
 is_command_bound( cmd )
 {
 	binding = GetKeyBinding( cmd );
 	return binding[ "count" ];
 }
+
 
 set_hud_element_color( hud, color, glowcolor )
 {
@@ -17509,97 +10782,3 @@ enable_huds( )
 		}
 	}
 }
-/*
-The Raven
-
-Once upon a midnight dreary, while I pondered, weak and weary,
-Over many a quaint and curious volume of forgotten lore—
-While I nodded, nearly napping, suddenly there came a tapping,
-As of some one gently rapping, rapping at my chamber door.
-I “’Tis some visiter,” I muttered, “tapping at my chamber door—
-Only this and nothing more.”
-
-Ah, distinctly I remember it was in the bleak December;
-And each separate dying ember wrought its ghost upon the floor.
-Eagerly I wished the morrow;—vainly I had sought to borrow
-From my books surcease of sorrow—sorrow for the lost Lenore—
-For the rare and radiant maiden whom the angels name Lenore—
-Nameless here for evermore.
-
-And the silken sad uncertain rustling of each purple curtain
-Thrilled me—filled me with fantastic terrors never felt before;
-So that now, to still the beating of my heart, I stood repeating
-“’Tis some visiter entreating entrance at my chamber door—
-Some late visiter entreating entrance at my chamber door;
-This it is and nothing more.”
-
-Presently my soul grew stronger; hesitating then no longer,
-“Sir,” said I, “or Madam, truly your forgiveness I implore;
-But the fact is I was napping, and so gently you came rapping,
-And so faintly you came tapping, tapping at my chamber door,
-That I scarce was sure I heard you”—here I opened wide the door—
-Darkness there and nothing more.
-
-Deep into that darkness peering, long I stood there wondering, fearing,
-Doubting, dreaming dreams no mortals ever dared to dream before;
-But the silence was unbroken, and the stillness gave no token,
-And the only word there spoken was the whispered word, “Lenore!”
-This I whispered, and an echo murmured back the word, “Lenore!”—
-Merely this and nothing more.
-
-Back into the chamber turning, all my soul within me burning,
-Soon again I heard a tapping somewhat louder than before.
-“Surely,” said I, “surely that is something at my window lattice;
-Let me see, then, what thereat is and this mystery explore—
-Let my heart be still a moment and this mystery explore;—
-’Tis the wind and nothing more.”
-
-Open here I flung the shutter, when, with many a flirt and flutter,
-In there stepped a stately Raven of the saintly days of yore.
-Not the least obeisance made he; not a minute stopped or stayed he,
-But, with mien of lord or lady, perched above my chamber door—
-Perched upon a bust of Pallas just above my chamber door—
-Perched, and sat, and nothing more.
-
-Then the ebony bird beguiling my sad fancy into smiling,
-By the grave and stern decorum of the countenance it wore,
-“Though thy crest be shorn and shaven, thou,” I said, “art sure no craven,
-Ghastly grim and ancient Raven wandering from the Nightly shore—
-Tell me what thy lordly name is on the Night’s Plutonian shore!”
-Quoth the Raven, “Nevermore.”
-
-Much I marvelled this ungainly fowl to hear discourse so plainly,
-Though its answer little meaning—little relevancy bore;
-For we cannot help agreeing that no living human being
-Ever yet was blessed with seeing bird above his chamber door—
-Bird or beast upon the sculptured bust above his chamber door,
-With such name as “Nevermore.”
-
-But the Raven, sitting lonely on that placid bust, spoke only
-That one word, as if its soul in that one word he did outpour
-Nothing farther then he uttered; not a feather then he fluttered—
-Till I scarcely more than muttered: “Other friends have flown before—
-On the morrow he will leave me, as my Hopes have flown before.”
-Then the bird said “Nevermore.”
-
-Startled at the stillness broken by reply so aptly spoken,
-“Doubtless,” said I, “what it utters is its only stock and store,
-Caught from some unhappy master whom unmerciful Disaster
-Followed fast and followed faster till his songs one burden bore—
-Till the dirges of his Hope that melancholy burden bore
-Of ‘Never—nevermore.’”
-
-But the Raven still beguiling all my sad soul into smiling,
-Straight I wheeled a cushioned seat in front of bird and bust and door;
-Then, upon the velvet sinking, I betook myself to linking
-Fancy unto fancy, thinking what this ominous bird of yore—
-What this grim, ungainly, ghastly, gaunt, and ominous bird of yore
-Meant in croaking “Nevermore.”
-
-This I sat engaged in guessing, but no syllable expressing
-To the fowl whose fiery eyes now burned into my bosom’s core;
-This and more I sat divining, with my head at ease reclining
-On the cushion’s velvet lining that the lamp-light gloated o’er,
-But whose velvet violet lining with the lamp-light gloating o’er
-Sh
-*/

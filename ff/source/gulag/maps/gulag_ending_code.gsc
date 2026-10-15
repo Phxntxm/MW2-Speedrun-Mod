@@ -1697,11 +1697,6 @@ ceiling_collapse_think()
 	self.origin += (0,0,300);
 	flag_wait( "exit_collapses" );
 	nextmission();
-	//self CastShadows();	
-	//script_delay();
-	
-	//self moveto( org, 1, 0.2, 0 );
-	//Earthquake( 1.0, 4, org, 1000 );
 }
 
 set_friendly_endpoint_think()
@@ -2850,7 +2845,6 @@ blend_in_player_movespeed()
 		wait( 0.05 );
 	}
 }
-
 end_mission_early()
 {
 	flag_wait( "exit_collapses" );

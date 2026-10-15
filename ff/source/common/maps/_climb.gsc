@@ -518,32 +518,6 @@ fly_up_the_mountain()
 
 	SetSavedDvar( "compass", "1" );
 
-//	*/
-	/*
-	climb_cam = GetEnt( "climb_cam", "targetname" );
-	model = climb_cam spawn_tag_origin();
-	timer = 0;
-	level.player PlayerLinkToBlend( model, "tag_origin", 0, 0, 0 );
-	climb_cam delayThread( 2, ::self_delete );
-	climb_cam = GetEnt( climb_cam.target, "targetname" );
-	timer = 4.5;
-	model MoveTo( climb_cam.origin, timer, 0, timer );
-	model RotateTo( climb_cam.angles, timer * 2, 0, timer );
-	
-	wait( 1.4 );
-	timer = 0.5;
-	model MoveTo( climb_cam.origin, timer, 0, timer );
-	model RotateTo( climb_cam.angles, timer * 2, 0, timer );
-	wait( timer - 0.05 );
-	climb_cam = GetEnt( "player_climb_start", "targetname" );
-	timer = 0.5;
-	model MoveTo( climb_cam.origin, timer, 0, timer );
-	model RotateTo( climb_cam.angles, timer * 2, 0, timer );
-	
-	wait( timer + 0.5 );
-	model Delete();
-	level.player Unlink();
-	*/
 }
 
 teleport_to_cave()
@@ -552,7 +526,6 @@ teleport_to_cave()
 	SetSavedDvar( "ammoCounterHide", 1 );
 	SetSavedDvar( "actionSlotsHide", 1 );
 	SetSavedDvar( "hud_showStance", 0 );
-	thread maps\_introscreen::introscreen_generic_white_fade_in( 1.25, 2 );
 	climb_cam = GetEnt( "player_climb_start", "targetname" );
 	climb_cam.angles = ( 16.5, climb_cam.angles[ 1 ], 0 );
 
@@ -3626,8 +3599,8 @@ price_tells_you_to_jump()
 //	lines[ lines.size ] = "dicey";
 	lines[ lines.size ] = "thefarside";
 
-	// Let’s go.	
-	// Hmph. Twelve meter gap. Piece o’ piss.	
+	// Letï¿½s go.	
+	// Hmph. Twelve meter gap. Piece oï¿½ piss.	
 	// This could get dicey Soap. Mind the gap.	
 	// Good luck mate - see you on the far side.	
 
@@ -4039,7 +4012,7 @@ player_big_jump()
 	level.player notify( "stop sound" + "gear_jacket_flapping_plr_loop" );
 	level.price StopLoopSound( "gear_jacket_flapping_loop" );
 
-	// You look like you’ve seen a ghost, Soap.	
+	// You look like youï¿½ve seen a ghost, Soap.	
 	//level.price dialogue_queue( "seenaghost" );
 	thread set_normal_fov();
 	level.player AllowFire( true );

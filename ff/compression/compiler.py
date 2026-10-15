@@ -9,6 +9,30 @@ from .utilities import compress, get_dword, set_dword
 logger = get_logger(__name__)
 
 
+def _zlib_stream_end(data: bytes, start: int) -> int | None:
+    decompressor = zlib.decompressobj()
+    chunk_size = 64 * 1024
+    cursor = start
+
+    while cursor < len(data):
+        chunk_end = min(cursor + chunk_size, len(data))
+        pending = data[cursor:chunk_end]
+        while pending:
+            try:
+                decompressor.decompress(pending, chunk_size)
+            except zlib.error:
+                return None
+
+            if decompressor.eof:
+                return cursor + len(pending) - len(decompressor.unused_data)
+
+            unconsumed = decompressor.unconsumed_tail
+            cursor += len(pending) - len(unconsumed)
+            pending = unconsumed
+
+    return None
+
+
 class File:
     """
     This class is used to represent a file in the FF archive
@@ -177,7 +201,7 @@ class FFFile:
         data = self.compressed[: self.zlib_start]
         # Update the decompressed's reported length
         decompressed = set_dword(self.decompressed, len(self.decompressed) - 0x28, 0)
-        data += compress(decompressed, self.compressed[self.zlib_start :], check=False)
+        data += compress(decompressed, self.compressed[self.zlib_start :], _path.name, check=False)
         # Write the data to the file
         with open(_path, "wb") as f:
             f.write(data)
@@ -191,7 +215,6 @@ class FFFile:
         for match in matches:
             filename = match.group(0).decode()
             file_start = match.end() + 1
-            file_end = self.decompressed.find(b"\xff\xff\xff\xff", file_start)
 
             # Filter out non-zlib files
             if not (
@@ -199,6 +222,10 @@ class FFFile:
                 and hex(self.decompressed[file_start + 1]) in ["0x01", "0x5e", "0x9c", "0xda"]
             ):
                 continue
+
+            file_end = _zlib_stream_end(self.decompressed, file_start)
+            if file_end is None:
+                file_end = self.decompressed.find(b"\xff\xff\xff\xff", file_start)
 
             self._files[filename] = File(
                 filename, match.start(), self.decompressed[file_start:file_end], prefix=self.path.stem
@@ -213,7 +240,7 @@ class FFFile:
         with open(file.extracted_path, "rb") as f:
             data = f.read()
         # Compress the data
-        compressed = compress(data, file.compressed)
+        compressed = compress(data, file.compressed, file.name)
         # Set the decompressed file length dword
         decompressed = set_dword(self.decompressed, len(zlib.decompress(compressed)), file.offset - 12)
         data_start = file.offset + len(file.name) + 1

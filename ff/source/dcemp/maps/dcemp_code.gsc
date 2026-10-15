@@ -382,7 +382,6 @@ iss_preload_lights()
 	}
 }
 
-
 intro_enemy_setup()
 {
 	flag_wait( "crash_cut_to_black" );
@@ -435,6 +434,7 @@ intro_enemy_reaction()
 	
 	self delete();
 }
+
 
 
 emp_entities()
@@ -894,8 +894,6 @@ street_hide_moment()
 	door = GetEnt( "corner_door", "targetname" );
 	door thread corner_palm_style_door_open( "door_wood_slow_creaky_open" );
 	
-	
-	
 	flag_wait( "street_crash_hide" );
 		
 	wait CONST_STREET_CAR_WAIT;
@@ -972,7 +970,7 @@ street_hide_moment()
 	
 	time = 1.25;
 	wait time;
-	//What the hell are we gonna do now? We got no air support...we got no comms?we're screwed man! We are totally- fucked!			
+	//What the hell are we gonna do now? We got no air support...we got no comms�we're screwed man! We are totally- fucked!			
 	level.dunn thread dialogue_queue( "dcemp_cpd_wearetotally" );
 	wait 6.25 - time;
 	//Shut up!! Get a grip Corporal! Our weapons still work, which means we can still kick some ass, huah?			
