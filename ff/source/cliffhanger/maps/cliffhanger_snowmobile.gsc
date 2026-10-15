@@ -208,7 +208,7 @@ price_warns_about_snowmobiles()
 	}
 	
 		
-	// ?Snowmobiles! Take ?em out!!?
+	// �Snowmobiles! Take �em out!!�
 }
 
 price_progress_trigger_think()
@@ -253,7 +253,7 @@ price_navigates_tarmac_and_calls_to_player()
 	flag_set( "escape_with_soap" );
 	
 	
-	// ?Stay close and hug the wall! We?ll use the MiGs for cover and cross the tarmac to the southeast!?
+	// �Stay close and hug the wall! We�ll use the MiGs for cover and cross the tarmac to the southeast!�
 
 	if ( is_e3_start() )
 	{
@@ -941,26 +941,21 @@ snowmobile_main()
 
 	flag_wait( "player_reaches_hilltop" );
 	level.SPLINE_MIN_PROGRESS = -6000;
-	// Papa Six, we?re getting close to bingo fuel. What?s your status over?
+	// Papa Six, we�re getting close to bingo fuel. What�s your status over?
 
-	// Kilo Six-One, we?re taking heavy fire but we?re almost there! Standby!
+	// Kilo Six-One, we�re taking heavy fire but we�re almost there! Standby!
 
 
 	flag_wait( "there_is_chopper" );
 
-	// There?s the chopper! Let?s go!
-	
+	// There�s the chopper! Let�s go!
 
-	// Papa Six we have you on visual. Get your ass on board! We?re running on fumes here!
-	
+	// Papa Six we have you on visual. Get your ass on board! We�re running on fumes here!
 	
 	//Ok they got the ACS, we're outta here!
-	
 
 	flag_wait( "end_begins" );
-	
-	changeLevel( "favela" );
-	
+    changeLevel( "favela" );
 
 	flag_wait( "end_begins" );
 	wait( 2.5 );
@@ -997,9 +992,9 @@ ride_dialogue()
 	#/
 
 	wait( 2.5 );
-	// Kilo Six-One, the primary exfil point is compromised! We?re en route to Bravo using enemy transport! Meet us there! Over!
+	// Kilo Six-One, the primary exfil point is compromised! We�re en route to Bravo using enemy transport! Meet us there! Over!
 
-	// Papa Six, this Kilo Six-One, roger that, we?ll see you at Bravo. Out.
+	// Papa Six, this Kilo Six-One, roger that, we�ll see you at Bravo. Out.
 }
 
 
@@ -1176,9 +1171,9 @@ avalanche_main()
 
 	// I'm driving
 	level.price delaythread( 3.5, ::dialogue_queue, "i_drive" );
-	// ?Avalaaaanche!!!!!?
+	// �Avalaaaanche!!!!!�
 	delaythread( 12.5, ::radio_dialogue_queue, "avalanche" );
-	// ?More tangos on our six! Take ?em out!?
+	// �More tangos on our six! Take �em out!�
 	delaythread( 16.5, ::radio_dialogue_queue, "moretangos" );
 
 

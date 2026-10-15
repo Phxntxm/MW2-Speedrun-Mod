@@ -744,7 +744,7 @@ checkpoint_cleared_dialog_ac130()
 	// That's why they don't fly during the day soldier.
 	marine2 anim_generic( marine2, "arcadia_ar2_dontfly" );
 	
-	// Damn?sucks to be them?
+	// Damn�sucks to be them�
 	marine1 anim_generic( marine1, "arcadia_ar1_suckstobethem" );
 	
 	// Huah.
@@ -1037,13 +1037,13 @@ level_ending_sequence_dialog()
 	
 	wait 1.0;
 	
-	// Something's not right here?Check the panic room - move!
+	// Something's not right here�Check the panic room - move!
 	level.foley dialogue_queue( "arcadia_fly_notright" );
 	thread music_play( "arcadia_panicroom" );
 	
 	flag_wait( "start_ending" );
 	
-	// Hmph. No sign of forced entry?
+	// Hmph. No sign of forced entry�
 	level.foley anim_single_solo( level.foley, "arcadia_fly_nosign" );
 	
 	flag_wait( "foley_in_panic_room" );

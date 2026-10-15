@@ -341,7 +341,7 @@ dialog()
 	
 //IN ----
 	//Soap, I've found Roach. He appears to be intact.	
-	//We're going to head northwest to the sub base, over.;
+	//We're going to head northwest to the sub base, over.
 	//Copy that. I've located Rasta and Bricktop, they landed pretty far to the east.	
 	//Tell them to proceed with the mission, we'll regroup if possible. 	
 	//Have you found us some transport?	
@@ -401,7 +401,7 @@ dialog()
 	level.scr_radio[ "cont_pri_werespotted" ]					 = "cont_pri_werespotted";
 
 //first stragglers
-	//Patience?don't do anything stupid.	-----
+	//Patience�don't do anything stupid.	-----
 	level.scr_radio[ "cont_pri_patience" ]					 = "cont_pri_patience";
 	//We'll have to take 'em out at the same time.	-----
 	level.scr_radio[ "cont_pri_sametime" ]					 = "cont_pri_sametime";
@@ -655,7 +655,7 @@ dialog()
 	
 	//Launch codes verified authentic. Launch codes accepted. 	
 	//Set condition one-SQ. Nuclear missile launch authorized.	
-	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch?	
+	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch�	
 	//Target package 572 has been authorized. Standing by for target confirmation and launch order.	
 	
 	//Roach! I'm almost done! Hold your ground!!	
@@ -673,14 +673,14 @@ dialog()
 	//Roach! Trust me! Turn - your - key!!!	
 	level.scr_sound[ "price" ][ "cont_pri_trustme" ]				 = "cont_pri_trustme";
 	
-	//Missiles are ready for launch. Ten?Nine?Eight?Seven?Six...Five?Four?Three?Two?One?ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
+	//Missiles are ready for launch. Ten�Nine�Eight�Seven�Six...Five�Four�Three�Two�One�ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
 	
 	//We're done here! Let's go!	
 	level.scr_sound[ "price" ][ "cont_pri_donehereletsgo" ]				 = "cont_pri_donehereletsgo";
 	//Roach! Get to the truck! Move! Move!!	
 	level.scr_sound[ "price" ][ "cont_pri_gettotruck" ]				 = "cont_pri_gettotruck";
 	
-	//Bloody 'ell Price...God help us all if you're wrong?	
+	//Bloody 'ell Price...God help us all if you're wrong�	
 	
 	//Sometimes you can't end a war with a bullet, Soap.	
 	level.scr_sound[ "price" ][ "cont_pri_endawar" ]				 = "cont_pri_endawar";
@@ -753,7 +753,7 @@ dialog()
 	//Good.	
 	level.scr_radio[ "cont_pri_good2" ]					 = "cont_pri_good2";
 	
-	//What?? Wait...wait, Price - no!!!	
+	//What�? Wait...wait, Price - no!!!	
 	level.scr_sound[ "rasta" ][ "cont_gst_whatwait" ]				 = "cont_gst_whatwait";
 	
 	//We have a nuclear missile launch, missile in the air missile in the air!! Code black code black!!	
@@ -772,13 +772,13 @@ dialog()
 	//cont_rsc_alert
 	//Set condition one-SQ. Nuclear missile launch authorized.	
 	//cont_rsc_setcondition
-	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch?	
+	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch�	
 	//cont_rsc_spinningup
 	//Target package 572 has been authorized. Standing by for target confirmation and launch order.	
 	//cont_rsc_launchorder
 
 
-	//Missiles are ready for launch. Ten?Nine?Eight?Seven?Six...Five?Four?Three?Two?One?ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
+	//Missiles are ready for launch. Ten�Nine�Eight�Seven�Six...Five�Four�Three�Two�One�ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
 	//cont_rsc_missilesready
 
 
@@ -838,7 +838,7 @@ dialog()
 	//Price, I can barely see Roach's chute on my satellite feed.  Too much interference. Do you see him, over?
 	level.scr_radio[ "cont_cmt_barelysee" ]					 = "cont_cmt_barelysee";
 	
-	//Watch for the blinking strobes. That?s us.	
+	//Watch for the blinking strobes. That�s us.	
 	level.scr_sound[ "price" ][ "cont_pri_strobes" ]				 = "cont_pri_strobes";
 	
 

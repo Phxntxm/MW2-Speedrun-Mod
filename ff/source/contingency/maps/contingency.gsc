@@ -279,8 +279,8 @@ main()
 
 	//base_truck_guys = getentarray( "base_truck_guys", "script_noteworthy" );
 	//array_thread( base_truck_guys, ::add_spawn_function, ::setup_remote_missile_target_rider );
-	//_guys = getentarray( "_guys", "script_noteworthy" );
-	//array_thread( _guys, ::add_spawn_function, ::setup_remote_missile_target_rider );
+	//defend_sub_vehicle_guys = getentarray( "defend_sub_vehicle_guys", "script_noteworthy" );
+	//array_thread( defend_sub_vehicle_guys, ::add_spawn_function, ::setup_remote_missile_target_rider );
 	//base_starting_guys_truckriders = getentarray( "base_starting_guys_truckriders", "targetname" );
 	//array_thread( base_starting_guys_truckriders, ::add_spawn_function, ::setup_remote_missile_target_rider );
 	
@@ -434,15 +434,12 @@ start_defend_sub()
 dialog_i_cant_see_roach()
 {
 	wait 4;
-	//Price, I can barely see Roach's chute on my satellite feed.  Too much interference. Do you see him, over?
-		
+	//Price, I can barely see Roach's chute on my satellite feed.  Too much interference. Do you see him, over?		
 }
 	
 handle_start()
 {
 	thread dialog_i_cant_see_roach();
-	
- 	
 	price_spawner = getent( "price", "script_noteworthy" );
 	price_spawner spawn_ai();
 	//price_intro_talk_pos = getnode( "price_intro_talk_pos", "script_noteworthy" );
@@ -1202,7 +1199,7 @@ handle_defend_sub()
 	
 	//Launch codes verified authentic. Launch codes accepted. 	
 	//Set condition one-SQ. Nuclear missile launch authorized.	
-	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch?	
+	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch�	
 	//Target package 572 has been authorized. Standing by for target confirmation and launch order.	
 	
 	flag_wait_or_timeout( "defend_sub_vehicle_guys_dead", 5000 );
@@ -1376,7 +1373,7 @@ handle_defend_sub()
 //	
 //	//Launch codes verified authentic. Launch codes accepted. 	
 //	//Set condition one-SQ. Nuclear missile launch authorized.	
-//	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch?	
+//	//Now spinning up missiles 1 through 4 and 8 through 12 for strategic missile launch�	
 //	//Target package 572 has been authorized. Standing by for target confirmation and launch order.	
 //	
 //	//Roach! I'm almost done! Hold your ground!!	
@@ -1402,7 +1399,7 @@ handle_defend_sub()
 //	flag_wait( "player_turned_key" );
 //	thread handle_exit_sub();
 //	
-//	//Missiles are ready for launch. Ten?Nine?Eight?Seven?Six...Five?Four?Three?Two?One?ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
+//	//Missiles are ready for launch. Ten�Nine�Eight�Seven�Six...Five�Four�Three�Two�One�ignition on missiles 1 through 4 and 8 through 12 for strategic missile launch.	
 //}	
 //
 //
@@ -1535,7 +1532,7 @@ handle_defend_sub()
 //	
 //	wait 4;
 //	
-//	();
+//	nextmission();
 //}
 
 
@@ -1679,7 +1676,7 @@ dialog_second_uav_in_position()
 	//Soap - Rasta and Bricktop are here. 	
 	level.price dialogue_queue( "cont_pri_rastaandbricktop" );
 	
-	// that. The second UAV is almost in position.	
+	//Roger that. The second UAV is almost in position.	
 	radio_dialogue( "cont_cmt_2nduav" );
 	
 	flag_set( "said_second_uav_in_position" );
@@ -3603,6 +3600,7 @@ setup_destroyable_tree()
 		}
 	}
 	
+	//if( !isdefined( destroyed_top.script_duration ) )
 	//{
 		shake_time = .2;
 		
@@ -3652,13 +3650,13 @@ dialog_enemy_saw_corpse()
 	
 	if( first_line )
 	{
-		
+		//Looks like they found a body.	
 		radio_dialogue( "cont_pri_foundabody" );
 		first_line = false;
 	}
 	else
 	{
-			
+		//They found a body.	
 		radio_dialogue( "cont_pri_foundabody2" );
 		first_line = true;
 	}
@@ -3669,7 +3667,7 @@ dialog_enemy_saw_corpse()
 	wait 10;
 	
 	
-	
+	//kill at same time
 	radio_dialogue( "cont_pri_sametime" );
 	
 /*
@@ -4080,7 +4078,7 @@ hide_and_kill_first_stragglers()
 	flag_set( "saying_patience" );
 	level notify( "saying_patience" );
 	level.price thread enable_cqbwalk();
-	//Patience?don't do anything stupid.	
+	//Patience�don't do anything stupid.	
 	radio_dialogue( "cont_pri_patience" );
 	wait .5;
 	
@@ -4397,6 +4395,72 @@ dialog_wait_for_me_to_get_into_position()
 	radio_dialogue( "cont_pri_waitposition" );
 }
 
+//hide_from_right_side_of_bridge_patrol()
+//{
+//	if( flag( "rightside_patrol_dead" ) )
+//		return;   //skips the autosave
+//	wait_till_every_thing_stealth_normal_for( 2 );
+//	
+//	//iprintlnbold( "Take out the two in the woods on the otherside of the bridge" );
+//	if( !flag( "rightside_patrol_dead" ) )
+//		radio_dialogue( "cont_pri_twoinwoods" );
+//	
+//	flag_wait( "rightside_patrol_dead" );
+//	
+//	autosave_stealth();
+//}
+//
+//hide_from_cross_bridge_patrol()
+//{
+//	if( flag( "cross_bridge_patrol_dead" ) )
+//		return;   //skips the autosave
+//	wait 2;
+//	wait_till_every_thing_stealth_normal_for( 2 );
+//	
+//	if( !flag( "cross_bridge_patrol_dead" ) )
+//	{
+//		ai = GetAIspeciesArray( "axis", "all" );
+//		foreach ( actor in ai )
+//		{
+//			if( ( isdefined( actor.script_noteworthy ) ) && ( actor.script_noteworthy == "cross_bridge_patrol" ) )
+//				actor SetThreatBiasGroup( "bridge_guys" );
+//		}
+//		SetThreatBiasAgainstAll( "bridge_guys", 2000 );
+//		
+//		price_targets_bridge_patrol = getnode( "price_targets_bridge_patrol", "targetname" );
+//		level.price setgoalnode( price_targets_bridge_patrol );
+//		
+//		thread dialog_wait_for_me_to_get_into_position();
+//		//level.price.ignoreall = false;
+//		
+//		//thread price_ignores_truck_guys_momentarily();
+//		
+//		flag_wait( "price_in_position_vs_bridge" );
+//		
+//		thread price_is_ready_vs_bridge_patrol();
+//		
+//		wait 2;
+//		
+//		//iprintlnbold( "I'm ready. Lets take them all out at once." );
+//		radio_dialogue( "cont_pri_imready" );
+//	}
+//	
+//	flag_wait( "cross_bridge_patrol_dead" );
+//	
+//	autosave_stealth();
+//}
+
+//price_ignores_truck_guys_momentarily()
+//{
+//	//Make first group ignored by second group
+//	SetIgnoreMeGroup( "truck_guys", "price" );
+//	level.price.ignoreall = false;
+//		
+//	flag_wait_either( "cross_bridge_patrol_dead", "_stealth_spotted" );
+//	
+//	//SetThreatBias( "truck_guys", "price", 0 );
+//	SetThreatBias( "price", "truck_guys", 0 );
+//}
 
 
 price_is_ready_vs_bridge_patrol()
@@ -4775,7 +4839,7 @@ dialog_sub_spotted()
 	
 	level.player thread display_hint_timeout( "hint_predator_drone", 6 );	
 	
-	//Watch for the blinking strobes. That?s us.	
+	//Watch for the blinking strobes. That�s us.	
 	level.price dialogue_queue( "cont_pri_strobes" );
 }
 
@@ -5631,9 +5695,6 @@ stealth_base()
 			stealth_basic_states_custom( array );
 	}
 }
-
-
-
 
 price_dynamic_run_stop()
 {
@@ -6759,7 +6820,6 @@ miss_player( player )
 	{
 		offset = randomvector( 15 ) + miss_vec + (0,0,64);
 		//println( "           offset: " + offset );
-		//thread draw_line_for_time( self.origin+(0,0,128), player.origin+offset
 	}
 }
 

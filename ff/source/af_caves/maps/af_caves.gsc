@@ -1967,11 +1967,11 @@ road_clear()
 	
 	flag_set( "road_patrol_cleared" );
 	flag_set( "rappel_threads" );
-	
+
 	flag_wait( "price_done_moving_to_road" );
 	
 	wait 0.01
-	
+
 	flag_set( "price_done_moving_to_road" );
 	
 	price_be_stealthy();
@@ -3059,17 +3059,6 @@ barracks_stair_guys_coop_kill()
 	else
 	{
 		sayMove = true;
-	}
-	
-	if( sayMove )
-	{
-		// "Move."
-		
-	}
-	else
-	{
-		// "Clear. Go."
-		
 	}
 	
 	price_be_stealthy();

@@ -1531,6 +1531,7 @@ black_main()
 	thread maps\_credits::playCredits();
 	
 	wait 263 - 6;
+	wait 145; //additional time after credits changes, 01/10/2024, Outrun
 	
 	thread music_stop( 4 );
 	
@@ -1905,12 +1906,14 @@ end_credits()
 	thread fade_from_black();
 		
 	wait 290; //-> magic timing - do not change...change credit speed instead
-	wait 28; //additional time after credits changes	
+	wait 28; //additional time after credits changes
+	wait 208;
+		
 	level.credits_speed = 4;
 	flag_set( "atvi_credits_go" );
 	
 	wait 20;
-		
+	
 	thread music_stop( 4 );
 	wait 5;
 	

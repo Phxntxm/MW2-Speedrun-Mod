@@ -90,57 +90,42 @@ dialog()
 	//-----------------------------------------
 	
 	// Hunter Two-One, this is Hunter Two-One Actual. Our evac choppers are taking heavy losses from ground fire!
-
 	
 	// We gotta destroy those triple-A positions so they can get the rest of the civvies outta here! Let's go!
 
-	
 	//-----------------------------------------
 	// After checkpoint - mission dialog
 	//-----------------------------------------
 	
 	// Hunter Two-One-Actual, Overlord. Gimme a sitrep over.
 
-	
 	// We're just past the enemy blockade at Checkpoint Lima. Now proceeding into Arcadia, over.
-
 	
 	// Roger that. I have new orders for you. This comes down from the top, over.
-
 	
 	// Solid copy Overlord, send it.
-
 	
 	// Your team is to divert to 4677 Brookmere Road after you have eliminated the triple-A.
-
 	
 	// Solid copy Overlord. Divert to 4677 Brookmere Road once the guns are destroyed. Got it.
-
 	
 	// Check back with me when you've completed your main objective. Overlord out.
-
 	
 	// Look look! That's an AC-130 man.
-
 	
 	// That's why they don't fly during the day soldier.
-
 	
-	// Damn?sucks to be them?
-
+	// Damn�sucks to be them�
 	
 	// Huah.
-
 	
 	//-----------------------------------------
 	// Player designates a valid stryker target
 	//-----------------------------------------
 	
 	// Roger, we have a lock. Engaging target.
-
 	
 	// Badger One copies, engaging your target.
-
 	
 	// Roger, attacking your target.
 	level.scr_radio[ "arcadia_str_attacking" ] 					 = "arcadia_str_attacking";
@@ -192,13 +177,10 @@ dialog()
 	//-----------------------------------------
 	
 	// Badger One to Hunter Two, target destroyed.
-
 	
 	// Badger One to Hunter Two, area suppressed.
-
 	
 	// Badger One to Hunter Two, target area suppressed.
-
 	
 	//-----------------------------------------
 	// Player designates an invalid target or out of range
@@ -221,58 +203,44 @@ dialog()
 	//-----------------------------------------
 	
 	// Stand clear, we're rollin'.
-
 	
 	// Be advised, we're movin' up. Stand clear.
-
 	
 	// All ground units, stand clear. Badger One is oscar mike.
-
 	
 	//-----------------------------------------
 	// Stryker is staying put
 	//-----------------------------------------
 	
 	// Badger One holding position.
-
 	
 	//-----------------------------------------
 	// Calling out enemies in the houses
 	//-----------------------------------------
 	
 	// We got hostiles in the yellow house!
-
 	
 	// Enemies in the grey house!!!
-
 	
 	// Squad, we got hostiles that grey house! Take 'em out!!
-
 	
 	// Squad, put suppressing fire on that house!!
-
 	
 	// Squad, concentrate your fire on that house!!
-
 	
 	// Enemy foot-mobiles by the apartments!
-
 	
 	// Roger that, enemy foot-mobiles by the apartments, take 'em ouuut!!
-
 	
 	//-----------------------------------------
 	// Remind player to use laser designator
 	//-----------------------------------------
 	
 	// Use your designator! Lase targets for the Stryker!
-
 	
 	// Squad, use your laser designators! Paint targets for the Stryker!
-
 	
 	// All Hunter units, this is Badger One. Lase the target, over.
-
 	
 	// All Hunter units, this is Badger One. Standing by to engage your targets, over.
 	level.scr_radio[ "arcadia_str_standingby" ] 				 = "arcadia_str_standingby";
@@ -295,16 +263,12 @@ dialog()
 	//-----------------------------------------
 	
 	// Everyone move up!
-
 	
 	// Move up!
-
 	
 	// Move up!!!
-
 	
 	// Let's go, let's go!!
-
 	
 	//-----------------------------------------
 	// Stryker dies
@@ -318,45 +282,34 @@ dialog()
 	//-----------------------------------------
 	
 	// Get off the streets, use the houses for cover!!
-
 	
 	// Flank 'em through the houses!! Go go go!!
-
 	
 	// Squad, move up through these houses, let's go, let's go!!
-
 	
 	// Get off the streets!!
-
 	
 	// Get outta the street!!
-
 	
 	//-----------------------------------------
 	// Sentry gun shoutouts
 	//-----------------------------------------
 	
 	// Squad, take out the sentry guns!
-
 	
 	// Take out that sentry gun!
-
 	
 	//-----------------------------------------
 	// Stryker warns about RPGs
 	//-----------------------------------------
 	
 	// Hunter Two-One Actual, this is Badger One! Our anti-missile system cannot handle the volume of RPG fire, we need your team to thin 'em out, how copy, over?
-
 	
 	// Solid copy Badger One, we're on it! Out!
-
 	
 	// Squad! Protect the Stryker! Watch for foot-mobiles with RPGs!
-
 	
 	// Squad! They're targeting the Stryker! Watch for RPGs!
-
 	
 	//-----------------------------------------
 	// Golf course vehicle laser designation
@@ -395,13 +348,10 @@ dialog()
 	//-----------------------------------------
 	
 	// Overlord, Hunter Two-One-Actual. Triple-A has been neutralized. We're heading to 4677 Brookmere Road, over.
-
 	
 	// Interrogative - what exactly are we looking for, over?
-
 	
 	// Sergeant Foley, this is General Shepherd.
-
 	
 	// Your objective is to extract a high value individual from a 'panic room' on the second floor of that house.
 	level.scr_radio[ "arcadia_shp_panicroom" ] 					= "arcadia_shp_panicroom";
@@ -423,16 +373,12 @@ dialog()
 	//-----------------------------------------
 	
 	// Icepick.
-
 	
 	// Icepick!
-
 	
-	// Something's not right here?Check the panic room - move!
-	level.scr_sound[ "foley" ][ "arcadia_fly_notright" ]		= "arcadia_fly_notright";
+	// Something's not right here�Check the panic room - move!
 	
-	// Hmph. No sign of forced entry?
-	level.scr_sound[ "foley" ][ "arcadia_fly_nosign" ]			= "arcadia_fly_nosign";
+	// Hmph. No sign of forced entry�
 	
 	// Ramirez, get that briefcase...what's left of it.
 	level.scr_sound[ "foley" ][ "arcadia_fly_getthatbriefcase" ]= "arcadia_fly_getthatbriefcase";

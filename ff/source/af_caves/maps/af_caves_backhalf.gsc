@@ -662,11 +662,6 @@ AAA_sequence_overlook_to_breach()
 	wait( 1 );
 	flag_set( "smoke_thrown" );
 	
-	if ( isdefined( blackhawk_skylight_01 ) )
-	{
-		//Butcher Two roping into sector Papa Quebec!
-	}
-	
 	thread dialougue_nag_smokefight();
 	
 	/*-----------------------
@@ -1353,16 +1348,6 @@ dialogue_breach_to_airstrip()
 	flag_set( "obj_breach_given" );
 
 	wait( randomfloatrange( 1, 1.25 ) );
-
-	if ( !flag( "control_room_breached" ) )
-	{
-		//Shadow Company 6	Oxide, Butcher Five-Actual. I've got a severed det cord - we're gonna need ten mikes to get the trunk rigged and the EBC primed, over.
-	}
-
-	if ( !flag( "control_room_getting_breached" ) )
-	{
-		//Shadow Company HQ	Negative, Gold Eagle wants those charges hot in less than three mikes. Get it done, out.
-	}
 	
 	flag_set( "start_breach_nags" );
 	
@@ -1395,11 +1380,6 @@ dialogue_breach_to_airstrip()
 	flag_set( "obj_escape_given" );
 
 	wait( .5 );
-
-	if ( !flag( "player_touching_cave_exit" ) )
-	{
-		//Captain Price	Keep moving! This place is gonna blow!!	
-	}
 }
 
 breach_nags()
@@ -1794,7 +1774,7 @@ AAA_sequence_airstrip()
 	level.price anim_stopanimscripted();
 	price_fallback anim_first_frame_solo( level.price, "launchfacility_a_c4_plant_short" );
 
-	
+
 	wait( 0 );
 	
 	/*-----------------------
@@ -2094,11 +2074,6 @@ dialogue_airstrip()
 	level.price set_battlechatter( true );
 
 	wait( 2 );
-
-	if ( !flag( "player_airstrip_start" ) )
-	{
-		//Captain Price	To the west, Soap, Go!	
-	}
 	
 	flag_wait( "player_airstrip_start" );
 	
@@ -2126,13 +2101,6 @@ dialogue_airstrip()
 	//Captain Price	Head for the tunnel! He's getting away!		
 	
 	wait( 10 );
-
-	if ( !flag( "level_exit" ) )
-	{
-		//Captain Price	Soap! Follow me! Let's go!	
-	}
-
-
 }
 
 music_airstrip()

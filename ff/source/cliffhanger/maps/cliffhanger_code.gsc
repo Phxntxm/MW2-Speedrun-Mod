@@ -588,7 +588,7 @@ track exactly when the hangar door shadows start to part. Stop this track when
 the first explosion goes off.
 
 5. cliffhanger_escape - play this as soon as slow motion ends at the hangar,
-Price should shout  as soon as this track is started.
+Price should shout "Let's go!" as soon as this track is started.
 
 */
 
@@ -2674,13 +2674,13 @@ dialog_found_a_body()
 dialog_theyre_looking_for_you()
 {
 	dialog = [];
-	//Relax. They?re looking for you but they don?t know where you are.	
+	//Relax. They�re looking for you but they don�t know where you are.	
 	//dialog[ dialog.size ] = "cliff_pri_relax";
 
-	//They?re looking for you so stay hidden.	
+	//They�re looking for you so stay hidden.	
 	//dialog[ dialog.size ] = "cliff_pri_stayhidden";
 
-	//Stay out of sight - you?ve alerted some guards.	
+	//Stay out of sight - you�ve alerted some guards.	
 	dialog[ dialog.size ] = "cliff_pri_outofsight";
 
 	// You alerted them.	
@@ -2692,7 +2692,7 @@ dialog_theyre_looking_for_you()
 	//PRICE: One of them has seen you, stay out of sight!
 	//dialog[ dialog.size ] = "cliff_pri_alertedthem";
 
-	//PRICE: Stay out of sight - you?ve alerted one of them!
+	//PRICE: Stay out of sight - you�ve alerted one of them!
 	dialog[ dialog.size ] = "cliff_pri_sightalertedone";
 
 	//PRICE: Stay out of sight - you've been spotted!
@@ -2874,7 +2874,7 @@ dialog_truck_coming()
 	level endon( "price_moving_to_hanger" );
 	level endon( "jeep_blown_up" );
 
-	//There?s a truck coming! Stay out of sight.	
+	//There�s a truck coming! Stay out of sight.	
 	play_Sound_Over_Radio( "cliff_pri_truckcoming", true, 7 );
 
 	wait 15;
@@ -2921,7 +2921,7 @@ dialog_bmp_aiming_at_player()
 	level.player endon( "death" );
 	self waittill( "bmp_aim_at_player" );
 
-	//That BMP?s got thermal sights ? get the hell out of there!	
+	//That BMP�s got thermal sights � get the hell out of there!	
 	play_Radio_Interupt( "cliff_pri_getoutofthere", false );
 }
 
@@ -3038,7 +3038,7 @@ dialog_pretty_sneaky()
 	flag_wait( "base_c4_planted" );
 
 	maps\_utility::giveachievement_wrapper( "GHOST" );
-	//Pretty sneaky Soap. No one?s been alerted to your presence.	
+	//Pretty sneaky Soap. No one�s been alerted to your presence.	
 	play_Sound_Over_Radio( "cliff_pri_prettysneaky", true );
 }
 
@@ -3052,7 +3052,7 @@ dialog_jeep_blown_up()
 	wait 1;
 	if ( flag( "_stealth_spotted" ) )
 		return;
-	//Gee, I wonder if they will notice a flaming wreck in the middle of the road?.	
+	//Gee, I wonder if they will notice a flaming wreck in the middle of the road�.	
 	play_Sound_Over_Radio( "cliff_pri_flamingwreck" );
 }
 
@@ -3639,7 +3639,7 @@ keyboard_nag()
 	for ( ;; )
 	{
 		wait( 18 );
-		// ?Soap, get upstairs and download the files.?	
+		// �Soap, get upstairs and download the files.�	
 		level.price dialogue_queue( "downloadfiles" );
 	}
 }
@@ -4058,7 +4058,7 @@ dialog_first_encounter()
 	flag_set( "first_encounter_dialog_starting" );
 
 
-	//Soap, these muppets have no idea we?re here. Let?s take this nice and slow.
+	//Soap, these muppets have no idea we�re here. Let�s take this nice and slow.
 	level.price dialogue_queue( "cliff_pri_noidea" );
 
 	//You take the one on the left. 
@@ -4068,19 +4068,19 @@ dialog_first_encounter()
 
 	//level.price disable_ai_color();//dont start moving to a new node
 
-	// ? ?On three.?
+	// � �On three.�
 	level.price PlaySound( "Cliff_pri_onthree" );
 	wait 1;
 
-	// ? ?One??
+	// � �One��
 	level.price PlaySound( "Cliff_pri_one" );
 	wait 1;
 
-	// ? ?Two??
+	// � �Two��
 	level.price PlaySound( "Cliff_pri_two" );
 	wait 1;
 
-	// ? ?Three.?
+	// � �Three.�
 	level.price PlaySound( "Cliff_pri_three" );
 	wait .2;
 
@@ -4249,19 +4249,19 @@ dialog_second_encounter()
 		//You take the one on the left. 
 		level.price dialogue_queue( "cliff_pri_youtakeleft" );
 
-	// ? ?On three.?
+	// � �On three.�
 	level.price PlaySound( "Cliff_pri_onthree" );
 	wait 1;
 
-	// ? ?One??
+	// � �One��
 	level.price PlaySound( "Cliff_pri_one" );
 	wait 1;
 
-	// ? ?Two??
+	// � �Two��
 	level.price PlaySound( "Cliff_pri_two" );
 	wait 1;
 
-	// ? ?Three.?
+	// � �Three.�
 	level.price PlaySound( "Cliff_pri_three" );
 	wait .2;
 
@@ -4412,7 +4412,7 @@ dialog_go_do_the_work()
 
 	level endon( "someone_became_alert" );
 
-	//Let?s split up. I'll use the thermal scope and provide overwatch from this ridge.	
+	//Let�s split up. I'll use the thermal scope and provide overwatch from this ridge.	
 	play_Sound_Over_Radio_use_que( "cliff_pri_splitup" );
 
 	wait .2;
@@ -4422,7 +4422,7 @@ dialog_go_do_the_work()
 
 	wait .5;
 
-	//You'll be like a ghost in this blizzard, so the guards won?t see you until you?re very close.	
+	//You'll be like a ghost in this blizzard, so the guards won�t see you until you�re very close.	
 	play_Sound_Over_Radio_use_que( "cliff_pri_likeaghost" );
 
 	wait .2;
@@ -4449,7 +4449,7 @@ dialog_your_in()
 	//Head southeast and plant your C4 at the fueling station. 	
 	thread play_Sound_Over_Radio_use_que( "cliff_pri_yourein_2" );
 
-	//We may need to go to ?Plan B? if things go south.	
+	//We may need to go to �Plan B� if things go south.	
 	thread play_Sound_Over_Radio_use_que( "cliff_pri_yourein_3" );
 
 }
@@ -4718,7 +4718,7 @@ price_tells_you_plan_b()
 	SetDvar( "player_has_witnessed_capture", 1 );
 
 	// "Soap, Go to plan b
-	
+
 
 	level notify( "stop_detecting_player_shot" );
 
@@ -4771,7 +4771,7 @@ check_player_detonate()
 
 soap_opens_hanger_door()
 {
-	//* Let?s go.	
+	//* Let�s go.	
 	level.price enable_cqbwalk();
 	
 	anim_ent = GetEnt( "hanger_entrance_animent", "targetname" );
@@ -5016,9 +5016,6 @@ player_slow_mo( parameter1, parameter2 )
 	{
 		guy.baseaccuracy = 0;
 	}
-
-	
-	
 	
 	level.price gun_recall();
 

@@ -546,23 +546,18 @@ firing_range_hip_and_ads()
 	FOLEY INTRO DIALOGUE
 	-------------------------*/	
 	//Sgt. Foley  Welcome to pull-the-trigger 101. 	
-	
 	//level.foley dialogue_execute( "train_fly_welcome" );
 
 	//Sgt. Foley  Pvt. Allen here is going to do a quick weapons demonstration to show you locals how its done.	
-	
 	//level.foley dialogue_execute( "train_fly_demonstration" );
 
 	//Sgt. Foley  No offense, but I see a lot of you guys firing from the hip and spraying bullets all over the range. 	
-	
 	//level.foley dialogue_execute( "train_fly_nooffense" );
 
 	//Sgt. Foley  You don't end up hitting a damn thing and it makes you look like an ass.	
-	
 	//level.foley dialogue_execute( "train_fly_makesyoulook" );
 
 	//Sgt. Foley  Private Allen, show 'em what I'm talking about.	
-	
 	//level.foley dialogue_execute( "train_fly_showem" );
 	
 	flag_set( "foley_turns_for_hip_demo" );
@@ -633,7 +628,6 @@ firing_range_hip_and_ads()
 	{
 		
 		//Sgt. Foley	Turn around and fire at the targets.	
-		
 	}
 
 	thread delaythread( 8,::turnaround_hint_if_flag_not_set, "player_facing_targets_for_hip_fire" );
@@ -681,21 +675,16 @@ firing_range_hip_and_ads()
 	-------------------------*/	
 	flag_set( "hip_fire_done" );
 	//Sgt. Foley  See what I mean? He sprayed bullets all over the damn place.	
-	
 
 	//Sgt. Foley  You've got to pick your targets by aiming deliberately down your sights from a stable stance.	
-	
 	
 	thread autosave_by_name( "ads_training" );
 	
 	//Sgt. Foley  Private Allen, show our friends here how the Rangers take down a target. 	
-	
 
 	//Sgt. Foley  Crouch first, and then aim down your sight at the targets.	
-	
 
 	// Shoot three targets while aiming down your sights.
-	
 	
 	numberOfTagretsToHit = 3;
 	mustADS = true;
@@ -721,8 +710,6 @@ firing_range_hip_and_ads()
 	{
 		thread keyHint( "stand" );
 	}
-	
-	//Sgt. Foley  That's all there is to it. You want your target to go down? You gotta .	
 	
 	
 
@@ -1287,14 +1274,12 @@ firing_range_frags()
 	-------------------------*/	
 	wait( 1 );
 	//Sgt. Foley	Last but not least, you need to know how to toss a frag grenade.	
-	
 		
 	alreadyHadFrags = false;
 	
 	if ( !flag( "player_picked_up_frags" ) )
 	{
 		thread frags_glow();
-		//Sgt. Foley	Private Allen, pick up some frag grenades from the table.
 		registerObjective( "obj_frags", &"TRAINER_PICK_UP_THE_FRAG_GRENADES", getEnt( "frag_trigger", "script_noteworthy" ) );
 		setObjectiveState( "obj_frags", "current" );
 	}
@@ -1322,9 +1307,6 @@ firing_range_frags()
 		setObjectiveState( "obj_frags", "current" );
 		setObjectiveLocation( "obj_frags", getent( "firing_range", "targetname" ) );
 	}
-	
-	
-	
 	
 	/*-----------------------
 	WAITTILL FRAG SUCCESS
@@ -1360,8 +1342,6 @@ firing_range_frags()
 	array_thread( level.grenade_targets,::target_reset_manual );
 
 }
-
-
 
 player_frag_usage_monitor()
 {
@@ -1588,7 +1568,6 @@ show_me_when_player_not_looking_or_timeout( hiddenFrags, timeout )
 		frag.hidden = undefined;
 }
 
-
 /****************************************************************************
     OBJECTIVE TO THE PIT START
 ****************************************************************************/ 
@@ -1644,7 +1623,6 @@ AA_find_the_pit_sequence()
 	thread autosave_by_name( "find_the_pit" );
 	
 	//Sgt. Foley  Thanks for the help, Private Allen. Now get over to The Pit...Colonel Shepherd wants to see you run the course.	
-
 	
 	thread dialogue_ambient();
 	
@@ -1656,7 +1634,6 @@ AA_find_the_pit_sequence()
 	delaythread ( 0.02, ::objective_hints, "obj_go_to_the_pit_done" );
 	
 	//Sgt. Foley  All right, who here wants to go first? Show me what you've learned so far.	
-	
 	
 	flag_wait( "player_passing_barracks" );
 	
@@ -1694,10 +1671,8 @@ sideArm_Training()
 	flag_wait( "dunn_dialogue_welcome_01" );
 	//Cpl. Dunn  Hey Private. Welcome back to The Pit. 	
 	
-	
 	flag_wait( "dunn_dialogue_welcome_02" );
 	//Cpl. Dunn  I hear Colonel Shepherd wants to pull a shooter from our unit for some special op - he's up there in observation.
-	
 	
 	alreadyHadPistol = true;
 	if ( !level.player HasWeapon( level.gunSidearm ) )
@@ -1706,7 +1681,6 @@ sideArm_Training()
 		registerObjective( "obj_sidearm", &"TRAINER_GET_A_PISTOL_FROM_THE", getEnt( "origin_sidearm_table", "targetname" ) );
 		setObjectiveState( "obj_sidearm", "current" );
 		//Cpl. Dunn  Go ahead and grab a pistol. 
-		
 		pickup_sidearm = getent( "pickup_sidearm", "targetname" );
 		if ( isdefined( pickup_sidearm ) ) 
 			pickup_sidearm glow();
@@ -1723,7 +1697,6 @@ sideArm_Training()
 		registerObjective( "obj_sidearm", &"TRAINER_GET_A_PISTOL_FROM_THE", getEnt( "origin_course_01", "targetname" ) );
 		setObjectiveState( "obj_sidearm", "current" );
 		//Cpl. Dunn	OK. So you already have your side arm.
-		
 	}
 	else
 	{
@@ -1737,7 +1710,6 @@ sideArm_Training()
 	if (  currentWeapon == level.gunSidearm )
 	{
 		//Cpl. Dunn  Alright, try switching to your rifle
-		
 		
 		currentWeapon = level.player getCurrentWeapon();
 		if (  currentWeapon != level.gunPrimary )
@@ -1753,7 +1725,6 @@ sideArm_Training()
 		clear_hints();
 		
 		//Cpl. Dunn  Good. Switch to your sidearm again.	
-		
 
 		if ( level.player getCurrentWeapon() != level.gunSidearm )
 		{
@@ -1774,7 +1745,6 @@ sideArm_Training()
 	else
 	{
 		//Cpl. Dunn	Do me a favor and try switching to your sidearm.	
-		
 		if ( level.player getCurrentWeapon() != level.gunSidearm )
 		{
 			//NAG_HINT: Press [WEAPON_SWITCH] to switch to your pistol.
@@ -1793,7 +1763,6 @@ sideArm_Training()
 	}
 
 	//Cpl. Dunn  You see how switching to your pistol is always faster than reloading?	
-	
 	
 	setObjectiveState( "obj_sidearm", "done" );
 	
@@ -1831,9 +1800,6 @@ AA_pit_sequence()
 	thread AI_delete_when_out_of_sight( level.patrolDudes, 256 );
 
 	flag_wait( "dunn_finished_welcome_anim" );
-
-	
-	
 
 	/*-----------------------
 	TELEPORT PIT GUY WHILE PLAYER IS RUNNING COURSE
@@ -2104,7 +2070,6 @@ course_loop_think()
 			if ( first_sprint_try )
 			{
 				//Cpl. Dunn  Sprint to the exit! Clock's ticking!	
-				
 				first_sprint_try = false;
 			}
 			else
@@ -2182,31 +2147,6 @@ course_loop_think()
 		if ( level.recommendedDifficulty == 1000 )
 		{
 			selection = undefined;
-			
-			if ( level.targets_hit_with_melee > 10 )
-			{
-				//Cpl. Dunn	You took out too many targets with your knife. Try again, this time, with bullets.
-			}
-			else if ( level.toomanycivilianskilled && level.basetimetooklongerthanminimum ) 
-			{
-				//Cpl. Dunn	training	Not good enough, Allen. You took too long and killed too many civilians. Try it again.	
-			}
-			else if ( level.toomanytargetsmissed && level.basetimetooklongerthanminimum ) 
-			{
-				//Cpl. Dunn	training	Not good enough, Allen. You took too long and missed too many targets. Try it again.	
-			}
-			else if ( level.toomanytargetsmissed )
-			{
-				//Cpl. Dunn	training	Not good enough, Allen. You missed too many targets. Try it again.	
-			}
-			else if ( level.toomanycivilianskilled )
-			{
-				//Cpl. Dunn	training	Not good enough, Allen. You killed too many civilians. Try it again.	
-			}
-			else
-			{
-				//Cpl. Dunn	Too damn slow. You need to run it again, Private.	
-			}
 		}
 		
 		else
@@ -2335,7 +2275,6 @@ try_again()
 	if ( response == "tryagain" )
 	{
 		//Cpl. Dunn	Alright. Head back in and give it another go.	
-		
 		setObjectiveLocation( "obj_course", getent( "origin_course_01", "targetname" ) );
 		setObjectiveString( "obj_course", &"TRAINER_OBJ_COURSE" );
 		level.objectiveRegroup = 0;
@@ -2354,11 +2293,6 @@ try_again()
 			thread AA_ending_init();
 		}
 		level.gate_cqb_enter thread door_close();
-		
-		if ( flag( "dunn_finished_with_difficulty_selection_dialogue" ) )
-		{
-			//Cpl. Dunn	Alright. Head upstairs and regroup with the others	
-		}
 
 		
 		clear_timer_elems();
@@ -2548,7 +2482,6 @@ melee_nag()
 			}
 			flag_clear( "can_talk" );
 			//Cpl. Dunn  Melee with your knife!	
-			
 			flag_set( "can_talk" );	
 			melee_nag_number++;
 			if ( melee_nag_number > 4 )
@@ -6040,7 +5973,7 @@ dialogue_ambient_pit_course()
 	
 	dialogue_pit_wait();
 	
-	//Ranger 4   I'm tellin' you...that guy was frickin' weird man?	
+	//Ranger 4   I'm tellin' you...that guy was frickin' weird man�	
 	org = getclosest( level.player.origin, conversation_orgs_pit );
 	org play_sound_in_space( "train_ar4_weirdman" );
 
@@ -6064,7 +5997,7 @@ dialogue_ambient_pit_course()
 	
 	dialogue_pit_wait();
 
-	//Honestly? I could fight anybody in this platoon.	
+	//Honestly� I could fight anybody in this platoon.	
 	org = getclosest( level.player.origin, conversation_orgs_pit );
 	org play_sound_in_space( "train_ar4_fightanybody" );
 	

@@ -1346,7 +1346,7 @@ market_evac_dialogue()
 	
 	battlechatter_off( "allies" );
 	
-	// " ETA 20 seconds! Be ready for immediate dustoff!"
+	// "Nikolai! ETA 20 seconds! Be ready for immediate dustoff!"
 	level.sarge dialogue( "favesc_cmt_immediatedustoff" );
 	
 	// "That may not be fast enough! I see more militia closing in on the market!"
@@ -1358,7 +1358,7 @@ market_evac_dialogue()
 	flag_wait( "market_evac_chopper_incoming" );
 	door3 = GetEnt( "sbmodel_market_evac_door3", "targetname" );
 	kickRef3 = GetStruct( "struct_animref_market_evac_kick_door3", "targetname" );
-	
+
 	thread door_kick_housespawn( door3, kickRef3 );
 	
 	// "It's too hot! We will not survive this landing!"

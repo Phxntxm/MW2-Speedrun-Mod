@@ -481,9 +481,10 @@ westwing_dialogue()
 {
 	//whitehouse_entrance_clear
 	flag_wait( "whitehouse_entrance_clear" );
-	//Ramirez, let's go! 	
+	//Ramirez, let's go!
 
-	//Hammer Down means they're gonna flatten the city - we gotta roof and stop 'em! 
+
+	//Hammer Down means they're gonna flatten the city - we gotta get to the roof and stop 'em! 
 	door = getent( "whitehouse_kitchen_door", "targetname" );
 	parts = getentarray( door.target, "targetname" );
 	array_call( parts, ::linkto, door );
@@ -493,7 +494,6 @@ westwing_dialogue()
 	flag_set( "whitehouse_2min" );
 
 	//We got less than two minutes, let's go!
-		
 
 	flag_wait( "whitehouse_90sec" );
 	// 90 seconds! We got to push through.
@@ -634,7 +634,6 @@ whitehouse_radio()
 		println( "***********************************" );
 		println( "********** COUNTDOWN: " + elapsed_time( start_time ) + " **********" );
 		println( "***********************************" );
-		println( "Created by Pxndaz" );
 		start_time = gettime();
 
 		time_left = 120 - ( ( level.countdown_index -1 ) * 30 );
@@ -661,7 +660,7 @@ whitehouse_radio()
 
 	flag_wait( "whitehouse_path_office_2" );
 
-	//(garble)...target package Whiskey Hotel Zero-One has been authorized....roger...passing IP Buick...standby?
+	//(garble)...target package Whiskey Hotel Zero-One has been authorized....roger...passing IP Buick...standby�
 	level thread whitehouse_radio_broadcast( "dcemp_fp1_beenauthorized" );
 
 	flag_wait( "whitehouse_hammerdown_jets_fly" );
@@ -943,7 +942,7 @@ oval_office_dunn()
 	self set_goal_node_targetname( "whitehouse_entrance_dunn_node" );
 	flag_set ( "whitehouse_2min" );
 	flag_set ( "whitehouse_briefing_end" );
-	
+
 
 	flag_wait( "oval_office_scene" );
 
@@ -1196,8 +1195,7 @@ flare_dialogue()
 
 	flag_set( "player_flare" );
 
-	// Use your flares!!	
-
+	// Use your flares!!
 //	wait 1;
 
 	//So when are we goin' to Moscow?

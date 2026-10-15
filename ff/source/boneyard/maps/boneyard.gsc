@@ -1343,24 +1343,7 @@ ride_dialogue()
 	flag_waitopen( "makarov_dialogue" );
 	level thread ride_uaz_nag();
 
-	if ( !flag( "uaz_driver_mount" ) )
-	{
-		// Captain Price, I'm taking off in one minute! You better hurry if you want a ride out of here!
-		// Soap! We don't have much time! Nikolai's not going to wait around for us! Hurry!
-	}
-
 	flag_wait( "uaz_driver_mount" );
-	if ( !flag( "uaz_mounted" ) )
-	{
-		if ( flag( "uaz_nag" ) )
-		{
-			// Soap! Get in the jeep!
-		}
-		else
-		{
-			// Soap! We are leaving!!! Get in the jeep!
-		}
-	}
 
 	flag_wait( "uaz_driver_dialogue" );	
 	sniper_origin = level.player.origin + (0,0,64);

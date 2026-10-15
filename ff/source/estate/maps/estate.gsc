@@ -3,11 +3,6 @@
 Level:      Loose Ends (estate.bsp)
 Location:   Georgian-Russian Border (45 miles into Russian territory)
 Campaign: Task Force 141
-s: 
-            1. Locate and neutralize Vladimir Makarov.
-            2. Recover the hard drive from Makarov's computer.
-            3. Hold out until the extraction force arrives.
-            4. Get to the secondary LZ for extraction.
     
 *****************************************************************************/
 
@@ -227,8 +222,7 @@ startIntro()
 	ghost_init();
 	level.scarecrow = self;
 	self.name = "Surviv0r";
-	level.ozone.name = "BlueTarget"
-	
+	level.ozone.name = "BlueTarget";
 	
 	thread ghost_intro_nav();
 	thread intro();
@@ -1166,7 +1160,6 @@ house_approach_dialogue()
 	flag_wait( "house_approach_dialogue" );
 	
 	//Clear the perimeter!
-	
 		
 	battlechatter_off( "allies" );
 	
@@ -1567,7 +1560,7 @@ house_briefing_dialogue()
 	thread house_briefing_ghosttalk();
 	
 	level.ghost waittillmatch( "single anim", "dialogue" );
-
+	
 	flag_set( "ghost_gives_regroup_order" );
 
 	//All clear. Squad, regroup on me.
@@ -1603,9 +1596,6 @@ house_briefing_dialogue()
 
 	wait 50000;
 	
-
-	
-	
 	//Roach, get to Makarov's computer and start the transfer.
 
 	flag_set( "house_briefing_is_over" );
@@ -1613,7 +1603,6 @@ house_briefing_dialogue()
 	
 	
 	//Ozone, you're on rear security. I've got the front. Go.
-	
 	
 	flag_set( "ozone_to_earlydefense_start" );
 	
@@ -1624,13 +1613,12 @@ house_briefing_dialogue()
 	
 	//On my way.
 	
-	
 	wait 2;
 	
-	//Price: Task Force, this is Price. More of Makarov's men just arrived at the boneyard. They're searching for something?
+	//Price: Task Force, this is Price. More of Makarov's men just arrived at the boneyard. They're searching for something�
 	radio_dialogue( "est_pri_searching" );
 	
-	//Price: Wait...they're getting closer to us?
+	//Price: Wait...they're getting closer to us�
 	radio_dialogue( "est_pri_gettingcloser" );
 
 	//Price: We're going silent for a few minutes. Good luck up there in Russia. Price out.
@@ -2774,7 +2762,7 @@ ending_redsmoke_sequence()
 	//This is Viper Two-Six, standby for rocket attack, over.	
 	radio_dialogue( "est_hp1_rocketattck" );
 	
-	//Uh, roger?hit 'em hard on that hill, make sure they're down.
+	//Uh, roger�hit 'em hard on that hill, make sure they're down.
 	radio_dialogue( "est_hp2_hitemhard" );
 	
 	//Roger I'm on it. Coming around on heading two-five-zero.	

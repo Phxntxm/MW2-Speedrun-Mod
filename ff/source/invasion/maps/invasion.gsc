@@ -1797,10 +1797,11 @@ handler_defend_BT()
 	thread spawn_rpg_redshirts();
 	attacker = undefined;
 	
-	
 	if(  isdefined( attacker ) && isplayer( attacker ) )
+	{
 		thread dialog_shot_down_heli();
 		flag_set( "first_attack_heli_dead" );
+	}
 	thread autosave_by_name( "heli_death" );
 		
 		
@@ -1816,8 +1817,10 @@ handler_defend_BT()
 	attacker = undefined;
 		
 	if( isdefined( attacker ) && isplayer( attacker ) )
+	{
 		thread dialog_shot_down_heli();
 		flag_set( "second_attack_heli_dead" );
+	}
 	thread autosave_by_name( "heli_death" );
 	
 	wait 1;
@@ -3333,7 +3336,7 @@ dialog_yards_story()
 	
 	wait 4;
 	
-	//Seal Six-One:	I got a fix on the package. 300 meters east.?	
+	//Seal Six-One:	I got a fix on the package. 300 meters east.�	
 	level.raptor dialogue_queue( "inv_six_300meast" );
 	
 	//Taco:	Roger that.	
@@ -3343,7 +3346,7 @@ dialog_yards_story()
 
 //dialog_yards_objective()
 //{
-//	//Seal Six-One:	I got a fix on the package. 300 meters east.?	
+//	//Seal Six-One:	I got a fix on the package. 300 meters east.�	
 //	level.raptor dialogue_queue( level.raptor, "inv_six_300meast" );
 //}
 
@@ -4136,7 +4139,7 @@ dialog_dont_engage_that_APC()
 	
 	apc waittill_player_lookat_for_time( .4, .99 );
 	
-	//Seal Six-One:	Team, don?t engage that APC - our objective is the crash site.	
+	//Seal Six-One:	Team, don�t engage that APC - our objective is the crash site.	
 	level.raptor thread dialogue_queue( "inv_six_dontengageapc" );
 }
 
@@ -4619,22 +4622,17 @@ dialog_nates_bombing_reaction()
 	level endon( "taco_goes_to_roof" );
 	wait 3;
 	//Taco:	raptor you still there?	
-	
 	wait 1;
 
 	//Seal Six-One:	<cough> Taco, Roach, new plan.	
-	
 
 	//Seal Six-One:	Secure the Burgertown and get on the <cough> roof.	
-	
 	
 	flag_set( "time_to_clear_burgertown" );
 
 	//Seal Six-One:	Everyone on this net, listen up, we're moving the package asap.	
-	
 
 	//Seal Six-One:	We need to get the hell out of this building before those fast movers make another pass.	
-	
 	
 	flag_set( "nates_bombed" );
 }
@@ -4822,7 +4820,7 @@ setup_gas_station_truck()
 	gas_station_truck = spawn_vehicle_from_targetname_and_drive( "gas_station_truck" );
 	
 	wait 4;
-	//Seal Six-One:	Incoming! Truck 12 o?clock!
+	//Seal Six-One:	Incoming! Truck 12 o�clock!
 	level.raptor dialogue_queue( "inv_six_truck12" );
 }
 
@@ -4863,7 +4861,7 @@ dialog_bmp_hasnt_spotted_us()
 	if( isalive( level.house_destroyer ) )
 	{
 		level notify( "dialog_bmp_hasnt_spotted_us" );
-		//Seal Six-One:	That BMP hasn?t spotted us! Hang to the right and stay behind it!	
+		//Seal Six-One:	That BMP hasn�t spotted us! Hang to the right and stay behind it!	
 		level.raptor dialogue_queue( "inv_six_hangright" );
 	}
 	
@@ -5037,7 +5035,7 @@ dialog_semtex_that_bmp()
 	dialog = [];
 		//We're spotted! Roach - grab those Semtex explosives! Taco, Worm - cover him!	
 	//dialog[dialog.size] = "inv_six_grabrpg";
-		//Roach - there?s explosives by that supply drop! Move!   	
+		//Roach - there�s explosives by that supply drop! Move!   	
 	dialog[dialog.size] = "inv_six_rpgsupplydrop";
 		//Pick up the explosives by the supply drop!      
 	dialog[dialog.size] = "inv_six_pickup";
@@ -6939,7 +6937,6 @@ fire_at_player( player )
 
 miss_player( player )
 {
-
 	
 
 	//point in front of player
@@ -6954,7 +6951,6 @@ miss_player( player )
 	{
 		offset = randomvector( 15 ) + miss_vec + (0,0,64);
 		//println( "           offset: " + offset );
-
 		self setturrettargetent( player, offset );
 		self fireweapon();
 		wait fireTime;
@@ -6989,7 +6985,6 @@ can_see_player( player )
 
 end_of_script()
 {
-
 
 	iprintlnbold( &"SCRIPT_DEBUG_LEVEL_END" );
 }
@@ -7116,8 +7111,6 @@ setObjectiveLocationMoving( objName, objEnt, offset )
 	objective = level.objectives[objName];
 	
 	Objective_OnEntity( objective.id, objEnt, offset );
-	
-
 }
 
 setObjectiveRemaining( objName, objString, objRemaining )
@@ -7619,14 +7612,13 @@ objective_destroy_helicopter( second_heli )
 	{
 		origin = level.attack_heli.origin;
 	}
-	
+
 	
 	if( needs_stinger )
 		level.attack_heli waittill_death_or_stinger();
 	
 	if( isalive( level.attack_heli ) )
 	{
-
 		level notify( "moving obj_raptor_defend" );
 		thread setObjectiveLocationMoving( "obj_raptor_defend", level.attack_heli, (0,0,128) );
 	
@@ -7655,14 +7647,12 @@ waittill_death_or_stinger()
 
 objective_defend_raptor2()
 {
-
 //	registerObjective( "obj_raptor_defend", &"INVASION_OBJ_BURGERTOWN_DEFEND", origin );
 
 	level notify( "moving obj_raptor_defend" );
 	setObjectiveString( "obj_raptor_defend", &"INVASION_OBJ_BURGERTOWN_DEFEND" );
 	
 	thread setObjectiveLocation_nearest_enemy( "obj_raptor_defend" );
-
 	
 	flag_wait( "second_attack_heli_spawned" );
 	wait 9;

@@ -4210,7 +4210,7 @@ dialogue_escape()
 	//***Marine 1			Punisher this Hunter Actual. Hunter Two-Two is moving to secure the SAM site at the southwest corner of main deck. Hunter Two-Three is proceeding towards the derrick building to disarm the explosives.
 	radio_dialogue( "oilrig_gm1_hunteractual" );
 	
-	//***Marine HQ			Punisher copies all. We have eyes on two-two. They are arriving at the southwest SAM site? standby? standby?Site is secure, repeat site is secure.
+	//***Marine HQ			Punisher copies all. We have eyes on two-two. They are arriving at the southwest SAM site� standby� standby�Site is secure, repeat site is secure.
 	//radio_dialogue( "oilrig_rmv_standby" );
 	
 	//***Marine HQ			Punisher Actual to all strike teams - all SAM sites neutralized, repeat, all SAM sites have been neutralized. Blue sky in effect.

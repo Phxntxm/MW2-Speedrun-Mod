@@ -225,7 +225,7 @@ def _compress_with_comment_padding(data: bytes, original: bytes) -> bytes | None
     return None
 
 
-def compress(data: bytes, original: bytes, *, check: bool = True) -> bytes:
+def compress(data: bytes, original: bytes, name: str, *, check: bool = True) -> bytes:
     compressed = zlib.compress(data, level=9)
     if check:
         padded = _compress_with_comment_padding(data, original)
@@ -236,7 +236,7 @@ def compress(data: bytes, original: bytes, *, check: bool = True) -> bytes:
             return compressed
 
         raise ValueError(
-            f"New data is not the same size as the old data - Original size: {len(original)}, New size: {len(compressed)}"
+            f"New data for {name} is not the same size as the old data - Original size: {len(original)}, New size: {len(compressed)}"
         )
     elif len(compressed) != len(original):
         compressed += b"\x00" * (len(original) - len(compressed))

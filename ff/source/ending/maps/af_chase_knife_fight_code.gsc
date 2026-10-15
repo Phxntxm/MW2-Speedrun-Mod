@@ -2008,17 +2008,17 @@ wait_for_player_to_melee_shepherd()
 	//queue = array( "afchase_shp_waitingfor", "afchase_shp_digtwograves", "afchase_shp_goahead", "afchase_shp_couldntdoit", "afchase_shp_extrastep" );
 	queue = [];
 	
-	// You know what they say about revenge?you better be ready to dig two graves?	
+	// You know what they say about revenge�you better be ready to dig two graves�	
 	queue[ queue.size ] = "afchase_shp_digtwograves";
 	// Go ahead and end it. It won't change anything.		
 	queue[ queue.size ] = "afchase_shp_goahead";
-	// Hmph. I knew you couldn't do it?		
+	// Hmph. I knew you couldn't do it�		
 	queue[ queue.size ] = "afchase_shp_couldntdoit";
-	// You're a good warrior?		
+	// You're a good warrior�		
 	queue[ queue.size ] = "afchase_shp_goodwarrior";
-	// ?but you could never take that extra step?		
+	// �but you could never take that extra step�		
 	queue[ queue.size ] = "afchase_shp_extrastep";
-	// ?to do what was absolutely necessary.		
+	// �to do what was absolutely necessary.		
 	queue[ queue.size ] = "afchase_shp_necessary";
 
 	
@@ -2690,7 +2690,8 @@ scene_gun_monologue_dialogue( start_time_offset )
 
 	wait_for_buffer_time_to_pass( start_time, 0.0 );
 	
-	// Five years ago, I lost 30,000 men in the blink of an eye??and the world just fuckin' watched.
+	// Five years ago, I lost 30,000 men in the blink of an eye��and the world just fuckin' watched.	
+	level.shepherd play_sound_on_tag( "afchase_shp_fiveyearsago", "J_Jaw" );
 	extra_wait = 0.1;
 	wait extra_wait;
 	flag_set( "gloat_fade_in" );
@@ -2702,7 +2703,7 @@ scene_gun_monologue_dialogue( start_time_offset )
 	level.shepherd thread play_sound_on_tag( "afchase_shp_noshortage", "J_Jaw" );
 
 	wait_for_buffer_time_to_pass( start_time, 14.3 + extra_wait );
-	// I know you understand?		
+	// I know you understand�		
 	level.shepherd thread play_sound_on_tag( "afchase_shp_iknow", "J_Jaw" );
 	wait 0.5;
 	level.eq_ent MoveTo( ( 0.0, 0, 0 ), 4 );
