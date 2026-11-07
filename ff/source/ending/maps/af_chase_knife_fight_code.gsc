@@ -2631,6 +2631,7 @@ player_tries_to_throw()
 		if ( flag( "player_aims_knife_at_shepherd" ) )
 		{
 			flag_set( "player_throws_knife" );
+			end_splits();
 		}
 		else
 		{

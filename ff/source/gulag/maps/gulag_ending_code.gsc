@@ -1696,6 +1696,8 @@ ceiling_collapse_think()
 	org = self.origin;
 	self.origin += (0,0,300);
 	flag_wait( "exit_collapses" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 }
 

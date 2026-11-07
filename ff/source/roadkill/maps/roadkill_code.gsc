@@ -610,8 +610,9 @@ bridge_layer_think()
 			guy SetFlaggedAnim( "single anim", animation, 1, 0, 0 );
 		}
 
-		wait 17.5;
-		wait 25;
+		// TODO: Remove if proposal for change isn't accepted
+		// wait 17.5;
+		// wait 25;
 		flag_set( "bridge_layer_attacked_by_bridge_baddies" );
 
 		start_time = GetTime();
@@ -852,6 +853,9 @@ fail_if_player_doesnt_defend_bridge()
 		return;
 
 	wait( 20 );
+	// TODO: Remove if proposal for change isn't accepted
+	wait 17.5;
+	wait 25;
 	thread bridge_layer_explodes();
 }
 
@@ -7932,7 +7936,6 @@ ending_fadeout_nextmission()
 	black_overlay.alpha = 1;
 
 	wait( 2 );
-
 	nextmission();
 
 }
@@ -7984,7 +7987,9 @@ end_trigger()
 	{
 		if( distance( level.player.origin, endtrig ) < 100 )
 		{
+			do_split("finish");
 			wait 2;
+			end_splits(1);
 			nextmission();
 		}
 		wait 0.2;

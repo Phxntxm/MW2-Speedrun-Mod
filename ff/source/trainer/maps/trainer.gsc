@@ -24,6 +24,9 @@ main()
 	level.oldObjectiveAlpha = getDvar( "objectiveAlpha" );
 	level.skippingTimedADS = false;	//may skip if player is elite and has turned autoaim off in the options menu
 	
+	setup_splits();
+	start_split("demonstration", "Demonstration");
+
 	setsaveddvar( "r_lightGridEnableTweaks", 1 );
 	setsaveddvar( "r_lightGridIntensity", 1.2 );
 	setsaveddvar( "r_lightGridContrast", 0 );
@@ -1257,6 +1260,8 @@ AA_frags_init()
 	thread firing_range_frags();
 	
 	flag_wait( "firing_range_frags_done" );
+	// Firing range done
+	do_split("demonstration", "strafe_fast", "Strafe Fast");
 	
 	thread AA_find_pit_init();
 }
@@ -1768,6 +1773,8 @@ sideArm_Training()
 	
 	flag_set ( "sidearm_complete" );
 	level notify ( "sideArmTraining_end" );
+	// Pit gate opens
+	do_split("strafe_fast", "pit", "The Pit");
 	level.gate_cqb_enter thread door_open();
 }
 
@@ -2873,7 +2880,9 @@ end_sequence()
 	level.gate_cqb_enter_main thread door_close();
 	thread sirens();
 	thread radio_end();
+	do_split("pit");
 	wait 3;
+	end_splits(1);
 	nextmission();
 	heli_group_pre_end = spawn_vehicles_from_targetname_and_drive( "heli_group_pre_end" );
 	

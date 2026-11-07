@@ -18,6 +18,10 @@ main()
 	setdvar( "breach_requires_friendlies_in_position", "0" );
 	//setdvar( "breach_friendlies", "1" );
 	setdvar( "hostage_missionfail", "1" );
+
+	setup_splits();
+	start_split("c4", "C4");
+
 	initPrecache();
 	/*-----------------------
 	LEVEL VARIABLES
@@ -2512,6 +2516,7 @@ ambush_sequence()
 	//level.friendly03 forceUseWeapon( "scar_h_reflex", "primary" );
 	
 	flag_wait_or_timeout( "obj_c4_ambush_plant_complete", 6 );
+	do_split("c4", "breach", "Breach");
 	
 	if ( !flag( "obj_c4_ambush_plant_complete" ) )
 		flag_set( "obj_c4_ambush_plant_complete" );
@@ -3964,6 +3969,7 @@ deck3_firefight()
 	thread activate_all_deck3_killspawners();
 	array_thread( aAI_to_delete, ::delete_ai_if_alive );
 	
+	do_split("breach", "heli", "Heli");
 	level waittill( "breach_explosion" );
 	flag_set( "top_deck_room_breached" );
 
@@ -6726,5 +6732,7 @@ AI_turret_guys_think()
 birb_watcher()
 {
 	flag_wait( "player_on_board_littlebird" );
+	do_split("heli");
+	end_splits(1);
 	nextmission();
 }

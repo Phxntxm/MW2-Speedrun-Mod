@@ -394,6 +394,8 @@ price_does_steady_boat_anims_and_sound()
 
 price_snipes_from_boat()
 {
+	do_split("finish");
+	end_splits(1);
 	changeLevel( "ending" );
 	level.price endon( "death" );
 
@@ -564,9 +566,11 @@ water_fall_edge()
 	level.eq_ent MoveTo( (1,0,0), 5, 0, 0 ); 
 	
 	wait 0;
-	setdvar( "ui_char_museum_mode", "credits_1" );	
+	setdvar( "ui_char_museum_mode", "credits_1" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
-		
+
 	wait 7;
 /*	
 	set_ambient( "af_chase_ext" );

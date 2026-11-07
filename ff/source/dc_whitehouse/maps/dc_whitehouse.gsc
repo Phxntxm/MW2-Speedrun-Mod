@@ -16,6 +16,14 @@ main()
 	add_start( "flare", ::start_flare, "[flare] -> pop the flare" );
 
 	flags();
+
+	setup_splits();
+	level.ooSplit = (-3546, 11782, -244);
+	level.kitchenSplit = (-2130, 9512, -275);
+	start_split("oval_office", "Oval Office");
+	track_position_split(level.ooSplit, "oval_office", "kitchen", "Kitchen");
+	track_position_split(level.kitchenSplit, "kitchen", "finish", "Finish");
+
 	global_inits();
 }
 
@@ -1175,6 +1183,8 @@ whitehouse_flare()
 
 	flag_wait( "whitehouse_flare_run" );
 	wait 0.5;
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 
 	// start flares on faraway roofs.

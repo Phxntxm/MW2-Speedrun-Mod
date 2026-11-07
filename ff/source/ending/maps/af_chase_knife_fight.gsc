@@ -935,6 +935,7 @@ knife_kill()
 	reticle fadeovertime( 1 );
 	
 	player_throws_knife( reticle );
+	end_splits();
 
 	reticle destroy();
 	

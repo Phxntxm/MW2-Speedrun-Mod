@@ -2475,6 +2475,7 @@ cellblock_rappel_player()
 	player_rappels( ent );
 	flag_set( "cellblock_player_starts_rappel" );
 
+	do_split("rappel", "breach", "Breach");
 	thread early_rappel();
 
 	wait( 1.8 );

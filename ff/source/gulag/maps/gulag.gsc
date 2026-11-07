@@ -23,6 +23,9 @@ main()
 
 	maps\createfx\gulag_audio::main();
 
+	setup_splits();
+	start_split("rappel", "Rappel");
+
 	precachestring( &"GULAG_HOLD_1_TO_SPIE" );
 	precachestring( &"GULAG_HOLD_1_TO_RAPPEL" );
 	precachestring( &"SCRIPT_LEARN_GRENADE_LAUNCHER" );
@@ -1685,6 +1688,7 @@ gulag_bathroom()
 	add_global_spawn_function( "axis", ::track_spawn_time );
 	
 	level waittill( "breaching" );
+	do_split("breach", "price", "Price");
 	
 	delaythread( 0.05, ::remove_global_spawn_function, "axis", ::track_spawn_time );
 	
@@ -1933,7 +1937,7 @@ gulag_rescue()
 	thread maps\_utility::set_ambient( "gulag_exit" );
 
 	level waittill( "breaching" );
-	
+	do_split("price", "finish", "Finish");
 	
 
 	delayThread( 4, ::vision_set_fog_changes, "gulag_ending", 4 );
