@@ -574,29 +574,9 @@ water_fall_edge()
 	
 	wait 2;
 	setdvar( "ui_char_museum_mode", "credits_1" );
-	do_split("finish");
-	end_splits(1);
 	nextmission();
 		
 	wait 7;
-/*	
-	set_ambient( "af_chase_ext" );
-	level.player Unlink();
-	level.player PlayerSetGroundReferenceEnt( undefined );
-	level.player teleport_player( on_foot_destination );
-
-	flag_set( "player_gets_up_after_waterfall" );
-	flag_wait( "end_heli_crashed" );
-
-	level.player EnableWeapons();
-
-	flag_set( "water_cliff_jump_splash_sequence" );
-
-	black_overlay delayCall( .05, ::Destroy );// leave it for a frame, then knife fight takes over with new overlays.
-	
-
-	flag_set( "fell_off_waterfall" );
-*/
 }
 
 send_player_to_blend_boat()
