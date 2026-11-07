@@ -13,6 +13,13 @@ main()
 
 	level.ambience_timescale = 0;
 
+	setup_splits();
+	level.cavesSplit = (-17963, -24705, 47);
+	level.rapidsSplit = (34000, -12584, -3536);
+	start_split("caves", "Caves");
+	track_position_split(level.cavesSplit, "caves", "rapids", "Rapids", 200);
+	track_position_split(level.rapidsSplit, "rapids", "finish", "Finish", 200);
+
 	precachestring( &"AF_CHASE_PURSUE" );
 	precachestring( &"AF_CHASE_MISSION_FAILED_IN_THE_OPEN" );
 	precachestring( &"AF_CHASE_MISSION_FAILED_KEEP_UP" );
@@ -115,21 +122,6 @@ main()
 	add_start( "boatdrive_end", 		::start_boatdrive_end, "", 						maps\af_chase_knife_fight::wakeup_after_crash );
 	maps\af_chase_knife_fight::add_knife_fight_starts();
 	add_start( "debug_boatdrive", 	::start_debug_boatdrive, "", 							::empty );
-
-/*
-	add_start( "wakeup", 		 		::start_wakeup_after_crash, "", 					::wakeup_after_crash );
-	add_start( "wakefast", 		 		::start_wakeup_after_crash, "", 					::wakeup_after_crash );
-	add_start( "turnbuckle", 			::start_turnbuckle, "", 							::fight_turnbuckle );
-	add_start( "gloat", 				::start_shepherd_gloats, "", 						::shepherd_gloats );
-	add_start( "gun_drop", 	 			::start_gun_drop, "", 								::gun_drop );
-	add_start( "crawl", 				::start_gun_crawl, "", 								::gun_crawl );
-	add_start( "gun_kick", 				::start_gun_kick, "", 								::gun_kick );
-	add_start( "wounded", 				::start_wounded_show, "Watch Price/Shep fight",		::wounded_show );
-	add_start( "pullout", 				::start_knife_pullout, "", 	 						::knife_pullout );
-	add_start( "kill", 				::start_knife_pullout, "", 	 						::knife_pullout );
-	add_start( "price_wakeup", 			::start_price_wakeup, "", 							::price_wakeup );
-	add_start( "walkoff", 				::start_walkoff, "", 								::walkoff );
-*/
 
 	default_start( ::start_default );
 

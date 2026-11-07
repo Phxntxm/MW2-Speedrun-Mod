@@ -38,6 +38,9 @@ main()
 	
 	flags();
 	
+	setup_splits();
+	start_split("breach", "Breach");
+
 	maps\estate_precache::main();
 	
 	global_inits();
@@ -1565,15 +1568,6 @@ house_briefing_dialogue()
 
 	//All clear. Squad, regroup on me.
 	thread radio_dialogue( "est_gst_regroup" );
-	thread wave1_clearflag();
-	thread wave2_clearflag();
-	thread wave3_clearflag();
-	thread wave4_clearflag();
-	thread wave5_clearflag();
-	thread wave6_clearflag();
-	thread wave7_clearflag();
-	thread wave8_clearflag();
-	thread allclear_waves();
 	flag_set( "house_briefing_dialogue_done" );
 	flag_set( "dsm_ready_to_use" );
 	flag_set( "house_briefing_is_over" );
@@ -1962,6 +1956,8 @@ ending_player_breathing()
 ending_moments()
 {
 	flag_wait( "play_ending_sequence" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 
 	thread ending_shadow_fader();

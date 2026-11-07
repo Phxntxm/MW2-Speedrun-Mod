@@ -25,6 +25,11 @@ main()
 	
 	// don't track choppers on the minimap since we're doing a lot of fakery
 	SetSavedDvar( "compassHideVehicles", "1" );
+
+	setup_splits();
+	level.akSplit = (-3138, -2759, 1058);
+	start_split("ak", "AK");
+	track_position_split(level.akSplit, "ak", "fall", "Fall");
 	
 	weapons = [];
 	sounds = [];
@@ -490,32 +495,6 @@ start_favela_escape_test()
 	
 	level.player teleport_to_origin( ( 4892, 292, 1134 ), ( 0, 180, 0 ) );
 	thread radiotower_enemy_vehicles();
-	
-	/* market evac
-	delaythread( 0.05, ::market_evac_playermantle_helper, 1148 );
-	trigger_off( "sbmodel_market_evac_playerblock", "targetname" );
-	level.player teleport_to_origin( ( -3128, -2888, 1064 ), ( 0, 90, 0 ) );
-	chopper = spawn_chopper( 6, false );
-	
-	path2start = GetStruct( "struct_market_evac_chopper_path2", "targetname" );
-	path2nextnode = GetStruct( path2start.target, "targetname" );
-	
-	chopper thread market_evac_chopper_bugout_path( path2start );
-	*/
-	
-	/*
-	level.player teleport_to_origin( ( -6226, -874, 788 ), ( 0, 300, 0 ) );
-	thread bigjump_angrymob();
-	*/
-	
-	/*
-	spawner = GetEnt( "spawner_vista2_endhouse", "script_noteworthy" );
-	guy = spawner spawn_ai();
-	remove_all_flood_spawners();
-	thread vista2_endhouse_jumpthru();
-	level.player teleport_to_origin( ( -972, 1740, 1124 ), ( 0, 180, 0 ) );
-	level.hero1 teleport_to_origin( ( -796, 1716, 1124 ), ( 0, 180, 0 ) );
-	*/
 }
 
 start_radiotower()

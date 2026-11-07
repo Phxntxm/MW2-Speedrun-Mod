@@ -23,9 +23,6 @@ main()
 
 	map = getDvar( "mapname" );
 
-	if( map == "airport" )
-		changelevel( "favela" );
-
 	switch( level.script )
 	{
 	case "roadkill":
@@ -134,7 +131,6 @@ main()
        	level.player FreezeControls( false );
        	level notify( "exiting_vehicle" );
        	flag_set( "player_is_ducking" );
-       	thread takedown_levelswap();
        	while( true )
        	{
            		level.player Unlink();
@@ -1132,11 +1128,4 @@ ramp_out_sunsample_over_time( time, base_sample_size )
 		SetSavedDvar( "sm_sunSampleSizeNear", current_sample_size );
 		wait( 0.05 );
 	}
-}
-
-takedown_levelswap()
-{
-	flag_wait( "ending_sequence_started" );
-	wait 2;
-	changeLevel( "invasion" );
 }

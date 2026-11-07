@@ -16,6 +16,9 @@ main()
 
 	start_points_setup();
 
+	setup_splits();
+	start_split("finish", "Finish");
+
 	maps\_load::set_player_viewhand_model( "viewhands_player_marines" );
 	animscripts\dog\dog_init::initDogAnimations();
 
@@ -1279,6 +1282,8 @@ ride()
 	}
 
 	flag_wait( "uaz_mounted" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 	set_custom_gameskill_func( ::boneyard_gameskill_ride_settings );
 

@@ -504,6 +504,7 @@ price_icepicks_a_snowmobile()
 	flag_set( "player_snowmobile_available" );
 
 	level.player_snowmobile waittill( "vehicle_mount", otherEnt );
+	do_split("snowmobile", "helicopter", "Helicopter");
 	
 	level.price add_damage_function( ::penalize_player_for_running_over_price );
 	
@@ -955,23 +956,22 @@ snowmobile_main()
 	//Ok they got the ACS, we're outta here!
 
 	flag_wait( "end_begins" );
+	do_split("helicopter");
+	end_splits(1);
     changeLevel( "favela" );
 
-	flag_wait( "end_begins" );
-	wait( 2.5 );
-	black_overlay = create_client_overlay( "black", 0, level.player );
-	black_overlay fadeOverTime( 1 );
-	black_overlay.alpha = 1;
+	// flag_wait( "end_begins" );
+	// wait( 2.5 );
+	// black_overlay = create_client_overlay( "black", 0, level.player );
+	// black_overlay fadeOverTime( 1 );
+	// black_overlay.alpha = 1;
 
-	level.player SetEqLerp( 1, level.eq_main_track );
-	thread maps\_ambient::use_eq_settings( "fadeall_but_music", level.eq_mix_track );
-	thread maps\_ambient::blend_to_eq_track( level.eq_mix_track, 1 );	
+	// level.player SetEqLerp( 1, level.eq_main_track );
+	// thread maps\_ambient::use_eq_settings( "fadeall_but_music", level.eq_mix_track );
+	// thread maps\_ambient::blend_to_eq_track( level.eq_mix_track, 1 );	
 	
-	wait( 2 );
-	nextmission();
-	//missionSuccess( "cliffhanger" );
-
-//	nextmission();
+	// wait( 2 );
+	// nextmission();
 }
 
 snowmobile_gameskill_settings()

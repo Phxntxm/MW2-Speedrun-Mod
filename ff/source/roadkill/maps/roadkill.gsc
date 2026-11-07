@@ -11,7 +11,14 @@ main()
 	setdvar( "newintro", 1 );
 	SetSavedDvar( "physVeh_collideWithClipOnly", 1 );
 	level.toffset = 0;
-	level.nocompass = true;
+	level.nocompass = true; 
+
+	setup_splits();
+	level.schoolSplit = (-7743, 9409, 471);
+	level.graduateSplit = (-9280, 10296, 639);
+	start_split("school", "School");
+	track_position_split(level.schoolSplit, "school", "graduate", "Graduate");
+	track_position_split(level.graduateSplit, "graduate", "finish", "Finish");
 
 	PreCacheItem( "m14_scoped" );
 	PreCacheItem( "littlebird_FFAR" );

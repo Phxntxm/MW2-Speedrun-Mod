@@ -2242,6 +2242,7 @@ roofrun_player_recovery( player_rig, groundref )
 	
 	level.player Unlink();
 	level.player FreezeControls( false );
+	do_split("fall", "heli", "Heli jump");
 	
 	player_rig Delete();
 }
@@ -4365,6 +4366,8 @@ chopperjump_dialogue()
 	
 	flag_wait( "chopperjump_player_jump" );
 	wait( 0.5 );
+	do_split("heli");
+	end_splits(1);
 	nextmission();
 	
 	// "Nikolai! We got him! Get us outta here!"

@@ -30,6 +30,9 @@ main()
 	level.primaryWeapon = "cheytac_silencer";
 	level.secondaryWeapon = "kriss_acog_silencer";
 	
+	setup_splits();
+	start_split("rappel", "Rappel");
+
 	PrecacheModel( "com_flashlight_on" );
 	PrecacheModel( "weapon_parabolic_knife" );
 	PrecacheModel( "com_cellphone_on_anim" );
@@ -2262,6 +2265,7 @@ rappel_show_objective_railing()
 	rappel_railing_glowing show();
 
 	flag_wait( "player_hooking_up" );
+	do_split("rappel", "breach", "Breach");
 
 	rappel_railing = getent( "rappel_hookup", "targetname" );
 	rappel_railing show();

@@ -42,6 +42,8 @@ main()
 	price_spawner = getent( "price", "script_noteworthy" );
 	price_spawner.script_friendname = "ekiy";
 	
+	setup_splits();
+	start_split("c4planted", "C4 Planted");
 	
 	level.DODGE_DISTANCE = 500;
 	level.POS_LOOKAHEAD_DIST = 200;
@@ -270,6 +272,7 @@ c4_main()
 	thread return_spawning();
 	
 	flag_wait( "one_c4_planted" );
+	do_split("c4planted", "satellite", "Satellite");
 	
 	autosave_stealth();
 }
@@ -492,6 +495,7 @@ start_satellite()
 
 player_used_computer()
 {
+	do_split("satellite", "snowmobile", "Snowmobile");
 	flag_set( "start_busted_music" );
 	
 	thread maps\_blizzard::blizzard_level_transition_light( 40 );

@@ -8,10 +8,13 @@ main()
 {
 	setDvarIfUninitialized( "cheap_spot", "1" );
 	initPrecache();
+	
+	setup_splits();
+	level.upstairsSplit = (-20956, 7340, 598);
+	start_split("upstairs", "Upstairs");
+	track_position_split(level.upstairsSplit, "upstairs", "door_open", "Door Open");
+
 	maps\dcburning_precache::main();
-	/*-----------------------
-	LEVEL VARIABLES
-	-------------------------*/
 	level.c4_models = [];
 	level.chattertrigsinterior = getentarray( "interior_bcs", "targetname" );
 	level.chattertrigsexteriror = getentarray( "exterior_bcs", "targetname" );
@@ -61,9 +64,6 @@ main()
 	//level.motiontrackergun_on = "masada_dcburn_mt_black_on";
 	disable_color_trigs();
 
-	/*-----------------------
-	STARTS
-	-------------------------*/
 	add_start( "debug", ::start_debug, "debug" );
 	add_start( "elevator_bottom", ::start_elevator_bottom, "elevator_bottom" );
 	add_start( "elevator_top", ::start_elevator_top, "elevator_top" );
@@ -77,9 +77,6 @@ main()
 	
 	default_start( ::start_default );
 	
-	/*-----------------------
-	SUPPORT SCRIPTS
-	-------------------------*/	
 	maps\dc_crashsite::main();
 	maps\_breach_hinges_left::main();
 	maps\_breach::main();
@@ -5030,6 +5027,7 @@ AAA_sequence_get_to_roof()
 	trig_colornode notify( "trigger", level.player );
 	level.squad = remove_dead_from_array( level.squad );
 
+	do_split("door_open", "finish", "Finish");
 	thread breach_double_door_swings_open();
 	trigger_volume_breach_stairwell trigger_on();
 	
@@ -5372,10 +5370,7 @@ dialogue_get_to_roof()
 		wait( 1 );
 
 		if ( flag( "player_at_commerce_rooftop" ) )
-		{
-			nextmission();
 			break;
-		}
 
 		wait( 1 );
 
@@ -5455,6 +5450,8 @@ music_heli_ride()
 dialogue_roof()
 {
 	flag_wait( "player_at_commerce_rooftop" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 	
 	flag_wait( "blackhawk_landed" );

@@ -23,6 +23,11 @@ main()
 	setsaveddvar( "r_lightGridContrast", 0 );
 	setsaveddvar( "sm_sunShadowScale", 0.7 );
 	
+	setup_splits();
+	level.bridgeSplit = (3535, -7157, 2385);
+	start_split("bridge", "Bridge");
+	track_position_split(level.bridgeSplit, "bridge", "briefcase", "Briefcase");
+
 	precacheString( &"ARCADIA_OBJECTIVE_AA_GUNS" );
 	precacheString( &"ARCADIA_OBJECTIVE_BROOKMERE" );
 	precacheString( &"ARCADIA_OBJECTIVE_INTEL" );
@@ -77,10 +82,6 @@ main()
 	flag_init( "foley_leaves_panic_room" );
 	flag_init( "disable_stryker_dialog" );
 	
-	//--------------------------------
-	// Friendlies and Friendly Respawn
-	//--------------------------------
-	
 	level.foley = getent( "foley", "script_noteworthy" );
 	assert( isAlive( level.foley ) );
 	level.foley.animname = "foley";
@@ -103,9 +104,6 @@ main()
 	set_empty_promotion_order( "b" );
 	array_thread( friends, ::replace_on_death );
 	
-	//--------------------------------
-	// spawners with script_parameters get processed on spawn
-	//--------------------------------
 	all_axis_spawners = getspawnerteamarray( "axis" );
 	script_parameter_spawners = [];
 	foreach( spawner in all_axis_spawners )
@@ -116,9 +114,6 @@ main()
 	}
 	array_spawn_function( script_parameter_spawners, ::process_ai_script_parameters );
 	
-	//--------------------------------
-	// Spawn Stryker vehicle
-	//--------------------------------
 	level.stryker = spawn_vehicle_from_targetname_and_drive( "stryker" );
 	//level.stryker.veh_pathtype = "follow";
 	level.stryker.vehicle_stays_alive = true;
@@ -1099,6 +1094,8 @@ player_picks_up_briefcase()
 	briefcase thread play_sound_in_space( "intelligence_briefcase_pickup" );
 	
 	flag_set( "picked_up_briefcase" );
+	do_split("briefcase");
+	end_splits(1);
 	nextmission();
 	
 	use_trig delete();

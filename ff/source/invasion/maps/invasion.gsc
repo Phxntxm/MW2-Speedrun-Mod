@@ -29,6 +29,10 @@ main()
 	PreCacheItem( "remote_missile_invasion" );
 	level.remote_missile_invasion = true;
 
+	setup_splits();
+	level.ladderSplit = (421, -5221, 2319);
+	start_split("ladder", "Ladder");
+	track_position_split(level.ladderSplit, "ladder", "burger_town", "Burger Town");
 	
 	precacheString( &"INVASION_LINE1" );
 	precacheString( &"INVASION_LINE2" );
@@ -1774,16 +1778,6 @@ handler_defend_BT()
 	setup_hunter_enemies();
 	thread enemy_monitor();
 	thread spawn_redshirts_during_BT_defend();
-	//bank_enemies = getentarray( "bank_enemies", "targetname" );
-	//array_thread( bank_enemies, ::spawn_ai );
-	
-	//thread dialog_stay_near_BT_nags();
-	//thread mission_fail_if_leaves_BT();
-	
-	//while( level.num_of_enemy_forces_spawned < 3 )
-	//	wait 1;
-		
-	//wait 10;
 	
 	flag_wait( "first_attack_heli_spawned" );
 	eHeli = maps\_vehicle::spawn_vehicle_from_targetname_and_drive( "kill_heli" );
@@ -1796,12 +1790,12 @@ handler_defend_BT()
 	
 	thread spawn_rpg_redshirts();
 	attacker = undefined;
-	
+	if( isalive( level.attack_heli ) )
+		level.attack_heli waittill( "death", attacker );
+	flag_set("first_attack_heli_dead");
+
 	if(  isdefined( attacker ) && isplayer( attacker ) )
-	{
 		thread dialog_shot_down_heli();
-		flag_set( "first_attack_heli_dead" );
-	}
 	thread autosave_by_name( "heli_death" );
 		
 		
@@ -1815,12 +1809,13 @@ handler_defend_BT()
 	thread spawn_rpg_redshirts();
 	thread dialog_second_attack_heli();
 	attacker = undefined;
+
+	if( isalive( level.attack_heli ) )
+		level.attack_heli waittill( "death", attacker );
+	flag_set("second_attack_heli_dead");
 		
 	if( isdefined( attacker ) && isplayer( attacker ) )
-	{
 		thread dialog_shot_down_heli();
-		flag_set( "second_attack_heli_dead" );
-	}
 	thread autosave_by_name( "heli_death" );
 	
 	wait 1;
@@ -1864,8 +1859,8 @@ handler_convoy()
 	//nodes = getvehiclenodes( "apply_brakes", "script_noteworthy" );
 	//foreach( n in nodes )
 	//	n thread setup_brakes();
-	if( isalive( level.attack_heli ) )
-		level.attack_heli waittill( "death", attacker );
+	// if( isalive( level.attack_heli ) )
+	// 	level.attack_heli waittill( "death", attacker );
 	
 	wait 1;
 	flag_set( "convoy_in_position" );
@@ -3056,7 +3051,7 @@ enemy_monitor()
 				println ( "   level.num_of_enemy_forces_spawned: " + level.num_of_enemy_forces_spawned );
 				spawn_enemy_group();
 				
-				wait 4;
+				// wait 4;
 				
 				flag_set( "second_attack_heli_spawned" );
 				thread autosave_by_name( "reinforcements" );
@@ -3072,8 +3067,9 @@ enemy_monitor()
 				thread autosave_by_name( "reinforcements" );
 				flag_set( "first_attack_heli_spawned" );
 				flag_wait( "first_attack_heli_dead" );
+				flag_set( "second_attack_heli_spawned" );
 				
-				wait 5;
+				// wait 5;
 				continue;
 			}
 			
@@ -7526,6 +7522,7 @@ objective_defend_raptor()
 	setObjectiveWaypoint( "obj_raptor_defend", &"INVASION_WAYPOINT_PROTECT" );
 	
 	flag_wait( "president_in_BT_meat_locker" );
+	do_split("burger_town", "finish", "Helis Downed");
 	
 	setObjectiveString( "obj_raptor_defend", &"INVASION_OBJ_BURGERTOWN_DEFEND" );
 	thread setObjectiveLocation_nearest_enemy( "obj_raptor_defend" );
@@ -7727,11 +7724,15 @@ black_intro()
 
 	black Destroy();
 }
+
 convoy_ending()
 {
 	flag_wait( "player_at_convoy" );
+	do_split("finish");
+	end_splits(1);
 	nextmission();
 }
+
 spawnUAVforpred()
 {
 	wait 39;

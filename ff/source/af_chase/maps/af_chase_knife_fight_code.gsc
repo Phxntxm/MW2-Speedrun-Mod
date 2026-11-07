@@ -2008,17 +2008,17 @@ wait_for_player_to_melee_shepherd()
 	//queue = array( "afchase_shp_waitingfor", "afchase_shp_digtwograves", "afchase_shp_goahead", "afchase_shp_couldntdoit", "afchase_shp_extrastep" );
 	queue = [];
 	
-	// You know what they say about revenge…you better be ready to dig two graves…	
+	// You know what they say about revengeï¿½you better be ready to dig two gravesï¿½	
 	queue[ queue.size ] = "afchase_shp_digtwograves";
 	// Go ahead and end it. It won't change anything.		
 	queue[ queue.size ] = "afchase_shp_goahead";
-	// Hmph. I knew you couldn't do it…		
+	// Hmph. I knew you couldn't do itï¿½		
 	queue[ queue.size ] = "afchase_shp_couldntdoit";
-	// You're a good warrior…		
+	// You're a good warriorï¿½		
 	queue[ queue.size ] = "afchase_shp_goodwarrior";
-	// …but you could never take that extra step…		
+	// ï¿½but you could never take that extra stepï¿½		
 	queue[ queue.size ] = "afchase_shp_extrastep";
-	// …to do what was absolutely necessary.		
+	// ï¿½to do what was absolutely necessary.		
 	queue[ queue.size ] = "afchase_shp_necessary";
 
 	
@@ -2418,92 +2418,6 @@ track_buttons( button_track, button_alt, button_hints )
 	}
 }
 
-
-//modulate_player_movement()
-//{
-//	level.ground_ref_ent = Spawn( "script_model", ( 0, 0, 0 ) );
-//	level.ground_ref_ent.origin = level.player.origin;
-//	level.player PlayerSetGroundReferenceEnt( level.ground_ref_ent );
-//
-//	//ent = Spawn( "script_origin", (0,0,0) );
-//	//yaw = level.player GetPlayerAngles()[1];
-////	ent.angles = ( 0, yaw, 0 );
-//	//level.player PlayerSetGroundReferenceEnt( ent );
-////	ent thread stick_to_player_angles();
-//	last_blur = 0;
-//	next_noblur = 0;
-//
-//
-//	//level.player SetMoveSpeedScale( level.player_speed );
-//	ramp_in_modifier = 0.25;
-//
-//	blurs_remaining = 4;
-//	for ( ;; )
-//	{
-//		// the more you push the stick the faster you go.
-//		stick_deflection = get_stick_deflection();
-//		ramp_in_change_per_frame = stick_deflection * 0.01;
-//		ramp_in_modifier += ramp_in_change_per_frame;
-//
-//		if ( IsAlive( level.shepherd_stumble ) )
-//		{
-//			if ( Distance( level.shepherd_stumble.origin, level.player.origin ) < 420 )
-//			{
-//				// get near shepherd? get slower
-//				ramp_in_modifier -= 0.025;
-//			}
-//		}
-//
-//		ramp_in_modifier = clamp( ramp_in_modifier, 0.25, 1 );
-//
-//		bonus = ( Sin( GetTime() * 0.1 ) + 1 ) * 0.05 + 0.2;
-//		speed = abs( ( Sin( GetTime() * 0.23 ) ) ) * 0.5 + 0.10;
-//		speed += bonus;
-//
-//		level.player SetMoveSpeedScale( speed * ramp_in_modifier );
-//
-//		blur = 0;
-//		player_speed = Distance( ( 0, 0, 0 ), level.player GetVelocity() );
-//		if ( player_speed > 35 )
-//		{
-//			blur = 1 - speed;
-//			blur *= 16;
-//			blur -= 3;
-//		}
-//
-//		if ( blur <= 0 )
-//			blur = 0;
-//
-//		if ( blur > 0 && GetTime() > next_noblur )
-//		{
-//			if ( blurs_remaining > 0 )
-//			{
-//				blurs_remaining -= 1;
-//				SetBlur( blur, 0.1 );
-//			}
-//		}
-//		else
-//		{
-//			SetBlur( 0, 0.1 );
-//		}
-//
-//		level.blur = blur;
-//		level.speed = speed;
-//
-//		if ( last_blur != 0 && blur == 0 )
-//		{
-//			next_noblur_period = RandomFloatRange( 2000, 4000 );
-//			if ( GetTime() > next_noblur + 6000 )
-//				next_noblur = GetTime() + next_noblur_period;
-//		}
-//
-//		last_blur = blur;
-//		//pitch = speed * -5;
-//		//ent RotateTo( ( pitch, 0, 0 ), 0.1 );
-//		wait( 0.05 );
-//	}
-//}
-
 player_links_to_rig_and_looks_left( player_rig, tag, left_degree )
 {
 	tag_origin = spawn_tag_origin();
@@ -2511,9 +2425,6 @@ player_links_to_rig_and_looks_left( player_rig, tag, left_degree )
 	tag_origin LinkTo( player_rig, tag, ( 0, 0, 0 ), ( 0, left_degree, 0 ) );
 
 	level.player PlayerLinkToDelta( tag_origin, "tag_origin", 1, 0, 0, 0, 0, true );
-//	wait( 0.5 );
-//	level.player PlayerLinkToDelta( player_rig, "tag_player", 1, 30, 30, 10, 10, true );
-//	tag_origin Delete();
 }
 
 movetotag( ent, tag, time )
@@ -2693,7 +2604,7 @@ scene_gun_monologue_dialogue( start_time_offset )
 	level.shepherd delaythread( 0.2, ::play_sound_on_entity, "afchase_shp_fiveyearsago_a" );
 	level.shepherd delaythread( 7.5, ::play_sound_on_entity, "afchase_shp_fiveyearsago_b" );
 	
-	// Five years ago, I lost 30,000 men in the blink of an eye……and the world just fuckin' watched.	
+	// Five years ago, I lost 30,000 men in the blink of an eyeï¿½ï¿½and the world just fuckin' watched.	
 	level.shepherd play_sound_on_tag( "afchase_shp_fiveyearsago", "J_Jaw" );
 	extra_wait = 2.1;
 	wait extra_wait;
@@ -2706,7 +2617,7 @@ scene_gun_monologue_dialogue( start_time_offset )
 	level.shepherd thread play_sound_on_tag( "afchase_shp_noshortage", "J_Jaw" );
 
 	wait_for_buffer_time_to_pass( start_time, 26.5 + extra_wait );
-	// I know you understand…		
+	// I know you understandï¿½		
 	level.shepherd thread play_sound_on_tag( "afchase_shp_iknow", "J_Jaw" );
 	wait 0.5;
 	level.eq_ent MoveTo( ( 0.0, 0, 0 ), 4 );

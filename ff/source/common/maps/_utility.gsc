@@ -10544,6 +10544,201 @@ roundNumber( value, places, style )
 	return newvalue;
 }
 
+create_test_hud(y, text)
+{
+	start_position = -55;
+	ypos = 15 * (y - 2) + start_position;
+	hud = maps\_specialops::so_create_hud_item(ypos, -52, "Test: " + text, level.player);
+	hud.fontScale = 0.7;
+	hud.y = ypos;
+}
+
+show_player_position()
+{
+	start_position = 4;
+	hudx = maps\_specialops::so_create_hud_item(start_position + 1, -72, "x: ", level.player);
+	hudy = maps\_specialops::so_create_hud_item(start_position + 2, -72, "y: ", level.player);
+	hudz = maps\_specialops::so_create_hud_item(start_position + 3, -72, "z: ", level.player);
+
+	thread track_position(hudx, hudy, hudz);
+}
+
+track_position(hudx, hudy, hudz)
+{
+	while(true)
+	{
+		origin = level.player.origin;
+		x = origin[0];
+		y = origin[1];
+		z = origin[2];
+		hudx.label = "x: ";
+		hudx setValue(x);
+		hudy setValue(y);
+		hudz setValue(z);
+
+		wait 0.05;
+	}
+}
+
+track_position_split(pos, old_split, new_split, new_label, distance)
+{
+	if(!isdefined(distance))
+		distance = 50;
+	thread split_at_position(pos, old_split, new_split, new_label, distance);
+}
+
+split_at_position(pos, old_split, new_split, new_label, distance)
+{
+	wait 2;
+
+	while(true)
+	{
+		if (Distance(pos, level.player.origin) < distance)
+		{
+			do_split(old_split, new_split, new_label);
+			break;
+		}
+
+		wait 0.02;
+	}
+}
+
+get_full_game_time()
+{
+	time = getdvarfloat("full_game_time", 0.0);
+	return time;
+}
+
+reset_full_game_time()
+{
+	setdvar("full_game_time", 0.0);
+}
+
+start_level_timer(time)
+{
+	if(!isdefined(time))
+		time = gettime();
+	full_game_time = get_full_game_time();
+	if (full_game_time > 0)
+		start_timer("total", "Total Time", time - full_game_time);
+	start_timer("level", "Level Time", time);
+}
+
+start_timer(split, label, time)
+{
+	level.splits[split] = false;
+	start_position = -115;
+	ypos = 15 * level.splits.size + start_position;
+
+	if(!isdefined(time))
+		time = gettime();
+
+
+	// Due to how the engine caches strings, we need to setup multiple hud's here.
+	//  One each for the static words (min, s) and one each for the minute and second values
+	//  if we do it in a single string, it will become a unique string every .1 second - caching
+	// more than the engine can handle
+	label_hud = maps\_specialops::so_create_hud_item(ypos, -72, label + ": ", level.player);
+	label_hud.y = ypos;
+	label_hud.fontScale = 0.7;
+	min_value_hud = maps\_specialops::so_create_hud_item(ypos, -48, "", level.player);
+	min_value_hud.y = ypos;
+	min_value_hud.fontScale = 0.7;
+	min_label_hud = maps\_specialops::so_create_hud_item(ypos, -28, "min", level.player);
+	min_label_hud.y = ypos;
+	min_label_hud.fontScale = 0.7;
+	sec_value_hud = maps\_specialops::so_create_hud_item(ypos, 2, "", level.player);
+	sec_value_hud.y = ypos;
+	sec_value_hud.fontScale = 0.7;
+	sec_label_hud = maps\_specialops::so_create_hud_item(ypos, 10, "s", level.player);
+	sec_label_hud.y = ypos;
+	sec_label_hud.fontScale = 0.7;
+	level thread update_timer(min_value_hud, sec_value_hud, time, split);
+}
+
+// Essentially an alias for legibility sake
+start_split(split, label, y, time)
+{
+	start_timer(split, label, y, time);
+}
+
+do_split(old_split, new_split, label)
+{
+	level.splits[old_split] = true;
+	// Only start a new one if we have a new split to start. Duh
+	if (isdefined(new_split) && isdefined(label))
+		start_timer(new_split, label);
+}
+
+setup_splits()
+{
+	level.starttime = gettime();
+	level.splits = [];
+	// Reset timer if we're starting SSDD
+	if(getDvar( "mapname" ) == "trainer")
+		reset_full_game_time();
+
+	start_level_timer(level.starttime);
+}
+
+end_splits(delay)
+{
+	if(!isdefined(delay))
+		delay = 0;
+	level thread mark_ending(delay);
+}
+
+mark_ending(delay)
+{
+	// Some maps have a fadeout, so they need a delay before this triggers
+	wait delay;
+	self.splits["level"] = true;
+	self.splits["total"] = true;
+	time = get_full_game_time();
+	level_time = time + gettime() - self.starttime;
+	setdvar("full_game_time", level_time);
+}
+
+time_format( milliseconds )
+{
+	time = [];
+	time["minutes"] = 0;
+	time["seconds"] = roundNumber(milliseconds / 1000, 1);
+
+	while ( time["seconds"] >= 60 )
+	{
+		time["minutes"]++;
+		time["seconds"] -= 60;
+	}
+
+	// Due to strange floating point issues, round this again after modifying it
+	time["seconds"] = roundNumber(time["seconds"], 1);
+	return time;
+}
+
+update_timer(min_value_hud, sec_value_hud, startTime, split)
+{
+	while (true)
+	{
+		if(self.splits[split])
+			return;
+		ms =  gettime() - startTime;
+		if (ms < 0)
+		{
+			min_value_hud setValue(0);
+			sec_value_hud setValue(0);
+		}
+		else
+		{
+			time = time_format(ms);
+			min_value_hud setValue(time["minutes"]);
+			sec_value_hud setValue(time["seconds"]);
+		}
+
+		wait 0.02;
+	}
+}
+
 get_hud_pos()
 {
 

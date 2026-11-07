@@ -1088,6 +1088,7 @@ AAA_sequence_breach_to_airstrip()
 
 	
 	flag_wait( "control_room_getting_breached" );
+	do_split("breach", "finish", "Finish");
 	aAI = getaiarray( "axis" );
 	array_thread( aAI,::breach_enemies_think );
 	
@@ -1881,7 +1882,9 @@ AAA_sequence_airstrip()
 	//Captain Price	Shepherd mentioned Zodiacs...there must riveracess nearby - let's go!
 	
 	maps\_loadout::SavePlayerWeaponStatePersistent( "af_caves" );
+	do_split("finish");
 	wait 1;
+	end_splits(1);
 	nextmission();
 }
 

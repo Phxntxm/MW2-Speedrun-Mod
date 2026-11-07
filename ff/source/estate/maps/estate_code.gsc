@@ -171,15 +171,6 @@ global_inits()
 	
 	thread magic_sniper_guy();
 	thread magic_sniper_guy_breaktimes();
-	thread allclear_waves();
-	thread wave1_clearflag();
-	thread wave2_clearflag();
-	thread wave3_clearflag();
-	thread wave4_clearflag();
-	thread wave5_clearflag();
-	thread wave6_clearflag();
-	thread wave7_clearflag();
-	thread wave8_clearflag();
 	
 	thread ending_shadowops_dronespawn();
 	
@@ -405,14 +396,7 @@ flags()
 	flag_init( "rpg_stables_dialogue" );
 	flag_init( "rpg_boathouse_dialogue" );
 	flag_init( "rpg_southwest_dialogue" );
-	flag_init( "wave1_cleared" );
-	flag_init( "wave2_cleared" );
-	flag_init( "wave3_cleared" );
-	flag_init( "wave4_cleared" );
-	flag_init( "wave5_cleared" );
-	flag_init( "wave6_cleared" );
-	flag_init( "wave7_cleared" );
-	flag_init( "wave8_cleared" );
+	flag_init( "waves_finished" );
 	flag_init( "scarecrow_death_dialogue" );	
 	flag_init( "ozone_death_dialogue" );
 	flag_init( "sniper_breaktime_dialogue" );
@@ -2068,6 +2052,7 @@ house_extras_breach_mainfloor()
 	level waittill ( "breaching_number_0" );
 	
 	flag_set( "foyer_breached_first" );
+	do_split("breach", "dsm_start", "DSM Start");
 }
 
 house_extras_breach_kitchen()
@@ -2075,6 +2060,7 @@ house_extras_breach_kitchen()
 	level waittill ( "breaching_number_1" );
 	
 	flag_set( "kitchen_breached_first" );
+	do_split("breach", "dsm_start", "DSM Start");
 }
 
 house_extras_breach_basement()
@@ -2082,6 +2068,7 @@ house_extras_breach_basement()
 	level waittill ( "breaching_number_2" );
 	
 	flag_set( "basement_breached_first" );
+	do_split("breach", "dsm_start", "DSM Start");
 }
 
 house_exterior_breach_awareness()
@@ -3042,6 +3029,16 @@ defense_schedule_control()
 	//Every playerZone has a corresponding list of strikePackages
 	
 	level.strikePackage = [];
+	level.strikeComponents = [];
+
+	// Custom manipulation of the waves
+	addStrikePackage("zone_custom_srmod", ::strike_package_frontyard_md500_rush);
+	addStrikePackage("zone_custom_srmod", ::strike_package_bighelidrop);
+	addStrikePackage("zone_custom_srmod", ::strike_package_boathouse_helidrop);
+	addStrikePackage("zone_custom_srmod", ::strike_package_birchfield_smokeassault);
+	addStrikeComponent("zone_custom_srmod", ::strike_component_rpg_team_southwest);
+	addStrikeComponent("zone_custom_srmod", ::strike_component_rpg_team_stables);
+	addStrikeComponent("zone_custom_srmod", ::strike_component_rpg_team_boathouse);
 
 	addStrikePackage( "zone_backsolarpanelfield", ::strike_package_bighelidrop );
 	addStrikePackage( "zone_backsolarpanelfield", ::strike_package_birchfield_smokeassault );
@@ -3128,7 +3125,6 @@ defense_schedule_control()
 	addStrikePackage( "zone_boathouse", ::strike_package_frontyard_md500_rush );
 	addStrikePackage( "zone_boathouse", ::strike_package_solarfield );
 	
-	level.strikeComponents = [];
 	
 	addStrikeComponent( "zone_backsolarpanelfield", ::strike_component_rpg_team_stables );
 	addStrikeComponent( "zone_backsolarpanelfield", ::strike_component_rpg_team_boathouse );
@@ -3188,6 +3184,7 @@ defense_schedule_control()
 	//enemies = [];
 	//enemies = getaiarray( "axis" );
 	level.enemyTotalPop = 0;
+	deployed = undefined;
 	
 	badsave_volume = getent( "no_autosave_in_basement", "targetname" );
 	safeDSMhealth = level.dsmHealthMax * 0.7;
@@ -3196,8 +3193,12 @@ defense_schedule_control()
 	{
 		//while we are in the defense phase
 		//select a strike package based on player location and run it
-		
-		randomStrikePackage( level.playerZone );	
+		if(level.strikePackage["zone_custom_srmod"].size == 0)
+			break;
+
+		deployed = randomStrikePackage( "zone_custom_srmod" );	
+		if(isdefined(deployed) && !deployed)
+			break;
 		
 		dsm_real = getent( "dsm", "targetname" );
 		playerDSMdist = length( level.player.origin - dsm_real.origin );
@@ -3261,6 +3262,17 @@ defense_schedule_control()
 		
 		wait 1;
 	}
+	// Waves done spawning, make sure all enemies are dead
+	while( true )
+	{
+		axisalive = GetAIArray( "axis" );
+		if( axisalive.size == 0 )
+		{ 
+			flag_set( "download_complete" );
+			thread download_display_delete();
+		}
+		wait 1;
+	}
 }
 
 defense_component_schedule()
@@ -3291,7 +3303,7 @@ defense_component_schedule()
 			break;
 		}
 		
-		deployed = randomStrikeComponent( level.playerZone );
+		deployed = randomStrikeComponent( "zone_custom_srmod" );
 		if( isdefined( deployed ) && deployed )
 		{
 			flag_wait( "strike_component_activated" );
@@ -3306,6 +3318,8 @@ defense_component_schedule()
 	
 			flag_set( "activate_component_on_standby" );
 		}
+		else
+			break;
 		
 		if( componentCount >= level.componentCycleLimit )
 		{
@@ -3360,7 +3374,11 @@ randomStrikePackage( zone )
 		return( false );
 	}
 	
-	package = random( level.strikePackage[ zone ] );
+	// Custom choice of package instead of random
+	package = level.strikePackage[zone][level.strikePackage[zone].size - 1];
+	if (!isdefined(package))
+		return( false );
+	// package = random( level.strikePackage[ zone ] );
 	
 	thread [[ package ]]();
 	
@@ -3380,9 +3398,6 @@ randomStrikePackage( zone )
 	}
 	
 	return( true );
-	
-	//level.strikePackage[ "zone_backsolarpanelfield" ][ 0 ] = ::strike_package_bighelidrop;
-	//level.strikePackage[ "zone_backsolarpanelfield" ][ 1 ] = "blah";
 }
 
 //=====================================
@@ -3414,7 +3429,11 @@ randomStrikeComponent( zone )
 		return( false );
 	}
 	
-	component = random( level.strikeComponents[ zone ] );
+	// Custom choice of package instead of random
+	component = level.strikeComponents[zone][level.strikeComponents[zone].size - 1];
+	if (!isdefined(component))
+		return( false );
+	// component = random( level.strikeComponents[ zone ] );
 	
 	thread [[ component ]]();
 	
@@ -4842,6 +4861,7 @@ magic_sniper_guy_targeting( enemies )
 dsm_setup()
 {
 	flag_wait( "download_started" );
+	do_split("dsm_start", "dsm_end", "DSM End");
 	
 	//This struct controls the function stack for the ai that queue up to suicide bomb the dsm
 	
@@ -4862,6 +4882,7 @@ dsm_setup()
 	thread set_group_advance_to_enemy_parameters( 6, 2 );
 	
 	flag_wait( "dsm_recovered" );
+	do_split("dsm_end", "finish", "Finish");
 	
 	dsm FreeEntitySentient();
 }
@@ -5604,83 +5625,6 @@ dsm_destruction_damage_detect()
 	}
 }
 
-/*
-
-dsm_destruction_ai_trig( dsm )
-{
-	//When an enemy AI touches this trigger while the DSM is downloading, begin the dsm destruction process.
-	
-	self endon ( "death" );
-	level endon ( "dsm_recovered" );
-	
-	trig = getent( "dsm_suicide_trig", "targetname" );
-	
-	while( 1 )
-	{
-		trig waittill( "trigger", other );
-		if( other == self )
-		{
-			break;
-		}
-	}
-	
-	//Only one enemy AI can run the destruction function at a time, they get queued up
-	
-	level.dsmDestructionController function_stack( ::dsm_destruction_ai, self, dsm );
-}
-
-dsm_destruction_ai( guy, dsm )
-{
-	guy endon ( "death" );
-	level endon ( "dsm_recovered" );
-	
-	//Player can prevent dsm destruction until this sound effect ends
-	
-	//dsm play_sound_on_entity( "RU_4_inform_attack_grenade" );
-	
-	screams = [];
-	screams[ screams.size ] = "est_ru1_attack";
-	screams[ screams.size ] = "est_ru2_attack";
-	screams[ screams.size ] = "est_ru3_attack";
-	screams[ screams.size ] = "est_ru4_attack";
-	
-	dsm play_sound_on_entity( screams[ randomint( screams.size ) ] );
-
-	//This is the point of no return
-	
-	org = guy.origin;
-	
-	flag_set( "dsm_compromised" );
-	
-	level.ghost stop_magic_bullet_shield();
-	level.ghost.health = 1;
-	
-	thread dsm_suicide_bombing( org, dsm );
-}
-
-dsm_suicide_bombing( org, dsm )
-{
-	//DSM suicide bombing fx
-	
-	level endon ( "dsm_recovered" );
-	
-	playFX( getfx( "suicide_bomber" ), org );
-	detorg = spawn( "script_origin", org );
-	detorg playsound( "clusterbomb_explode_default" );
-	RadiusDamage( org, 512, 5000, 1000 );
-	earthquake( 0.25, 1, org, 2000 );
-	flag_set( "dsm_destroyed" );
-	//dsm delete();
-	//dsm hide();
-	
-	//wait 0.5;
-	
-	setdvar( "ui_deadquote", &"ESTATE_DSM_DESTROYED_BY_AI_DETONATION" );
-	missionFailedWrapper();	
-}
-
-*/
-
 //*************************************************
 // FRIENDLY DEATH CONTROL
 //*************************************************
@@ -6083,85 +6027,4 @@ estate_autosave_proximity_threat_func( enemy )
 	}
 	
 	return "none";
-}
-
-allclear_waves()
-{
-	flag_wait( "wave1_cleared" );
-	flag_wait( "wave2_cleared" );
-	flag_wait( "wave3_cleared" );
-	flag_wait( "wave4_cleared" );
-	flag_wait( "wave5_cleared" );
-	flag_wait( "wave6_cleared" );
-	flag_wait( "wave7_cleared" );
-	flag_wait( "wave8_cleared" );
-	wait 20;
-	
-	while( true )
-	{
-		axisalive = GetAIArray( "axis" );
-		if( axisalive.size == 0 )
-		{ 
-			flag_set( "download_complete" );
-			thread download_display_delete();
-		}
-		wait 1;
-	}
-}
-
-wave1_clearflag()
-{
-	flag_wait( "strike_package_birchfield_dialogue" );
-	wait( 14 );
-	flag_set( "wave1_cleared" );
-}
-
-wave2_clearflag()
-{
-	flag_wait( "rpg_boathouse_dialogue" );
-	wait 5;
-	flag_set( "wave2_cleared" );
-}
-
-wave3_clearflag()
-{
-	flag_wait( "strike_package_md500rush_dialogue" );
-	wait 15;
-	flag_set( "wave3_cleared" );
-}
-
-wave4_clearflag()
-{
-	flag_wait( "rpg_southwest_dialogue" );
-	wait 5;
-	flag_set( "wave4_cleared" );
-}
-
-wave5_clearflag()
-{
-	flag_wait( "strike_package_solarfield_dialogue" );
-	wait 12;
-	flag_set( "wave5_cleared" );
-}
-
-wave6_clearflag()
-{
-	flag_wait( "strike_package_boathouse_dialogue" );
-	wait( 11 );
-	flag_set( "wave6_cleared" );
-}
-
-wave7_clearflag()
-{
-	flag_wait( "rpg_stables_dialogue" );
-	wait 5;
-	flag_set( "wave7_cleared" );
-	
-}
-
-wave8_clearflag()
-{
-	flag_wait( "strike_package_bighelidrop_dialogue" );
-	wait( 15 );
-	flag_set( "wave8_cleared" );
 }

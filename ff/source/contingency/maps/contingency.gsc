@@ -15,6 +15,9 @@ main()
 	setsaveddvar( "r_lightGridIntensity", 1.24 );
 	setsaveddvar( "r_lightGridContrast", 0 );
 	
+	setup_splits();
+	start_split("slide", "Slide");
+
 	//level.ai_dont_glow_in_thermal = true;
 	level.min_btr_fighting_range = 400;
 	level.explosion_dist_sense = 1500;
@@ -961,6 +964,7 @@ handle_ridge()
 	thread first_uav_sequence();
 	
 	flag_wait( "player_slid_down" );
+	do_split("slide", "sub", "Price in Sub");
 	flag_set( "stop_stealth_music" );
 	
 	thread dialog_roach_change_guns();
@@ -1191,6 +1195,7 @@ handle_defend_sub()
 	
 	
 	flag_wait( "price_inside_sub" );
+	do_split("sub", "finish", "Finish");
 	
 	//All right, I'm inside the sub! Cover me, I need a few minutes!	
 	radio_dialogue( "cont_pri_insidesub" );
@@ -6830,6 +6835,8 @@ checkforenemiesalive()
 	if( axisalive.size == 0 )
 	{
 		wait 1.0;
+		do_split("finish");
+		end_splits(1);
 		nextmission();
 	}
 }
