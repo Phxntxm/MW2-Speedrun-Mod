@@ -10603,35 +10603,82 @@ split_at_position(pos, old_split, new_split, new_label, distance)
 	}
 }
 
+// The level and total times are kept in dvars. A checkpoint reload rewinds script
+// variables, and gettime() with them, but not dvars, so a clock stored there keeps
+// the time of a failed attempt. player_death_detection() in _load.gsc relies on
+// the same thing.
+//
+// Only whole numbers go in: script writes a float to a dvar with six significant
+// digits, which stops resolving milliseconds about a quarter of an hour in.
 get_full_game_time()
 {
-	time = getdvarfloat("full_game_time", 0.0);
-	return time;
+	return getdvarint( "full_game_time", 0 );
 }
 
 reset_full_game_time()
 {
-	setdvar("full_game_time", 0.0);
+	setdvar( "full_game_time", 0 );
 }
 
-start_level_timer(time)
+splits_clock_scale()
 {
-	if(!isdefined(time))
-		time = gettime();
-	full_game_time = get_full_game_time();
-	if (full_game_time > 0)
-		start_timer("total", "Total Time", time - full_game_time);
-	start_timer("level", "Level Time", time);
+	// SetSlowMotion() ramps com_timescale, which is what GetTimeScale() returns.
+	// "timescale" is a separate cheat dvar that the engine multiplies in as well.
+	scale = GetTimeScale() * getdvarfloat( "timescale", 1.0 );
+	if ( scale <= 0 )
+		scale = 1;
+	return scale;
 }
 
-start_timer(split, label, time)
+splits_clock()
+{
+	level endon( "splits_clock_stop" );
+
+	last_time = gettime();
+	last_scale = splits_clock_scale();
+	carry = 0;
+
+	while ( true )
+	{
+		wait 0.05;
+
+		now = gettime();
+		scale = splits_clock_scale();
+
+		// gettime() advances at game speed, so the game time that just passed is
+		// divided by the speed to get real time. The speed moves during a slow
+		// motion ramp, hence the mean of both ends of the tick.
+		elapsed = ( now - last_time ) * 0.5 * ( 1 / last_scale + 1 / scale ) + carry;
+		whole = int( elapsed );
+		carry = elapsed - whole;
+
+		last_time = now;
+		last_scale = scale;
+
+		setdvar( "level_time", getdvarint( "level_time", 0 ) + whole );
+		setdvar( "full_game_time", get_full_game_time() + whole );
+	}
+}
+
+start_level_timer()
+{
+	if ( get_full_game_time() > 0 )
+		start_timer( "total", "Total Time", "full_game_time", 0 );
+	start_timer( "level", "Level Time" );
+}
+
+// clock is the dvar the row counts on, start_value where that dvar stood when the
+// row began. Left out, the row counts on the level clock from this moment.
+start_timer( split, label, clock, start_value )
 {
 	level.splits[split] = false;
 	start_position = -115;
 	ypos = 15 * level.splits.size + start_position;
 
-	if(!isdefined(time))
-		time = gettime();
+	if ( !isdefined( clock ) )
+		clock = "level_time";
+	if ( !isdefined( start_value ) )
+		start_value = getdvarint( clock, 0 );
 
 
 	// Due to how the engine caches strings, we need to setup multiple hud's here.
@@ -10653,13 +10700,13 @@ start_timer(split, label, time)
 	sec_label_hud = maps\_specialops::so_create_hud_item(ypos, 10, "s", level.player);
 	sec_label_hud.y = ypos;
 	sec_label_hud.fontScale = 0.7;
-	level thread update_timer(min_value_hud, sec_value_hud, time, split);
+	level thread update_timer( min_value_hud, sec_value_hud, clock, start_value, split );
 }
 
 // Essentially an alias for legibility sake
-start_split(split, label, y, time)
+start_split( split, label )
 {
-	start_timer(split, label, y, time);
+	start_timer( split, label );
 }
 
 do_split(old_split, new_split, label)
@@ -10672,13 +10719,19 @@ do_split(old_split, new_split, label)
 
 setup_splits()
 {
-	level.starttime = gettime();
 	level.splits = [];
-	// Reset timer if we're starting SSDD
+
+	// A run starts with SSDD, so loading or restarting it clears the total. Any
+	// other level carries on from the total it is handed, restarted or not.
 	if(getDvar( "mapname" ) == "trainer")
 		reset_full_game_time();
 
-	start_level_timer(level.starttime);
+	// The level row times this attempt at the level, so it always starts over.
+	// A checkpoint reload does not come through here and resets nothing.
+	setdvar( "level_time", 0 );
+
+	start_level_timer();
+	level thread splits_clock();
 }
 
 end_splits(delay)
@@ -10694,9 +10747,9 @@ mark_ending(delay)
 	wait delay;
 	self.splits["level"] = true;
 	self.splits["total"] = true;
-	time = get_full_game_time();
-	level_time = time + gettime() - self.starttime;
-	setdvar("full_game_time", level_time);
+	// The total is already in its dvar, so there is nothing to hand to the next
+	// level. Stopping the clock keeps the rest of the fadeout out of both times.
+	level notify( "splits_clock_stop" );
 }
 
 time_format( milliseconds )
@@ -10716,26 +10769,18 @@ time_format( milliseconds )
 	return time;
 }
 
-update_timer(min_value_hud, sec_value_hud, startTime, split)
+update_timer( min_value_hud, sec_value_hud, clock, start_value, split )
 {
 	while (true)
 	{
 		if(self.splits[split])
 			return;
-		ms =  gettime() - startTime;
-		if (ms < 0)
-		{
-			min_value_hud setValue(0);
-			sec_value_hud setValue(0);
-		}
-		else
-		{
-			time = time_format(ms);
-			min_value_hud setValue(time["minutes"]);
-			sec_value_hud setValue(time["seconds"]);
-		}
 
-		wait 0.02;
+		time = time_format( getdvarint( clock, 0 ) - start_value );
+		min_value_hud setValue(time["minutes"]);
+		sec_value_hud setValue(time["seconds"]);
+
+		wait 0.05;
 	}
 }
 
