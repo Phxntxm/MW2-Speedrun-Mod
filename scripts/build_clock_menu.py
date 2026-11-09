@@ -13,7 +13,10 @@ makes its tail the one place where data can change size safely. The menu takes
 the slot of the last text entry, a playlist message of the Microsoft Store
 multiplayer build that single player never shows.
 
-usage: python scripts/build_clock_menu.py <stock patch.ff> <output patch.ff>
+Like scripts/compiler.py this works on the file in place and can be run on it
+again: a patch.ff that already has the menu gets the menu replaced.
+
+usage: python scripts/build_clock_menu.py ff/files/patch.ff
 """
 
 import argparse
@@ -152,33 +155,55 @@ def menu_def() -> bytes:
     return bytes(menu)
 
 
-def menu_file_asset() -> tuple[bytes, int]:
-    """The whole menu file as it appears in the stream, and how many aligned objects it contains."""
-    handlers = handler_set(clock_handlers())
-    asset = (
+def menu_file_asset() -> bytes:
+    """The whole menu file as it appears in the stream."""
+    return (
         INLINE + struct.pack("<II", 1, 0) + INLINE  # menu file: name, one menu, menu list
         + cstring(MENU_FILE)
         + INLINE  # the one menu follows
         + menu_def()
         + bytes(48)  # expression data with nothing in it; stock menus always have one
         + cstring(MENU_NAME)
-        + handlers
+        + handler_set(clock_handlers())
     )
-    aligned_objects = 8 + CLOCK_BITS * 8
-    return asset, aligned_objects
 
 
-def find_tail(stream: bytes, asset_count: int) -> tuple[int, int]:
-    """Offsets of the last text entry and of the rawfile that closes the zone."""
+def reserved_for(asset: bytes) -> int:
+    """How much of the game's memory block to set aside for a menu file.
+
+    The block size includes the padding in front of each aligned object, which the
+    stream does not hold. Every object is reached through one inline pointer, so
+    eight bytes per pointer covers the worst case. A block that is larger than
+    needed is harmless, one that is too small is not.
+    """
+    return len(asset) + 8 * asset.count(INLINE)
+
+
+def find_slot(stream: bytes, asset_count: int) -> tuple[int, int, int]:
+    """Where the menu file goes.
+
+    Returns the offset it starts at, the offset of the rawfile that closes the zone,
+    and what an earlier run of this script reserved for the menu file it put there.
+    """
     asset_array = HEADER_SIZE + ASSET_LIST_SIZE
     types = [struct.unpack_from("<I", stream, asset_array + 16 * i)[0] for i in range(asset_count)]
-    if types[-1] != ASSET_RAWFILE or types[-2] != ASSET_LOCALIZE:
-        raise ValueError("this patch.ff does not end with a text entry and a rawfile")
+    if types[-1] != ASSET_RAWFILE:
+        raise ValueError("this patch.ff does not end with a rawfile")
 
     # The closing rawfile is {name, two zero lengths, buffer} then "patch" and one byte.
     rawfile = len(stream) - (24 + len(b"patch\x00") + 1)
     if stream[rawfile:] != INLINE + NULL + INLINE + b"patch\x00\x00":
         raise ValueError("unexpected closing rawfile")
+
+    if types[-2] == ASSET_MENUFILE:
+        # Built before: the slot already holds the menu file, 24 bytes ahead of its name.
+        start = stream.rfind(cstring(MENU_FILE), 0, rawfile) - 24
+        if start < 0 or stream[start:start + 8] != INLINE:
+            raise ValueError("the last menu file in this patch.ff is not the clock menu")
+        return start, rawfile, reserved_for(stream[start:rawfile])
+
+    if types[-2] != ASSET_LOCALIZE:
+        raise ValueError("this patch.ff does not end with a text entry and a rawfile")
 
     # A text entry is two inline pointers, the text, then its name.
     name_start = stream.rfind(b"\x00", 0, rawfile - 1) + 1
@@ -188,47 +213,39 @@ def find_tail(stream: bytes, asset_count: int) -> tuple[int, int]:
     text_end = stream.index(b"\x00", entry + 16)
     if text_end + 1 != name_start:
         raise ValueError("could not delimit the last text entry")
-    return entry, rawfile
+    return entry, rawfile, 0
 
 
-def build(stock: bytes) -> bytes:
-    zlib_start = stock.index(b"\x78")
-    stream = zlib.decompress(stock[zlib_start:])
+def build(patch: bytes) -> bytes:
+    zlib_start = patch.index(b"\x78")
+    stream = zlib.decompress(patch[zlib_start:])
 
     string_count, _, _, asset_count, _, _ = struct.unpack_from("<IIQIIQ", stream, HEADER_SIZE)
     if string_count:
         raise ValueError("expected a zone without script strings")
-    if stream.find(cstring(MENU_FILE)) >= 0:
-        raise ValueError("this patch.ff already contains the clock menu")
 
-    entry, rawfile = find_tail(stream, asset_count)
-    asset, aligned_objects = menu_file_asset()
+    start, rawfile, already_reserved = find_slot(stream, asset_count)
+    asset = menu_file_asset()
 
-    out = bytearray(stream[:entry] + asset + stream[rawfile:])
+    out = bytearray(stream[:start] + asset + stream[rawfile:])
     struct.pack_into("<I", out, HEADER_SIZE + ASSET_LIST_SIZE + 16 * (asset_count - 2), ASSET_MENUFILE)
     struct.pack_into("<I", out, 0, len(out) - HEADER_SIZE)
 
-    # The block size is the memory the game reserves. It includes padding before each
-    # aligned object, which the stream does not hold, so reserve the worst case; a
-    # block that is larger than needed is harmless, one that is too small is not.
     block = 8 + 4 * VIRTUAL_BLOCK
-    reserved = struct.unpack_from("<I", out, block)[0] + len(asset) + 8 * aligned_objects
+    reserved = struct.unpack_from("<I", out, block)[0] - already_reserved + reserved_for(asset)
     struct.pack_into("<I", out, block, reserved)
 
-    return stock[:zlib_start] + zlib.compress(bytes(out), 9)
+    return patch[:zlib_start] + zlib.compress(bytes(out), 9)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("stock", type=Path, help="Unmodified patch.ff from the game's zone folder")
-    parser.add_argument("output", type=Path, help="Where to write the patch.ff with the clock menu")
+    parser.add_argument("patch", type=Path, help="The patch.ff to put the clock menu in")
     args = parser.parse_args()
 
-    logger.info(f"Adding the {MENU_NAME} menu to {args.stock}")
-    built = build(args.stock.read_bytes())
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_bytes(built)
-    logger.info(f"Saved {args.output} ({len(built)} bytes)")
+    logger.info(f"Putting the {MENU_NAME} menu in {args.patch}")
+    args.patch.write_bytes(build(args.patch.read_bytes()))
+    logger.info(f"Saved changes to {args.patch}")
 
 
 if __name__ == "__main__":

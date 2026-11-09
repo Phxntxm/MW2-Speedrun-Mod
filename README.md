@@ -30,6 +30,8 @@ If you are making changes to this repo, first: only change things through a bran
 
 Each folder inside of `ff/source` corresponds to a specific ff file. For example, `ff/source/common` is the folder that `ff/files/common.ff` was decompiled to.
 
+The one exception is `ff/files/patch.ff`, which has no folder in `ff/source`. The in-game timer needs a small menu in there to read the real clock (that is how time spent paused gets counted), and menus are not something that can be decompiled to a file. Instead `scripts/build_clock_menu.py` builds that menu into `patch.ff`. The same pipeline runs it whenever that script or `patch.ff` changes, so the rule is the same: do not touch the FF file, change the script.
+
 The script is made easy to use, so that you can **test locally**, just do not commit changes to the FF files.
 
 #### Script usage
@@ -55,3 +57,11 @@ python scripts/compiler.py ff/source/common/maps/_utility.gsc
 ```
 
 This example would compile the file `maps/_utility.gsc` into the `common.ff` FF file (matched because of the folder its in). If you need to compile multiple files, put spaces after each file, and provide them all to the command. IE: `python scripts/compiler.py file.gsc file2.gsc file3.gsc`
+
+Building the clock menu:
+
+```
+python scripts/build_clock_menu.py ff/files/patch.ff
+```
+
+This puts the timer's clock menu into `patch.ff`. It can be run on the same file again, it will replace the menu that is already in there.
