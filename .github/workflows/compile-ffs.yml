@@ -30,8 +30,19 @@ jobs:
           echo "Changed files: ${ALL_CHANGED_FILES}"
           python scripts/compiler.py ${ALL_CHANGED_FILES}
           echo "Done compiling FF files"
+      # patch.ff has no folder in ff/source: the timer's clock menu is built into it by a script
+      - name: Get changed clock menu files
+        id: clock-menu
+        uses: tj-actions/changed-files@v45.0.3
+        with:
+          files: |
+            scripts/build_clock_menu.py
+            ff/files/patch.ff
+      - name: Build clock menu into patch.ff
+        if: steps.clock-menu.outputs.any_changed == 'true'
+        run: python scripts/build_clock_menu.py ff/files/patch.ff
       - name: Commit FF files
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' || steps.clock-menu.outputs.any_changed == 'true'
         uses: EndBug/add-and-commit@v9
         with:
           message: "Compile FF files"
